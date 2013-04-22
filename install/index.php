@@ -15,11 +15,10 @@ if (isset($_REQUEST["language"])) {
 	$password = $_REQUEST["password"];
 	$language = $_REQUEST["language"];
 	$rtl = $_REQUEST["rtl"];
-	echo ('');
 
 } else {
-	//header('Location: ../index');
-	//die();
+	header('Location: ../index');
+	die();
 }
 
 ?>
