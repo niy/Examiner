@@ -15,7 +15,7 @@ echo ('
     <meta name="description" content="Examiner is a online examination management system.">
     <meta name="author" content="Mohammad Ali Karimi">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="../favicon.ico">
     ');
     if (isset($system_align)) {
         echo ('
