@@ -10,8 +10,8 @@ if (!isset($_SESSION['examiner_user']))
     }
 else
     {
-    $uid_session=$_SESSION['examiner_user'];
-    session_destroy();
+    $uid_session1=$_SESSION['examiner_user'];
+    //session_destroy();
     include('main.php');
     echo ('
         <script type="text/javascript" language="javascript">
@@ -37,9 +37,9 @@ else
         $align="left";
         $rtl_input="ltr";
         }
-    $uid_session=mysql_query("select * from users where userid = '$uid_session'", $db);
+    $uid_session=mysql_query("select * from users where userid = '$uid_session1'", $db);
     $uid_session=mysql_fetch_row($uid_session);
-    $choices=
+    $choices1=
         mysql_query("SELECT * FROM user_test WHERE user_id = '$uid_session[0]' AND test_id = '$check_default[0]'", $db);
 
     if (isset($_REQUEST["timespent"]))
@@ -75,7 +75,7 @@ else
                 </form><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
              ');
 	}
-    $choices=mysql_fetch_row($choices);
+    $choices=mysql_fetch_row($choices1);
     $user_test_id=$choices[0];
     $choices=mysql_query("SELECT * FROM user_choice WHERE user_test_id = '$choices[0]' order by id ASC");
     $rec=mysql_fetch_row($choices);
@@ -86,10 +86,7 @@ else
     $num_all_answers=mysql_num_rows($num_all_answers);
     ///////////////
     $counter=1;
-    $font_color="#FFFFFF";
-	
-	
-	
+
 	if ($check_default[9] == 1)
         {
             echo ('

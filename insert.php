@@ -36,7 +36,7 @@ else
     {
 	if ($answer == 0)
 		{
-		$sqlstring="INSERT INTO user_choice (user_test_id, q_id) VALUES ('$user_test_id', '$q_id')";
+            $sqlstring="INSERT INTO user_choice (user_test_id, q_id, answer) VALUES ('$user_test_id', '$q_id', '')";
 		$result=mysql_query($sqlstring, $db);
 	
 		if (!$result)

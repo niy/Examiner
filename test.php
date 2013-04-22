@@ -255,7 +255,7 @@ else
                             <div class="content">
                             <label for="' . $rec2[0] . '0">' . _INSERT_UNANSWERED . '</label>
                             <input type="radio" value="" id="' . $rec2[0] . '0" name="' . $rec2[0] . '"
-                            onclick="getData("insert.php?user_test_id=' . $user_test_id . '&q_id=' . $rec2[0] . '&answer=0", "targetDiv")">
+                            onclick="getData(\'insert?user_test_id=' . $user_test_id . '&q_id=' . $rec2[0] . '&answer=0\', \'targetDiv\')">
                             </div>
                             </div>
                         </div>
@@ -265,7 +265,7 @@ else
                         <tr>
                         <td class="t_f">
                         <input type="radio" value="1" id="' . $rec2[0] . '1" name="' . $rec2[0] . '"
-                        onclick="getData("insert.php?user_test_id=' . $user_test_id . '&q_id=' . $rec2[0] . '&answer=1", "targetDiv")">
+                        onclick="getData(\'insert?user_test_id=' . $user_test_id . '&q_id=' . $rec2[0] . '&answer=1\', \'targetDiv\')">
                         </td>
                         <td class="q_c"><label for="' . $rec2[0] . '1">' . _ADMIN_CHART_CHOICE1 . ')</label></td>
                         <td><label for="' . $rec2[0] . '1">' . $rec2[3] . '</label></td>
@@ -274,7 +274,7 @@ else
                         <tr>
                         <td class="t_f">
                         <input type="radio" value="2" id="' . $rec2[0] . '2" name="' . $rec2[0] . '"
-                        onclick="getData("insert.php?user_test_id=' . $user_test_id . '&q_id=' . $rec2[0] . '&answer=2", "targetDiv")">
+                        onclick="getData(\'insert?user_test_id=' . $user_test_id . '&q_id=' . $rec2[0] . '&answer=2\', \'targetDiv\')">
                         </td>
                         <td class="q_c"><label for="' . $rec2[0] . '2">' . _ADMIN_CHART_CHOICE2 . ')</label></td>
                         <td><label for="' . $rec2[0] . '2">' . $rec2[4] . '</label></td>
@@ -283,7 +283,7 @@ else
                         <tr>
                         <td class="t_f">
                         <input type="radio" value="3" id="' . $rec2[0] . '3" name="' . $rec2[0] . '"
-                        onclick="getData("insert.php?user_test_id=' . $user_test_id . '&q_id=' . $rec2[0] . '&answer=3", "targetDiv")">
+                        onclick="getData(\'insert?user_test_id=' . $user_test_id . '&q_id=' . $rec2[0] . '&answer=3\', \'targetDiv\')">
                         </td>
                         <td class="q_c"><label for="' . $rec2[0] . '3">' . _ADMIN_CHART_CHOICE3 . ')</label></td>
                         <td><label for="' . $rec2[0] . '3">' . $rec2[5] . '</label></td>
@@ -292,7 +292,7 @@ else
                         <tr>
                         <td class="t_f">
                         <input type="radio" value="4" id="' . $rec2[0] . '4" name="' . $rec2[0] . '"
-                        onclick="getData("insert.php?user_test_id=' . $user_test_id . '&q_id=' . $rec2[0] . '&answer=4", "targetDiv")">
+                        onclick="getData(\'insert?user_test_id=' . $user_test_id . '&q_id=' . $rec2[0] . '&answer=4\', \'targetDiv\')">
                         </td>
                         <td class="q_c"><label for="' . $rec2[0] . '4">' . _ADMIN_CHART_CHOICE4 . ')</label></td>
                         <td><label for="' . $rec2[0] . '4">' . $rec2[6] . '</label></td>
