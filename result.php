@@ -129,6 +129,7 @@ else
                 $anu1=$anu2=$anu3=$anu4="";
                 $answer = '<span data-icon="d" aria-hidden="true"></span>';
                 $ansign = "correct_sign";
+                $anclass1 = $anclass2 = $anclass3 = $anclass4 = "";
                 $title=_EXAM_YOUR_ANSWER_IS_CORRECT;
 
             }
@@ -138,6 +139,8 @@ else
                 $ansign = "null_sign";
                 $title=_EXAM_YOUR_ANSWER_IS_NULL;
                 $anu1=$anu2=$anu3=$anu4="";
+                $anclass1 = $anclass2 = $anclass3 = $anclass4 = "";
+                $ansign1 = $ansign2 = $ansign3 = $ansign4 = "";
                 $num_non_answered++;
             }
         else
@@ -170,6 +173,10 @@ else
                     $anclass4 = "incorrect_q";
                     $ansign4 = "incorrect_sign";
                     break;
+                default:
+                    $anu4 = '';
+                    $anclass4 = "";
+                    $ansign4 = "";
             }
                 $answer = '<span data-icon="." aria-hidden="true"></span>';
                 $ansign = "incorrect_sign";
