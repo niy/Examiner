@@ -25,7 +25,7 @@ else
     $check_default=mysql_query("select * from tests where be_default = '1'", $db);
     $check_default=mysql_fetch_row($check_default);
 	
-	echo ('<article id="show_stats"><form method="POST" action="index">');
+	echo ('<article id="show_stats"><form method="POST" action="logout">');
 	
     if ($check_default[7] == 1)
         {
@@ -111,7 +111,7 @@ else
 			</div>
 			</section>
             <section id="questions">
-            <form method="POST" action="index">
+            <form method="POST" action="logout">
             <div class="clearfix pagehead">
             <h2>' . _EXAM_QUESTIONS . '</h2></div>');
         }
