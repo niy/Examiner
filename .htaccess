@@ -3,8 +3,7 @@
 RewriteEngine on
 
 # if a directory or a file exists, use it directly
-RewriteCond %{REQUEST_FILENAME}\.php -f 
-
+RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php
 
 RewriteEngine on

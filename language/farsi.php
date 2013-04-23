@@ -11,7 +11,7 @@ define("_EXAMINER_INSTALL_FARSI","به نظر مي‌رسد اين، اولين 
 است، براي نصب اجزاي سيستم، فرم زير را تکميل کنيد");
 define("_EXAMINER_INSTALL_FARSI1","به نظر مي‌رسد اين، اولين اجراي شما باشد. <br>  «اگزمینر» هنوز به درستي نصب نشده
 است.");
-define("_EXAMINER_INSTALL_ENGLISH","Fill out the following form and then click the \"Install Examiner\" button to install Examiner.");
+define("_EXAMINER_INSTALL_ENGLISH","Fill out the following form to install Examiner.");
 define("_ADMIN_ADMIN_USERNAME","نام كاربري مديريت (انگليسي)");
 define("_ADMIN_INSTALL_ENTER_USERNAME","نام كاربري را وارد نكرده ايد | Please enter Admin's username");
 define("_ADMIN_INSTALL_ENTER_PASSWORD","رمز عبور را وارد نكرده ايد | Please Enter Admin's password");

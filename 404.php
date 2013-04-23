@@ -26,6 +26,38 @@
                 <div class="content box">
                     <h1><div data-icon="&#x22;" aria-hidden="true"></div>Whoops!</h1>
                     <div>Whatever you're lookin' for, it's not here!</div>
+                    <?php
+                    if (isset($_GET) && count($_GET)>0){
+                        $i=0;
+                        $array=$_GET;
+                        echo('<div class="null small">Oh! and what the heck is ');
+                        if (count($array)==1) {
+                            $key = key($array);
+                            echo(htmlspecialchars($key));
+                            echo (' anyway?</div>');
+                        }
+                        elseif (count($array)>1 && count($array)<5) {
+                            while ($key = key($array)) {
+                                $i++;
+                                if ($i==count($array)) {
+                                    echo($key);
+                                }
+                                elseif ($i==count($array)-1) {
+                                    echo(htmlspecialchars($key). ' or ');
+                                }
+                                else {
+                                    echo(htmlspecialchars($key). ', ');
+                                }
+                                next($array);
+                            }
+                            echo (' anyway?</div>');
+                        }
+                        elseif (count($array)>5) {
+                            echo('wrong with you? <div class="incorrect">GET A JOB!</div></div>');
+                        }
+                    }
+
+                    ?>
                     <div id="back" class="button_wrap">
                         <a class="button" id="back_b" href="index"><div data-icon="h" aria-hidden="true" class="grid_img"></div>
                             <div class="grid_txt">Take me Home</div></a>
