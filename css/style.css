@@ -1552,12 +1552,12 @@ nav a#pull {
     .admin_menu a {
         width: 100%;
         line-height: 1em;
-        font-size: 1em;
+        font-size: 0.9em;
         float: left;
     }
 
     nav a#pull {
-        font-size: 2em;
+        font-size: 1.7em;
         line-height: 1.55em;
         display: block;
         background-color: #275243;

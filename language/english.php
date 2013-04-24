@@ -82,7 +82,7 @@ define("_INSERT_UNANSWERED","Unanswered");
 
 /***************ADMIN INDEX***************/
 define("_TODAY","Today,");
-define("_ALTLOGOUT","Logging Off from Control Panel");
+define("_ALTLOGOUT","Sign Out");
 define("_ADMIN_SYSTEM_ALERT","Logging In to Control Panel");
 define("_ADMIN_USERNAME","Username");
 define("_ADMIN_PASSWORD","Password");
