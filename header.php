@@ -28,7 +28,7 @@ echo ('
     </head>
     <body>
     <div id="wrap">
-    <header>
+    <header id="user">
         <h1><div id="floater"></div><a id="logo" class="logo" href="index">Examiner</a></h1>
         ');
 if (isset ($_SESSION['examiner_user'])) {

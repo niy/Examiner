@@ -103,13 +103,13 @@ if (isset($_REQUEST["case"])) {
                     <h1>' . _ADMIN_SHOW_ALL_USERS . '</h1>
                  </div>
                     <div class="content">
-                        <div class="info_box clearfix" style="width:27em;">
+                        <div class="info_box clearfix" >
                             <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                             <div class="content clearfix">
                             ' . _ADMIN_NO_USER_EXAM_FOUND . '
                             </div>
                         </div>
-                        <div id="back" class="button_wrap">
+                        <div id="back" class="button_wrap clearfix">
 			            <a class="button" id="back_b" href="charts"><div data-icon="b" aria-hidden="true" class="grid_img"></div>
 			            <div class="grid_txt">' . _ADMIN_CHARTS . '</div></a>
 		                </div>
@@ -257,7 +257,7 @@ if (isset($_REQUEST["case"])) {
             <article id="show_stats">
             <section class="msg">
 			<div class="content">
-                <div class="info_box clearfix" style="width:17.5em;">
+                <div class="info_box clearfix" >
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                     <div class="content clearfix">
                         <ul>
@@ -426,7 +426,7 @@ if (isset($_REQUEST["case"])) {
             $num_correct_answers_neg = $num_correct_answers - round(($num_incorrect_answers / 3), 2);
 
             echo ('
-            <div class="info_box clearfix" style="width:20em; margin:1em;">
+            <div class="info_box clearfix" >
 			<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 			<div class="content">
 			<ul><li>' . _EXAM_NEGATIVE_1 . '</li></ul>
@@ -440,7 +440,7 @@ if (isset($_REQUEST["case"])) {
             </div>');
         } else {
             echo ('
-            <div class="info_box clearfix" style="width:20em; margin:1em;">
+            <div class="info_box clearfix" >
 			<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 			<div class="content">
 			<ul><li>' . _EXAM_NEGATIVE_0 . '</li></ul>
@@ -577,7 +577,7 @@ if (isset($_REQUEST["case"])) {
         </table>
         </div>
         </div>
-		<div id="back" class="button_wrap">
+		<div id="back" class="button_wrap clearfix">
 		<a class="button" id="back_b" onclick="javascript: window.history.go(-1)"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_RETURN . '</div></a>
 		</div>
 		</div>
@@ -670,13 +670,13 @@ if (isset($_REQUEST["case"])) {
                     <h1>' . _ADMIN_SHOW_ALL_QUESTIONS . '</h1>
                  </div>
                     <div class="content">
-                        <div class="info_box clearfix" style="width:27em;">
+                        <div class="info_box clearfix" >
                             <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                             <div class="content clearfix">
                             ' . _ADMIN_NO_QUESTION_FOUND . '
                             </div>
                         </div>
-                        <div id="back" class="button_wrap">
+                        <div id="back" class="button_wrap clearfix">
 			            <a class="button" id="back_b" onClick="javascript: window.history.go(-1)"><div data-icon="b" aria-hidden="true" class="grid_img"></div>
 			            <div class="grid_txt">' . _ADMIN_RETURN . '</div></a>
 		                </div>
@@ -964,13 +964,13 @@ if (isset($_REQUEST["case"])) {
                     <h1>' . _ADMIN_SHOW_ALL_USERS . '</h1>
                  </div>
                     <div class="content">
-                        <div class="info_box clearfix" style="width:27em;">
+                        <div class="info_box clearfix" >
                             <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                             <div class="content clearfix">
                             ' . _ADMIN_NO_USER_EXAM_FOUND_WITH_THIS_ANSWER . '
                             </div>
                         </div>
-                        <div id="back" class="button_wrap">
+                        <div id="back" class="button_wrap clearfix">
 			            <a class="button" id="back_b" onclick="javascript: window.history.go(-1)"><div data-icon="b" aria-hidden="true" class="grid_img"></div>
 			            <div class="grid_txt">' . _ADMIN_RETURN . '</div></a>
 		                </div>
@@ -1104,19 +1104,17 @@ if (isset($_REQUEST["case"])) {
 } else
     die('
         <article class="msg">
-        <div class="content">
 
-		<div class="info_box clearfix" style="width:21em;">
+		<div class="info_box clearfix" >
             <div class="box_icon" data-icon="y" aria-hidden="true"></div>
             <div class="content clearfix">' . _ADMIN_NOT_ALLOWED . '!</div>
 		</div>
 
-		<div id="back" class="button_wrap">
+		<div id="back" class="button_wrap clearfix">
             <a class="button" id="back_b" href="../admin"><div data-icon="h" aria-hidden="true" class="grid_img"></div>
             <div class="grid_txt">' . _ADMIN_HOME . '</div></a>
 		</div>
 
-		</div>
         </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
 		');
 ?>

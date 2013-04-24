@@ -39,7 +39,7 @@ if (!isset($_COOKIE['examiner'])) {
                         <h1>' . _ADMIN_SHOWW_ALL_EXAMS . '</h1>
                         <a id="add_test_b" class="button good" href="add_test" title="' . _ADMIN_INDEX_ADD_EXAM . '"><span data-icon="a" aria-hidden="true"></span></a>
                         </div><div class="content">
-                            <div class="info_box clearfix" style="width:21em;">
+                            <div class="info_box clearfix" >
                                 <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                                 <div class="content clearfix">
                                 ' . _ADMIN_NO_EXAM_FOUND . '
@@ -124,18 +124,18 @@ if (!isset($_COOKIE['examiner'])) {
                 die('Database query error:' . mysql_error());
             die('
             <article class="msg">
-            <div class="content">
-            <div class="info_box clearfix" style="width:27em;">
+
+            <div class="info_box clearfix" >
             <div class="box_icon" data-icon="y" aria-hidden="true"></div>
             <div class="content clearfix">
             <h1>' . _ADMIN_EDIT_EXAM . '</h1>
             <ul><li>' . _ADMIN_EXAM_EDITED . '</li></ul>
             </div>
             </div>
-            <div id="back" class="button_wrap">
+            <div id="back" class="button_wrap clearfix">
             <a class="button" id="back_b" href="../admin"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_HOME . '</div></a>
             </div>
-            </div>
+
             </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
 		    ');
         } else {
@@ -153,18 +153,18 @@ if (!isset($_COOKIE['examiner'])) {
                 die('Database query error:' . mysql_error());
             die('
             <article class="msg">
-            <div class="content">
-            <div class="info_box clearfix" style="width:27em;">
+
+            <div class="info_box clearfix" >
             <div class="box_icon" data-icon="y" aria-hidden="true"></div>
             <div class="content clearfix">
             <h1>' . _ADMIN_EDIT_EXAM . '</h1>
             <ul><li>' . _ADMIN_EXAM_EDITED . '</li></ul>
             </div>
             </div>
-            <div id="back" class="button_wrap">
+            <div id="back" class="button_wrap clearfix">
             <a class="button" id="back_b" href="../admin"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_HOME . '</div></a>
             </div>
-            </div>
+
             </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
 		    ');
         }

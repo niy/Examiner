@@ -8,19 +8,16 @@ if (!isset($_REQUEST["run"]) || !isset($_SESSION['examiner_user']))
         include('main.php');
         die('
                 <article class="msg">
-                <div class="content">
 
                 <div class="error_box clearfix" style="width:21em;">
                 <div class="box_icon" data-icon="w" aria-hidden="true"></div>
                 <div class="content clearfix">' . _ADMIN_NOT_ALLOWED . '</div>
-                </div>
                 </div>
                 </article>
 
                 <article id="wait"><div class="content box">
                 <div class="content wait"><div data-icon="9" aria-hidden="true" class="grid_img"></div>
                 <div class="content grid_txt">Please Wait...</div></div>
-                </div>
                 </article>
 
                 <footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body>
@@ -35,14 +32,12 @@ if (!$rec = mysql_fetch_row($check_default))
 {
     die('
 		<article class="msg">
-		<div class="content">
 
 		<div class="error_box clearfix" style="width:21em;">
 			<div class="box_icon" data-icon="w" aria-hidden="true"></div>
 			<div class="content clearfix">' . _NO_DEFAULT . '</div>
 		</div>
 
-		</div>
 		</article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
 		');
 }
@@ -57,18 +52,16 @@ else
         {
             die('
 				<article class="msg">
-				<div class="content">
 
 				<div class="error_box clearfix" style="width:21em;">
 					<div class="box_icon" data-icon="w" aria-hidden="true"></div>
 					<div class="content clearfix">' . _EXAM_SESSION_HAVE_HELD1 . ' ' . $_SESSION['examiner_user'] . ' ' . _EXAM_SESSION_HAVE_HELD2 . '</div>
 				</div>
-				<div id="back" class="button_wrap">
+				<div id="back" class="button_wrap clearfix">
 					<a id="back_b" class="button" href="result"><div data-icon="c" aria-hidden="true" class="grid_img"></div>
 					<div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
 				</div>
 
-				</div>
 				</article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body>
 				</html>
 			');
@@ -109,116 +102,7 @@ else
         clockStart = startday.getTime();
         window.onload = Go;
     </script>
-    <?php
-    echo ('
-    <script type="text/javascript">
 
-        var currentTime = new Date()
-        var month = currentTime.getMonth() + 1
-        var day = currentTime.getDate()
-        var year = currentTime.getFullYear()
-        var hours = currentTime.getHours()
-        var seconds = currentTime.getSeconds()
-        var minutes = currentTime.getMinutes()
-        if (minutes+'.$minute.'>59){
-            minutes = minutes+'.$minute.'-59
-            hours++
-        } else {
-            minutes = minutes+'.$minute.'
-        }
-        if((hours+'.$hour.'> 11) && (hours+'.$hour.'< 24)){
-            var pm = "PM"
-        } else {
-            var pm = "AM"
-        }
-        if(hours+'.$hour.'> 12){
-            hours = hours+'.$hour.'-12
-        } else {
-            hours = hours+'.$hour.'
-        }
-
-        TargetDate = ""+month+" "+day+","+year+" "+hours+":"+minutes+":"+seconds+" "+pm+"";
-        BackColor = "red";
-        ForeColor = "white";
-        CountActive = true;
-        CountStepper = -1;
-        LeadingZero = true;
-        if ('.$hour.'>0){
-            DisplayFormat = "%%H%% '._EXAM_HOURS.'&nbsp;'._EXAM_TIME_AND.' %%M%% '._EXAM_MINUTES.'&nbsp;'._EXAM_TIME_AND.' %%S%% '._EXAM_SECONDS.'";
-        } else {
-            DisplayFormat = "%%M%% '._EXAM_MINUTES.'&nbsp;'._EXAM_TIME_AND.' %%S%% '._EXAM_SECONDS.'";
-        }
-        FinishMessage = "'._EXAM_ENDED.'";
-
-
-    </script>');
-
-    echo ('<script language="javascript">
-	function calcage(secs, num1, num2) {
-      s = ((Math.floor(secs/num1))%num2).toString();
-      if (LeadingZero && s.length < 2)
-        s = "0" + s;
-      return "<b>" + s + "</b>";
-    }
-
-    function CountBack(secs, t) {
-
-        if (secs < (0.15 * t)) {
-            document.getElementById("cntdwn").className = "content cntdwn warn";
-        }
-        if (secs < (0.07 * t)) {
-            document.getElementById("cntdwn").className = "content cntdwn incorrect_sign";
-        }
-        if (secs < 0) {
-            ' . _ONBEFORE3 . '
-            //location.href="result";
-            document.getElementById("cntdwn").innerHTML = FinishMessage;
-
-            return;
-        }
-        DisplayStr = DisplayFormat.replace(/%%D%%/g, calcage(secs,86400,100000));
-        DisplayStr = DisplayStr.replace(/%%H%%/g, calcage(secs,3600,24));
-        DisplayStr = DisplayStr.replace(/%%M%%/g, calcage(secs,60,60));
-        DisplayStr = DisplayStr.replace(/%%S%%/g, calcage(secs,1,60));
-
-        document.getElementById("cntdwn").innerHTML = DisplayStr;
-        if (CountActive){
-        s=secs+CountStepper;
-        setTimeout(CountBack, SetTimeOutPeriod, s, t);
-        }
-    }
-
-
-    if (typeof(TargetDate)=="undefined")
-      TargetDate = "12/31/2020 5:00 AM";
-    if (typeof(DisplayFormat)=="undefined")
-      DisplayFormat = "%%D%% Days, %%H%% Hours, %%M%% Minutes, %%S%% Seconds.";
-    if (typeof(CountActive)=="undefined")
-      CountActive = true;
-    if (typeof(FinishMessage)=="undefined")
-      FinishMessage = "";
-    if (typeof(CountStepper)!="number")
-      CountStepper = -1;
-    if (typeof(LeadingZero)=="undefined")
-      LeadingZero = true;
-
-
-    CountStepper = Math.ceil(CountStepper);
-    if (CountStepper == 0)
-      CountActive = false;
-    var SetTimeOutPeriod = (Math.abs(CountStepper)-1)*1000 + 990;
-    var dthen = new Date(TargetDate);
-    var dnow = new Date();
-
-    if(CountStepper>0)
-      ddiff = new Date(dnow-dthen);
-    else
-      ddiff = new Date(dthen-dnow);
-    gsecs = Math.floor(ddiff.valueOf()/1000);
-    CountBack(gsecs,gsecs);
-    </script>');
-
-    ?>
     <form method="POST" action="result" name="Time">
         <?php
         do {
@@ -327,6 +211,113 @@ else
             sc_fade();
         </SCRIPT>
 <?php include('footer1.php');?>
+        <?php
+        echo ('
+    <script type="text/javascript">
+
+        var currentTime = new Date()
+        var month = currentTime.getMonth() + 1
+        var day = currentTime.getDate()
+        var year = currentTime.getFullYear()
+        var hours = currentTime.getHours()
+        var seconds = currentTime.getSeconds()
+        var minutes = currentTime.getMinutes()
+        if (minutes+'.$minute.'>59){
+            minutes = minutes+'.$minute.'-59
+            hours++
+        } else {
+            minutes = minutes+'.$minute.'
+        }
+        if((hours+'.$hour.'> 11) && (hours+'.$hour.'< 24)){
+            var pm = "PM"
+        } else {
+            var pm = "AM"
+        }
+        if(hours+'.$hour.'> 12){
+            hours = hours+'.$hour.'-12
+        } else {
+            hours = hours+'.$hour.'
+        }
+
+        TargetDate = ""+month+"/"+day+"/"+year+" "+hours+":"+minutes+":"+seconds;
+        CountActive = true;
+        CountStepper = -1;
+        LeadingZero = true;
+        if ('.$hour.'>0){
+            DisplayFormat = "%%H%% '._EXAM_HOURS.'&nbsp;'._EXAM_TIME_AND.' %%M%% '._EXAM_MINUTES.'&nbsp;'._EXAM_TIME_AND.' %%S%% '._EXAM_SECONDS.'";
+        } else {
+            DisplayFormat = "%%M%% '._EXAM_MINUTES.'&nbsp;'._EXAM_TIME_AND.' %%S%% '._EXAM_SECONDS.'";
+        }
+        FinishMessage = "'._EXAM_ENDED.'";
+
+	function calcage(secs, num1, num2) {
+      s = ((Math.floor(secs/num1))%num2).toString();
+      if (LeadingZero && s.length < 2)
+        s = "0" + s;
+      return "<b>" + s + "</b>";
+    }
+
+    function CountBack(secs, t) {
+
+        if (secs < (0.15 * t)) {
+            $(".cntdwn").addClass("warn");
+        }
+        if (secs < (0.07 * t)) {
+            $(".cntdwn").removeClass("warn")
+            $(".cntdwn").addClass("incorrect_sign");
+        }
+        if (secs < 0) {
+            ' . _ONBEFORE3 . '
+            $(".cntdwn").addClass("end");
+             $("#cntdwn").html(FinishMessage);
+             ap_showWaitMessage(\'waitDiv\', 1);
+             location.href="result";
+
+            return;
+        }
+        DisplayStr = DisplayFormat.replace(/%%D%%/g, calcage(secs,86400,100000));
+        DisplayStr = DisplayStr.replace(/%%H%%/g, calcage(secs,3600,24));
+        DisplayStr = DisplayStr.replace(/%%M%%/g, calcage(secs,60,60));
+        DisplayStr = DisplayStr.replace(/%%S%%/g, calcage(secs,1,60));
+
+       $("#cntdwn").html(DisplayStr);
+        if (CountActive){
+        s=secs+CountStepper;
+        setTimeout(CountBack, SetTimeOutPeriod, s, t);
+        }
+    }
+
+
+    if (typeof(TargetDate)=="undefined")
+      TargetDate = "12/31/2020 5:00 AM";
+    if (typeof(DisplayFormat)=="undefined")
+      DisplayFormat = "%%D%% Days, %%H%% Hours, %%M%% Minutes, %%S%% Seconds.";
+    if (typeof(CountActive)=="undefined")
+      CountActive = true;
+    if (typeof(FinishMessage)=="undefined")
+      FinishMessage = "";
+    if (typeof(CountStepper)!="number")
+      CountStepper = -1;
+    if (typeof(LeadingZero)=="undefined")
+      LeadingZero = true;
+
+
+    CountStepper = Math.ceil(CountStepper);
+    if (CountStepper == 0)
+      CountActive = false;
+    var SetTimeOutPeriod = (Math.abs(CountStepper)-1)*1000 + 990;
+    var dthen = new Date(TargetDate);
+    var dnow = new Date();
+
+    if(CountStepper>0)
+      ddiff = new Date(dnow-dthen);
+    else
+      ddiff = new Date(dthen-dnow);
+    gsecs = Math.floor(ddiff.valueOf()/1000);
+    CountBack(gsecs,gsecs);
+    </script>');
+
+        ?>
         <SCRIPT>
             sc_fade();
         </SCRIPT>

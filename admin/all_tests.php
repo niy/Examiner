@@ -44,7 +44,7 @@ else
             <h1>' . _ADMIN_SHOWW_ALL_EXAMS . '</h1>
             <a id="add_test_b" class="button good" href="edit_test" title="' . _ADMIN_INDEX_ADD_EXAM . '"><span data-icon="a" aria-hidden="true"></span></a>
             </div><div class="content">
-                <div class="info_box clearfix" style="width:21em;">
+                <div class="info_box clearfix" >
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                     <div class="content clearfix">
                     ' . _ADMIN_NO_EXAM_FOUND . '

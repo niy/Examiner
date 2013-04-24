@@ -42,7 +42,7 @@ if (!isset($_COOKIE['examiner'])) {
             <a id="add_test_b" class="button good" href="users?case=adduser" title="' . _ADMIN_ADD_USER . '"><span data-icon="i" aria-hidden="true"></span></a>
             </div>
             <div class="content">
-                <div class="info_box clearfix" style="width:21em;">
+                <div class="info_box clearfix" >
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                     <div class="content clearfix">
                     ' . _ADMIN_NO_USER_FOUND . '

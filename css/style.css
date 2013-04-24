@@ -345,7 +345,7 @@ h2.title {font-size: 1em;}
     font-size: .7em;
     color: #333;
     background-color: lightblue;
-    width: 70%;
+    max-width: 30em;
 }
 
 .info_box h1 {width:100%;}
@@ -355,7 +355,7 @@ h2.title {font-size: 1em;}
     font-size: .7em;
     color: #b20900;
     background-color: #e68378;
-    width: 70%;
+    max-width: 30em;
 }
 .box_icon {
     margin: 0 .5em 0 .5em;
@@ -407,6 +407,9 @@ input[type='text']:disabled, input[type='password']:disabled, input[type='email'
     text-decoration: none;
     color: #000000;
     font-weight: normal;
+    min-width:8em;
+}
+.box .button {
     float: right;
     margin-left: 0.5em;
 }
@@ -451,6 +454,7 @@ input[type='text']:disabled, input[type='password']:disabled, input[type='email'
     float: right;
     background-color: transparent;
     color: white;
+    min-width:4em;
 }
 .bad:hover {
     color: #ff3a44;
@@ -585,8 +589,8 @@ h1 {
 #add_question label{
     line-height: 2em;
 }
-#add_question {
-    width: 960px;
+#add_question, #add_question .box{
+    max-width: 960px;
 }
 #add_question .label {
     font-size: 1em;
@@ -728,13 +732,16 @@ font-size: 2em;
 
 .msg .info_box {
     font-size: 1em;
-    margin: 0 auto;
+    margin: 0 auto 1em auto;
 }
 .msg .error_box {
     font-size: 1em;
     margin: 0 auto;
 }
 
+.msg .button_wrap {
+    max-width: 30em;
+}
 #back.button_wrap {
     text-align: center;
     margin: 1em auto;
@@ -745,6 +752,8 @@ font-size: 2em;
     margin: 0 auto;
     height: auto;
     padding: .5em;
+    float: none;
+    max-width: 35% ;
 }
 
 #back .grid_img {
@@ -914,7 +923,7 @@ h3 {
 
 #total_grade {
     text-align: center;
-    width: 18em;
+    max-width: 18em;
     margin: 1em auto;
     border: 0.3em solid #313c3a;
 }
@@ -923,7 +932,7 @@ h3 {
     background-color: #e5e9e7;
 }
 #exam_result {
-    width: 30em;
+    max-width: 30em;
     border: 1em solid #313c3a;
     margin: 2em auto;
 }
@@ -933,8 +942,9 @@ h3 {
 }
 
 #add_test_b {
-    width: 2em;
+    min-width: 2em;
     height: 2em;
+    margin-left: 0;
     font-size: 1em;
     line-height: 2em;
     text-align: center;
@@ -945,7 +955,9 @@ h3 {
 
 #delete_all_b {
     margin-right: 0.5em;
-    width: 2em;
+    background-color: #e11f25;
+    margin-left: 0;
+    min-width: 2em;
     height: 2em;
     font-size: 1em;
     line-height: 2em;
@@ -955,6 +967,11 @@ h3 {
     color: white;
 }
 
+
+#delete_all_b:hover {
+    background-color: #ff1e26;
+    text-decoration: none;
+}
 #show_tests h1 {
     float: right;
 }
@@ -1211,14 +1228,14 @@ header {
     color: #0e68c2;
 }
 #exam_prop{
-    width: 40em;
+    max-width: 40em;
 }
 #exam_prop .box {
      background-color: #e1ecec;
 }
 
 #exam_prop table {
-    width: 65%;
+    max-width: 65%;
 }
 #exam_prop table td:not([class="icon"]){
 
@@ -1266,16 +1283,18 @@ header {
 }
 
 #test_header {
-    min-width: 630px;
-
-    left: 0;
-    top: 0;
     width: 100%;
     overflow: hidden;
     height: 42px;
     background-color: #1b201e;
 }
 
+.end {
+    width: 100%;
+    height: 100%;
+    top:0;
+    right: 0;
+}
 #test_header #floater {
     float: left;
     height: 50%;
@@ -1428,12 +1447,12 @@ nav a#pull {
     }
 
 }
-
+/**************************/
 @media only screen and (max-width : 530px) {
-    .admin_menu ul {
+    header:not([id="user"]):not([id="test_header"]) .admin_menu ul {
         display: none;
     }
-    .info_box {
+    .info_box, .error_box {
         width: 100%;
     }
     .label {
@@ -1506,15 +1525,15 @@ nav a#pull {
     */
     .menu_txt {
         display: block;
-        float: right;
-        padding: 0 1em;
+        float: none;
+        padding: 0 0 .8em;
         line-height: inherit;
     }
     .menu_ico {
         display: block;
-        float: left;
+        float: none;
         font-size: 2em;
-        padding: 0 0.3em;
+        padding: .4em 0;
     }
     .admin_menu {
         float: left;
@@ -1526,11 +1545,12 @@ nav a#pull {
     }
     .admin_menu li {
         float: left;
-        width: 100%;
+        width: 50%;
         height: 100%;
     }
     .admin_menu a {
         width: 100%;
+        line-height: 1em;
         font-size: 1em;
         float: left;
     }
@@ -1544,6 +1564,39 @@ nav a#pull {
         height: 1.5em;
         position: relative;
     }
+    #user h1 a{
+        float: left;
+    }
+    #test_header h1 {
+        height: auto;
+    }
+    #user .admin_menu a {
+        line-height: 2.7em;
+    }
+    #user {
+        height: 42px;
+    }
+    #user h1 {
+        float: left;
+        width: 119px;
+        margin-left: 30px;
+        height: auto;
+    }
+    #user .admin_menu,#test_header .admin_menu {
+        width: auto;
+        float: right;
+        position: relative;
 
+    }
+    #user .admin_menu li,#test_header .admin_menu li {
+        width: 3em;
+    }
+    #test_header .cntdwn {
+        font-size: 0.6em;
+        right: 5em;
+    }
+    #exam_result {
+        border: 0.5em solid #313c3a;;
+    }
 
 }

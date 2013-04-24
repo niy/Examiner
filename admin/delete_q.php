@@ -44,14 +44,14 @@ $case = $_REQUEST['case'];
 echo ('
         <div class="msg">
 			<div class="content">
-			<div class="info_box clearfix" style="width:27em;">
+			<div class="info_box clearfix" >
 			<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 			<div class="content clearfix">
 			<h1>' . _ADMIN_DELETE_THIS_QUESTION_SURELY . '</h1>
 			<ul><li>' . _ADMIN_DELETED_THIS_QUESTION . '</li></ul>
 			</div>
 			</div>
-			<div id="back" class="button_wrap">
+			<div id="back" class="button_wrap clearfix">
 			<a class="button" id="back_b" href="questions?tid=' . $tid . '"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_RETURN . '</div></a>
 			</div>
 			</div>

@@ -118,7 +118,6 @@ if (!isset($_SESSION['examiner_user'])) {
 			include('main.php');
             die('
 				    <article class="msg">
-                    <div class="content">
 
                     <div class="info_box clearfix" style="width:29em; height: 10em;">
                         <div class="box_icon" data-icon="y" aria-hidden="true"></div>
@@ -140,7 +139,6 @@ if (!isset($_SESSION['examiner_user'])) {
                     </div>
                     </div>
 
-                    </div>
                     </article>
 				');
 
@@ -221,14 +219,12 @@ if (!isset($_SESSION['examiner_user'])) {
 	include('main.php');
     echo('
 		<article class="msg">
-		<div class="content">
 
 		<div class="error_box clearfix" style="width:21em;">
 			<div class="box_icon" data-icon="w" aria-hidden="true"></div>
 			<div class="content clearfix">' . _EXAM_REGISTER_COOKIE_THERE_IS . '</div>
 		</div>
 
-		</div>
 		</article>
 		');
 }

@@ -59,7 +59,7 @@
                     }
 
                     ?>
-                    <div id="back" class="button_wrap">
+                    <div id="back" class="button_wrap clearfix">
                         <a class="button" id="back_b" href="index"><div data-icon="h" aria-hidden="true" class="grid_img"></div>
                             <div class="grid_txt">Take me Home</div></a>
                     </div>

@@ -66,7 +66,7 @@ else
                     <div class="content clearfix">' . _SHOW_ANSWERS_AND_SHOW_MARK_NOT_ALLOWED . '</div>
                 </div>
 
-                <div id="back" class="button_wrap">
+                <div id="back" class="button_wrap clearfix">
                     <input type="submit" class="button" value="' . _EXAM_END . '" name="B1">
                 </div>
 
@@ -264,7 +264,7 @@ if ($check_default[9] == 1)
                     <div class="content clearfix">' . _SHOW_MARK_NOT_ALLOWED . '</div>
                 </div>
 
-                <div id="back" class="button_wrap">
+                <div id="back" class="button_wrap clearfix">
                     <input type="submit" class="button" value="' . _EXAM_END . '" name="B1">
                 </div>
 
@@ -467,7 +467,7 @@ if ($check_default[9] == 1)
         </table>
         </div>
         </div>
-		<div id="back" class="button_wrap">
+		<div id="back" class="button_wrap clearfix">
 		<input type="submit" id="back_b" class="button" value="' . _EXAM_END . '">
 		</div>
 		</div>

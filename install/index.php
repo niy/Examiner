@@ -41,8 +41,7 @@ if (isset($_REQUEST["language"])) {
         <h1><div id="floater"></div><a id="logo" class="logo" href="index">Examiner</a></h1>
     </header>
     <article class="msg">
-	<div class="content">
-		<div class="info_box clearfix" style="width:30em;">
+		<div class="info_box clearfix" >
 			<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 			<div class="content clearfix">
 				<h1></h1>
@@ -107,7 +106,7 @@ if (isset($_REQUEST["language"])) {
 				</ul>
 			</div>
 		</div>
-	</div>');
+	');
 					////////////////GOD Admin
 	require_once ('../config.php');
 	$db = mysql_connect(_DBHOST, _DBUSER, _DBPASS);
@@ -118,7 +117,6 @@ if (isset($_REQUEST["language"])) {
 		die ('Database query error:' . mysql_error());
 	} else {
 	echo ('
-	<div class="content">
 		<div class="info_box clearfix" style="width:30em; height:8.5em;">
 			<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 			<div class="content clearfix">
@@ -129,8 +127,7 @@ if (isset($_REQUEST["language"])) {
 			<span lang="en-us">Click the button below to enter the Control Panel.</span></p>
 			</div>
 		</div>
-	</div>
-	<div id="back" class="button_wrap">
+	<div id="back" class="button_wrap clearfix">
 		<a id="back_b" class="button" href="../admin"><div data-icon="h" aria-hidden="true" class="grid_img"></div>
 		<div class="grid_txt">Examiner\'s Control Panel</div></a>
 	</div>

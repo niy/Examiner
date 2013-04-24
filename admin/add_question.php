@@ -139,7 +139,7 @@ if (!isset($_COOKIE['examiner'])) {
 
 		echo ('
 		<article id="add_question">
-		<div class="info_box clearfix" style="width:21em;">
+		<div class="info_box clearfix" >
 		<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 		<div class="content clearfix">' . _FIRST_EXAM_ADDED . '.<br>' . FIRST_Q_ADDED . '.</div>
 		</div>
@@ -176,7 +176,7 @@ if (!isset($_COOKIE['examiner'])) {
 		$q_counter = mysql_num_rows($q_counter) + 1;
 
 		echo ('<article id="add_question">
-		<div class="info_box clearfix" style="width:21em;">
+		<div class="info_box clearfix" >
 		<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 		<div class="content clearfix">' . _NEXT_EXAM_ADDED . '.</div>
 		</div>
@@ -193,19 +193,17 @@ if (!isset($_COOKIE['examiner'])) {
 	} else {
         die('
         <article class="msg">
-        <div class="content">
 
-		<div class="info_box clearfix" style="width:21em;">
+		<div class="info_box clearfix" >
             <div class="box_icon" data-icon="y" aria-hidden="true"></div>
             <div class="content clearfix">' . _ADMIN_NOT_ALLOWED . '!</div>
 		</div>
 
-		<div id="back" class="button_wrap">
+		<div id="back" class="button_wrap clearfix">
             <a class="button" id="back_b" href="../admin"><div data-icon="h" aria-hidden="true" class="grid_img"></div>
             <div class="grid_txt">' . _ADMIN_HOME . '</div></a>
 		</div>
 
-		</div>
         </article>
 		');
 	}

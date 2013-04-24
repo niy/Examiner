@@ -175,7 +175,6 @@ if (!isset($_COOKIE['examiner'])) {
 				}
 				die('
 				    <article class="msg">
-                    <div class="content">
 
                     <div class="info_box clearfix" style="width:29em; height: 10em;">
                         <div class="box_icon" data-icon="y" aria-hidden="true"></div>
@@ -191,12 +190,11 @@ if (!isset($_COOKIE['examiner'])) {
                         </div>
                     </div>
 
-                    <div id="back" class="button_wrap">
+                    <div id="back" class="button_wrap clearfix">
                         <a class="button" id="back_b" href="users"><div data-icon="u" aria-hidden="true" class="grid_img"></div>
                         <div class="grid_txt">' . _ADMIN_ADD_EDIT_USER . '</div></a>
                     </div>
 
-                    </div>
                     </article>
 				');
 			}

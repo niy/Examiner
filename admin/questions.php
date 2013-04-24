@@ -9,7 +9,7 @@ if (!isset($_COOKIE['examiner'])) {
 
     if (!(isset($_REQUEST['tid'])))
         die('<article id="add_question"><div class="content">
-		<div class="info_box clearfix" style="width:21em;">
+		<div class="info_box clearfix" >
 		<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 		<div class="content clearfix">' . _ADMIN_NOT_ALLOWED . '!</div>
 		</div>

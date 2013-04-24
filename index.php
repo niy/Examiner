@@ -16,7 +16,7 @@ if (!$check_default) {
 		<article class="msg">
 		<div class="content">
 
-		<div class="error_box clearfix" style="width:21em;">
+		<div class="error_box clearfix" >
 			<div class="box_icon" data-icon="w" aria-hidden="true"></div>
 			<div class="content clearfix">' . _NO_DEFAULT . '</div>
 		</div>
@@ -43,18 +43,16 @@ if (!$check_default) {
 				include('main.php');
 				die('
 				<article class="msg">
-				<div class="content">
 
-				<div class="error_box clearfix" style="width:21em;">
+				<div class="error_box clearfix" >
 					<div class="box_icon" data-icon="w" aria-hidden="true"></div>
 					<div class="content clearfix">' . _EXAM_SESSION_HAVE_HELD1 . ' ' . $_SESSION['examiner_user'] . ' ' . _EXAM_SESSION_HAVE_HELD2 . '</div>
 				</div>
-				<div id="back" class="button_wrap">
+				<div id="back" class="button_wrap clearfix">
 					<a id="back_b" class="button" href="result"><div data-icon="c" aria-hidden="true" class="grid_img"></div>
 					<div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
 				</div>
 
-				</div>
 				</article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body>
 				</html>
 			');
@@ -169,8 +167,7 @@ if (!$check_default) {
 
 			echo ('
 			<article class="msg">
-                <div class="content">
-                    <div class="info_box clearfix" style="width:30em;">
+                    <div class="info_box clearfix" style="max-width:30em;">
                         <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                         <div class="content clearfix">
                         <h1>' . _EXAM_THIS_EXAM . '<b>' . $check_default[1]
@@ -178,7 +175,6 @@ if (!$check_default) {
                             . _EXAM_PROF_DEFINED2 . ' ' . $EXAM_USER_REGISTER2 . '</li></ul>
                         </div>
                     </div>
-                </div>
 
                 <div class="login box">
                     <div class="content">
@@ -209,7 +205,7 @@ if (!$check_default) {
                 document.forms[0].method = "post"
                 document.forms[0].submit()
                 }</script>
-                <input class="button bad" type="button" name="bt1" value="' . _EXAM_USER_REGISTER_BY_USER_REGISTER . '" onClick="dosubmit()">
+                <input class="button bad blue" type="button" name="bt1" value="' . _EXAM_USER_REGISTER_BY_USER_REGISTER . '" onClick="dosubmit()">
                 ');
 			}
 
@@ -231,18 +227,16 @@ if (!$check_default) {
 			if ($check_hold = mysql_fetch_row($check_hold)) {
                 die('
 				<article class="msg">
-				<div class="content">
 
-				<div class="error_box clearfix" style="width:21em;">
+				<div class="error_box clearfix" >
 					<div class="box_icon" data-icon="w" aria-hidden="true"></div>
 					<div class="content clearfix">' . _EXAM_SESSION_HAVE_HELD1 . ' ' . $_SESSION['examiner_user'] . ' ' . _EXAM_SESSION_HAVE_HELD2 . '</div>
 				</div>
-				<div id="back" class="button_wrap">
+				<div id="back" class="button_wrap clearfix">
 					<a id="back_b" class="button" href="result"><div data-icon="c" aria-hidden="true" class="grid_img"></div>
 					<div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
 				</div>
 
-				</div>
 				</article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body>
 				</html>
 			    ');
@@ -319,7 +313,7 @@ if (!$check_default) {
                     <input type="hidden" name="run">
                     <div class="button_wrap left clearfix">
                     <input class="button" type="submit" value="' . _EXAM_START_EXAM . '" name="B1">
-                    <input class="button bad" type="button" name="bt1" value="' . _EXAM_CANCEL_EXAM . '" onClick="dosubmit()">
+                    <input class="button incorrect bad" type="button" name="bt1" value="' . _EXAM_CANCEL_EXAM . '" onClick="dosubmit()">
                     </div>
                     </form>
                     </div>

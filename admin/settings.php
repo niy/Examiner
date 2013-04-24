@@ -103,17 +103,15 @@ if (!isset($_COOKIE['examiner'])) {
                 }
                 die('
                     <article class="msg">
-                    <div class="content">
-                    <div class="info_box clearfix" style="width:27em;">
+                    <div class="info_box clearfix" >
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                     <div class="content clearfix">
                     <h1>' . _ADMIN_SYSTEM_ALERT_U_P . '</h1>
                     <ul><li>' . _ADMIN_SYSTEM_CHANGED_U_P . '</li></ul>
                     </div>
                     </div>
-                    <div id="back" class="button_wrap">
+                    <div id="back" class="button_wrap clearfix">
                     <a class="button" id="back_b" href="settings""><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_SETTINGS . '</div></a>
-                    </div>
                     </div>
                     </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
 			    ');
@@ -155,8 +153,8 @@ if (!isset($_COOKIE['examiner'])) {
                     $rtl = "LTR";
                 die('
                     <article class="msg">
-                    <div class="content">
-                    <div class="info_box clearfix" style="width:27em;">
+
+                    <div class="info_box clearfix" >
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                     <div class="content clearfix">
                     <h1>' . _ADMIN_SYSTEM_ALERT_LANGUAGE . '</h1>
@@ -166,10 +164,10 @@ if (!isset($_COOKIE['examiner'])) {
                     </ul>
                     </div>
                     </div>
-                    <div id="back" class="button_wrap">
+                    <div id="back" class="button_wrap clearfix">
                     <a class="button" id="back_b" href="settings""><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_SETTINGS . '</div></a>
                     </div>
-                    </div>
+
                     </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
 			    ');
             }
