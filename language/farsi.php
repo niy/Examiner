@@ -102,7 +102,7 @@ define("_INSERT_UNANSWERED","اين سؤال، بي‌جواب باشد");
 
 /***************ADMIN INDEX***************/
 define("_TODAY","امروز،");
-define("_ALTLOGOUT","خروج از كنترل پنل مديريت");
+define("_ALTLOGOUT","خروج از كنترل پنل");
 define("_ADMIN_SYSTEM_ALERT","ورود به سيستم مديريت");
 define("_ADMIN_USERNAME","نام كاربري");
 define("_ADMIN_PASSWORD","پسورد");
