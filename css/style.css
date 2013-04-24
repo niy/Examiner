@@ -1362,12 +1362,10 @@ header {
 }
 
 #a404 .box {
-    width: 40em;
-
+    max-width: 40em;
     background-color: #e1ecec;
     text-align: center;
     color: #333;
-
 }
 
 #a404 .button_wrap{
@@ -1449,6 +1447,9 @@ nav a#pull {
 }
 /**************************/
 @media only screen and (max-width : 530px) {
+    #a404 h1 {
+        font-size: 3em;
+    }
     header:not([id="user"]):not([id="test_header"]) .admin_menu ul {
         display: none;
     }
