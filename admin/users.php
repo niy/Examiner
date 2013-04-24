@@ -46,7 +46,7 @@ if (!isset($_COOKIE['examiner'])) {
 			echo ('
 			<article id="add_user">
 				<div class="content box">
-					<h1>' . _ADMIN_ADD_USER . '</h1>
+					<h1 calss="title">' . _ADMIN_ADD_USER . '</h1>
 					<div class="info_box clearfix">
 					<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 					<div class="content clearfix">' . _STARS_ARE_NECESSARY . '</div>
@@ -122,7 +122,7 @@ if (!isset($_COOKIE['examiner'])) {
 				echo ('
 				<article id="add_user">
 				<div class="content box">
-					<h1>' . _ADMIN_ADD_USER . '</h1>
+					<h1 class="title">' . _ADMIN_ADD_USER . '</h1>
 					<div class="info_box clearfix">
 					<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 					<div class="content clearfix">' . _STARS_ARE_NECESSARY . '</div>
@@ -180,7 +180,7 @@ if (!isset($_COOKIE['examiner'])) {
                     <div class="info_box clearfix" style="width:29em; height: 10em;">
                         <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                         <div class="content clearfix">
-                            <h1>' . _ADMIN_ADD_USER . '</h1>
+                            <h1 class="title">' . _ADMIN_ADD_USER . '</h1>
                             ' . _ADMIN_SYSTEM_ADDED_USER . ':
                             <ul>
                                 <li>' . _ADMIN_ADD_USER_NAME_AND_LNAME . ': ' . $uname . ' ' . $ulname . '</li>

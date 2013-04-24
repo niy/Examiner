@@ -1371,6 +1371,10 @@ header {
 nav a#pull {
     display: none;
 }
+.menu_txt {
+    display: none;
+}
+
 /***********************************************************************************************/
 @media (max-width: 1025px) {
     header {
@@ -1422,15 +1426,23 @@ nav a#pull {
         width: 3em;
         font-size: 1em;
     }
+
 }
 
 @media only screen and (max-width : 530px) {
+    .admin_menu ul {
+        display: none;
+    }
+    .info_box {
+        width: 100%;
+    }
     .label {
         font-size: 1em;
     }
     #about, .admin{
         width: 100%;
     }
+
     .grid li {
         width: 100%;
     }
@@ -1454,8 +1466,8 @@ nav a#pull {
 
     article {
         padding: 0.5em 0.5em 2.5em 0.5em;
-
     }
+
     header {
         height: 100%;
         width: 100%;
@@ -1471,6 +1483,7 @@ nav a#pull {
         margin: 0 auto;
 
     }
+    /*
     .admin_menu {
         float: left;
         width: 100%;
@@ -1490,5 +1503,47 @@ nav a#pull {
         width: 100%;
         font-size: 1em;
     }
+    */
+    .menu_txt {
+        display: block;
+        float: right;
+        padding: 0 1em;
+        line-height: inherit;
+    }
+    .menu_ico {
+        display: block;
+        float: left;
+        font-size: 2em;
+        padding: 0 0.3em;
+    }
+    .admin_menu {
+        float: left;
+        width: 100%;
+    }
+    .admin_menu ul {
+        width: 100%;
+        height: auto;
+    }
+    .admin_menu li {
+        float: left;
+        width: 100%;
+        height: 100%;
+    }
+    .admin_menu a {
+        width: 100%;
+        font-size: 1em;
+        float: left;
+    }
+
+    nav a#pull {
+        font-size: 2em;
+        line-height: 1.55em;
+        display: block;
+        background-color: #275243;
+        width: 100%;
+        height: 1.5em;
+        position: relative;
+    }
+
 
 }

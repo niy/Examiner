@@ -170,3 +170,21 @@ $('.admin_menu a').powerTip({
     smartPlacement:true,
     placement: 's'
 });
+
+$(function() {
+    var pull        = $('#pull');
+    menu        = $('.admin_menu ul');
+    menuHeight  = menu.height();
+
+    $(pull).on('click', function(e) {
+        e.preventDefault();
+        menu.slideToggle();
+    });
+});
+
+$(window).resize(function(){
+    var w = $(window).width();
+    if(w > 320 && menu.is(':hidden')) {
+        menu.removeAttr('style');
+    }
+});
