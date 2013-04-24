@@ -311,7 +311,7 @@ else
 
             echo ('
                     <input type="hidden" size="5" name="timespent">
-                    <div class="button_wrap left">
+                    <div class="button_wrap left clearfix">
                     <input class="button" type="submit" value="' . _EXAM_END2 . '" name="B1" ' . _ONBEFORE2 . '>
                     </div>
                     </form>

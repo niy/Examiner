@@ -63,7 +63,7 @@ if (!isset($_SESSION['examiner_user'])) {
 
 			echo ('
 					<article id="add_user">
-					<div class="content box" style="width:600px;">
+					<div class="content box">
 					<h1>' . _ADMIN_ADD_USER . '</h1>
 					<div class="error_box clearfix">
 					<div class="box_icon" data-icon="w" aria-hidden="true"></div>
@@ -95,8 +95,8 @@ if (!isset($_SESSION['examiner_user'])) {
 
                     <input type="hidden" name="end" value="">
 
-					<div class="button_wrap left">
-					<input style="float:left; margin-right:1em; width:12em;;" class="button" type="submit" value="' . _ADMIN_ADD_USER_END . '">
+					<div class="button_wrap left clearfix">
+					<input class="button" type="submit" value="' . _ADMIN_ADD_USER_END . '">
 					<input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
 					</div>
 
@@ -176,7 +176,7 @@ if (!isset($_SESSION['examiner_user'])) {
 
         echo ('
 					<article id="add_user">
-					<div class="content box" style="width:600px;">
+					<div class="content box">
 					<h1>' . _ADMIN_ADD_USER . '</h1>
 
 					<form action="register?step2=0" method="post" onSubmit="return CheckForm(this);">
@@ -204,8 +204,8 @@ if (!isset($_SESSION['examiner_user'])) {
 
                     <input type="hidden" name="end" value="">
 
-					<div class="button_wrap left">
-					<input style="float:left; margin-right:1em; width:12em;;" class="button" type="submit" value="' . _ADMIN_ADD_USER_END . '">
+					<div class="button_wrap left clearfix">
+					<input class="button" type="submit" value="' . _ADMIN_ADD_USER_END . '">
 					<input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
 					</div>
 

@@ -30,8 +30,8 @@ if (!isset($_COOKIE['examiner'])) {
 		<input type="hidden" name="tid" value="' . $tid . '">
 		<input type="hidden" name="end" value="">
 
-		<div class="button_wrap left">
-		<input style="float:left; margin-right:1em; width:12em;" class="button bad" type="submit" value="' . _ADMIN_DELETE_EXAM_END . '" name="B1">
+		<div class="button_wrap left clearfix">
+		<input class="button bad" type="submit" value="' . _ADMIN_DELETE_EXAM_END . '" name="B1">
 		<input class="button" type="button" name="bt1" value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
 		</div>
 

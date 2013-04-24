@@ -34,7 +34,7 @@ if (!isset($_COOKIE['examiner'])) {
 
     echo ('
         <article id="add_test">
-        <div class="content box" style="width:600px;">
+        <div class="content box">
         <h1 class="title" style="margin-bottom: .2em;">' . _ADMIN_ADD_EXAM. '</h1>
         <h2 class="title">'. _ADMIN_ADD_EXAM_FIRST_PROPERTIES . '</h2>
 		<form action="add_question" method="post" onSubmit="return CheckForm(this);">
@@ -121,8 +121,8 @@ if (!isset($_COOKIE['examiner'])) {
 
 		<input type="hidden" name="case1" value="">
 
-		<div class="button_wrap left">
-		<input style="float:left; margin-right:1em; width:12em;;" class="button" type="submit" value="' . _ADMIN_ADD_EXAM_NEXT_PAGE . '">
+		<div class="button_wrap left clearfix">
+		<input class="button" type="submit" value="' . _ADMIN_ADD_EXAM_NEXT_PAGE . '">
 		<input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
 		</div>
 

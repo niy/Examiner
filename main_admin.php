@@ -22,7 +22,7 @@ if (!$result) {
             </div>
 		</div>
 	</section>
-    <div class="content box" style="width:500px; margin-top:1em;">
+    <div class="content box" style="margin-top:1em;">
     <form method="POST" action="../install/" onSubmit="return CheckForm(this);">
 
 		<div class="label right">' . _ADMIN_ADMIN_USERNAME . '</div>
@@ -35,7 +35,7 @@ if (!$result) {
 		<input type="password" name="password_confirm" value="" dir="ltr" size="25">
 
 		<div class="label right">' . _ADMIN_SETTINGS_LANGUAGE . ':</div>
-		<select dir="ltr" size="1" name="language">');
+		<select dir="ltr" size="1"id="lang" name="language">');
     ?>
 
     <?php
@@ -47,9 +47,9 @@ if (!$result) {
             $rest = substr("$file", 0, -4);
 
             if ($rest == $system_language)
-                echo ('<option selected value="' . $rest . '">' . $rest . '</option>');
+                echo ('<option selected value="' . $rest . '">' . ucwords($rest) . '</option>');
             else
-                echo ('<option value="' . $rest . '">' . $rest . '</option>');
+                echo ('<option value="' . $rest . '">' . ucwords($rest) . '</option>');
         }
     }
 
@@ -61,7 +61,7 @@ if (!$result) {
 
 	<input type="radio" name="rtl" value="0">' . _ADMIN_SYSTEM_ALERT_RTL_LTR . '
 
-    <div class="button_wrap left">
+    <div class="button_wrap left clearfix">
 	<input class="button" type="submit" value="Install Examiner" name="B1">
 	</div>
 

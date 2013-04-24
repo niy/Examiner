@@ -45,7 +45,7 @@ if (!isset($_COOKIE['examiner'])) {
 
 			echo ('
 			<article id="add_user">
-				<div class="content box" style="width:600px;">
+				<div class="content box">
 					<h1>' . _ADMIN_ADD_USER . '</h1>
 					<div class="info_box clearfix">
 					<div class="box_icon" data-icon="y" aria-hidden="true"></div>
@@ -76,8 +76,8 @@ if (!isset($_COOKIE['examiner'])) {
 
 					<input type="hidden" name="end" value="">
 
-					<div class="button_wrap left">
-		            <input style="float:left; margin-right:1em; width:12em;;" class="button" type="submit" value="' . _ADMIN_ADD_USER_END . '">
+					<div class="button_wrap left clearfix">
+		            <input class="button" type="submit" value="' . _ADMIN_ADD_USER_END . '">
 		            <input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
 		            </div>
 
@@ -121,7 +121,7 @@ if (!isset($_COOKIE['examiner'])) {
 				');
 				echo ('
 				<article id="add_user">
-				<div class="content box" style="width:600px;">
+				<div class="content box">
 					<h1>' . _ADMIN_ADD_USER . '</h1>
 					<div class="info_box clearfix">
 					<div class="box_icon" data-icon="y" aria-hidden="true"></div>
@@ -156,8 +156,8 @@ if (!isset($_COOKIE['examiner'])) {
 
 					<input type="hidden" name="end" value="">
 
-					<div class="button_wrap left">
-		            <input style="float:left; margin-right:1em; width:12em;;" class="button" type="submit" value="' . _ADMIN_ADD_USER_END . '">
+					<div class="button_wrap left clearfix">
+		            <input class="button" type="submit" value="' . _ADMIN_ADD_USER_END . '">
 		            <input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
 		            </div>
 
@@ -203,14 +203,15 @@ if (!isset($_COOKIE['examiner'])) {
 		}
 	} else {
 		echo ('
-			<article>
-			<nav class="content grid users">
+			<article id="grid_wrap">
+			<nav class="grid users">
+			<div id="pad" class="content clearfix">
 			<ul>
 			<li><a href="all_users"><div data-icon="u" aria-hidden="true" class="grid_img"></div>
 			<div class="grid_txt">'. _ADMIN_ALL_USERS . '</div></a></li>
 
 			<li><a href="?case=adduser"><div data-icon="i" aria-hidden="true" class="grid_img"></div>
-			<div class="grid_txt">'. _ADMIN_ADD_USER. '</div></a></li></ul></nav>
+			<div class="grid_txt">'. _ADMIN_ADD_USER. '</div></a></li></ul></div></nav>
 			</article>
 		');
 	}

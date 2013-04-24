@@ -43,7 +43,7 @@ if (!isset($_COOKIE['examiner'])) {
                     echo ('
                     <article>
                     <form method="POST" action="settings?case=changepass" onSubmit="return CheckForm(this);">
-					<div class="content box" style="width:500px;">
+					<div class="content login box">
 
 					<h1 class="title"> ' . _ADMIN_SYSTEM_ALERT_U_P . ' </h1>
 
@@ -56,8 +56,8 @@ if (!isset($_COOKIE['examiner'])) {
 					<div class="label '. $align .'">' . _ADMIN_NEW_AGAIN_PASSWORD . ':</div>
 					<input type="password" name="new_again_pass" dir="ltr">
 
-                    <div class="button_wrap left">
-					<input style="float:left; margin-right:1em;" class="button" type="submit" value="' . _ADMIN_CONTINUE . '" name="B1">
+                    <div class="button_wrap left clearfix">
+					<input class="button" type="submit" value="' . _ADMIN_CONTINUE . '" name="B1">
 					<input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
 					</div>
 
@@ -70,7 +70,7 @@ if (!isset($_COOKIE['examiner'])) {
                     echo ('
                         <article>
                         <form method="POST" action="settings?case=changepass" onSubmit="return CheckForm(this);">
-                        <div class="content box" style="width:500px;">
+                        <div class="content login box">
 
                         <h1 class="title"> ' . _ADMIN_SYSTEM_ALERT_U_P . '</h1>
                         <div class="error"><span data-icon="w" aria-hidden="true"></span> ' . _ADMIN_SYSTEM_ALERT_WRONG_PREVIOUS_U_P . '</div>
@@ -81,8 +81,8 @@ if (!isset($_COOKIE['examiner'])) {
                         <div class="label '. $align .'">' . _ADMIN_PREVIOUS_PASSWORD . ':</div>
                         <input type="password" name="p_pass" dir="ltr">
 
-                        <div class="button_wrap left">
-                        <input style="float:left; margin-right:1em;" class="button" type="submit" value="' . _ADMIN_CONTINUE . '" name="B1">
+                        <div class="button_wrap left clearfix">
+                        <input class="button" type="submit" value="' . _ADMIN_CONTINUE . '" name="B1">
                         <input class="button bad" type="button" name="bt1" value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
                         </div>
 
@@ -121,7 +121,7 @@ if (!isset($_COOKIE['examiner'])) {
                 echo ('
                     <article>
                     <form method="POST" action="settings?case=changepass" onSubmit="return CheckForm(this);">
-                    <div class="content box" style="width:500px;">
+                    <div class="content login box">
                     <h1 class="title">' . _ADMIN_SYSTEM_ALERT_U_P . '</h1>
 
                     <div class="label '. $align .'">' . _ADMIN_PREVIOUS_USERNAME . ':</div>
@@ -130,8 +130,8 @@ if (!isset($_COOKIE['examiner'])) {
                     <div class="label '. $align .'">' . _ADMIN_PREVIOUS_PASSWORD . ':</div>
                     <input type="password" name="p_pass" dir="ltr">
 
-                    <div class="button_wrap left">
-                    <input style="float:left; margin-right:1em;" class="button" type="submit" value="' . _ADMIN_CONTINUE . '" name="B1">
+                    <div class="button_wrap left clearfix">
+                    <input class="button" type="submit" value="' . _ADMIN_CONTINUE . '" name="B1">
                     <input class="button bad" type="button" name="bt1" value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
                     </div>
 
@@ -186,10 +186,10 @@ if (!isset($_COOKIE['examiner'])) {
                 echo ('
                     <article>
                     <form method="POST" action="settings?case=changesettings">
-                    <div class="content box" style="width:500px;">
+                    <div class="content login box">
                     <h1 class="title">' . _ADMIN_SYSTEM_ALERT_LANGUAGE . '</h1>
                     <div class="label '. $align .'">' . _ADMIN_SETTINGS_LANGUAGE . ':</div>
-                    <select size="1" dir="ltr" name="language">
+                    <select size="1" dir="ltr" id="lang" name="language">
                 ');
                 $dir = opendir("../language");
 
@@ -198,9 +198,9 @@ if (!isset($_COOKIE['examiner'])) {
                         $rest = substr("$file", 0, -4);
 
                         if ($rest == $system_language)
-                            echo ('<option selected value="' . $rest . '">' . $rest . '</option>');
+                            echo ('<option selected value="' . $rest . '">' . ucwords($rest) . '</option>');
                         else
-                            echo ('<option value="' . $rest . '">' . $rest . '</option>');
+                            echo ('<option value="' . $rest . '">' . ucwords($rest) . '</option>');
                     }
                 }
 
@@ -213,8 +213,8 @@ if (!isset($_COOKIE['examiner'])) {
                     <input type="radio" value="1" ' . $checked . ' name="rtl">' . _ADMIN_SYSTEM_ALERT_RTL_RTL . '
                     <input type="radio" name="rtl" value="0" ' . $checked2 . '>' . _ADMIN_SYSTEM_ALERT_RTL_LTR . '
 
-                    <div class="button_wrap left">
-                    <input style="float:left; margin-right:1em;" class="button" type="submit" value="' . _ADMIN_CONTINUE . '" name="B1">
+                    <div class="button_wrap left clearfix">
+                    <input class="button" type="submit" value="' . _ADMIN_CONTINUE . '" name="B1">
                     <input class="button bad" type="button" name="bt1" value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
                     </div>
 
@@ -228,8 +228,10 @@ if (!isset($_COOKIE['examiner'])) {
     else //if no case has been requested yet (aka. show home page)
     {
         echo ('
-            <article>
-			<nav class="content grid settings">
+            <article id="grid_wrap">
+
+			<nav class="grid settings">
+			<div id="pad" class="content clearfix">
 			<ul>
 
             <li><a href="../admin"><div data-icon="h" aria-hidden="true" class="grid_img"></div>
@@ -239,10 +241,10 @@ if (!isset($_COOKIE['examiner'])) {
             <div class="grid_txt">'. _ADMIN_CHANGE_SETTINGS . '</div></a></li>
 
             <li><a href="?case=changepass"><div data-icon="g" aria-hidden="true" class="grid_img"></div>
-            <div class="grid_txt">'. _ADMIN_CHANGE_U_P. '</div></a></li></ul></nav>
+            <div class="grid_txt">'. _ADMIN_CHANGE_U_P. '</div></a></li></ul></div></nav>
 
 
-            <div id="about" class="content"><ul><li><a href="https://github.com/niy/examiner"><img src="../img/logo_tny.png"/></a></li><li>' . _EXAMINER_OTMS . '</li><li>'
+            <div id="about"><ul class="content"><li><a href="https://github.com/niy/examiner"><img src="../img/logo_tny.png"/></a></li><li>' . _EXAMINER_OTMS . '</li><li>'
             . _EXAMINER_VERSION .
             '</li><li><a href="https://github.com/niy/examiner">' . _EXAMINER_HOMEPAGE . '</a></li><li>'
             . _EXAMINER_PROGRAMMER_CONTACT . ': <a href="mailto:' . _EXAMINER_PROGRAMMER_EMAIL . '">' . _EXAMINER_PROGRAMMER_EMAIL . '</a></li></ul>

@@ -85,7 +85,7 @@ if (!$check_default) {
 
 					echo ('
                             <article id="add_user">
-                            <div class="content box" style="width:600px;">
+                            <div class="content box">
                             <h1>' . _EXAM_COMPLETE_CHARACTERISTICS . '</h1>
                             <form action="index" method="post" onSubmit="return CheckForm(this);">
 
@@ -108,8 +108,8 @@ if (!$check_default) {
 						    <input type="hidden" name="pass" value="' . $pass . '">
 							<input type="hidden" name="uname" value="' . $uname . '">
 
-                            <div class="button_wrap left">
-                            <input style="float:left; margin-right:1em; width:12em;;" class="button" type="submit" value="' . _ADMIN_EDIT_USER_END . '">
+                            <div class="button_wrap left clearfix">
+                            <input class="button" type="submit" value="' . _ADMIN_EDIT_USER_END . '">
                             <input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
                             </div>
 
@@ -180,7 +180,7 @@ if (!$check_default) {
                     </div>
                 </div>
 
-                <div class="box" style="width:30em;">
+                <div class="login box">
                     <div class="content">
 	                    <h1 class="title">' . _EXAM_SYSTEM_ALERT . '</h1>
 	                    ');
@@ -196,7 +196,7 @@ if (!$check_default) {
 	                        <input type="password" name="pass" dir="ltr">
 
                             <div class="button_wrap left clearfix">
-                                <input style="float:left; margin-right:1em;" class="button good" type="submit" value="' . _ADMIN_ENTER . '" name="B1">
+                                <input class="button good" type="submit" value="' . _ADMIN_ENTER . '" name="B1">
 
 		    ');
 
@@ -317,8 +317,8 @@ if (!$check_default) {
                         document.forms[0].submit()
                     }</script>
                     <input type="hidden" name="run">
-                    <div class="button_wrap left">
-                    <input style="float:left; margin-right:1em;" class="button" type="submit" value="' . _EXAM_START_EXAM . '" name="B1">
+                    <div class="button_wrap left clearfix">
+                    <input class="button" type="submit" value="' . _EXAM_START_EXAM . '" name="B1">
                     <input class="button bad" type="button" name="bt1" value="' . _EXAM_CANCEL_EXAM . '" onClick="dosubmit()">
                     </div>
                     </form>

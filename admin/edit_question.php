@@ -52,8 +52,8 @@ if (!isset($_COOKIE['examiner'])) {
                     <h1>' . _ADMIN_DELETE_THIS_QUESTION_SURELY . '</h1>
                     ' . _ADMIN_DELETE_THIS_QUESTION_ARE_YOU_SURE . '
 
-                    <div class="button_wrap left">
-                    <input type="button" style="float:left; margin-right:1em; width:12em;" class="button bad" onclick = "getData(\'delete_q.php?t_id=' . $tid . '&q_id=' . $q_id . '\', \'targetDiv\')" value="' . _ADMIN_DELETE_THIS_QUESTION_SURELY . '">
+                    <div class="button_wrap left clearfix">
+                    <input type="button" class="button bad" onclick = "getData(\'delete_q.php?t_id=' . $tid . '&q_id=' . $q_id . '\', \'targetDiv\')" value="' . _ADMIN_DELETE_THIS_QUESTION_SURELY . '">
                     <input class="button" type="button" name="bt1" value="' . _ADMIN_FORM_CANCEL . '" onClick="javascript: window.history.go(-1)">
 
                     </div>
@@ -72,9 +72,9 @@ if (!isset($_COOKIE['examiner'])) {
                     <h1>' . _ADMIN_DELETE_THIS_QUESTION_SURELY . '</h1>
                     ' . _ADMIN_DELETE_THIS_QUESTION_ARE_YOU_SURE_IS_IN_RELATION . '
 
-                    <div class="button_wrap left">
-                    <input type="button" style="float:left; margin-right:1em; width:12em;" class="button bad" onclick = "getData(\'delete_q.php?q_id=' . $q_id . '&case=1\', \'targetDiv\')" value="' . _ADMIN_DELETE_THIS_QUESTION_SURELY_1 . '">
-                    <input type="button" style="float:left; margin-right:1em; width:12em;" class="button bad" onclick = "getData(\'delete_q.php?q_id=' . $q_id . '&case=2\', \'targetDiv\')" value="' . _ADMIN_DELETE_THIS_QUESTION_SURELY_2 . '">
+                    <div class="button_wrap left clearfix">
+                    <input type="button" class="button bad" onclick = "getData(\'delete_q.php?q_id=' . $q_id . '&case=1\', \'targetDiv\')" value="' . _ADMIN_DELETE_THIS_QUESTION_SURELY_1 . '">
+                    <input type="button" class="button bad" onclick = "getData(\'delete_q.php?q_id=' . $q_id . '&case=2\', \'targetDiv\')" value="' . _ADMIN_DELETE_THIS_QUESTION_SURELY_2 . '">
                     <input class="button" type="button" name="bt1" value="' . _ADMIN_FORM_CANCEL . '" onClick="javascript: window.history.go(-1)">
 
                     </div>
@@ -150,7 +150,7 @@ if (!isset($_COOKIE['examiner'])) {
 		<textarea id="elm4" dir="' . $rtl_input . '" name="choice4" style="width: 100%; height: 7em">' . $question[6] . '</textarea>
 
 		<div class="button_wrap left clearfix">
-		<input class="button good" style="float:left; margin-right:1em;" type="submit" value="' . _ADMIN_EDIT_Q_FINISH . '" />
+		<input class="button good" type="submit" value="' . _ADMIN_EDIT_Q_FINISH . '" />
 		</div>
 		 </div>
 		 </form>

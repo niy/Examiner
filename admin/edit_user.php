@@ -59,8 +59,8 @@ if (!isset($_COOKIE['examiner'])) {
 						<input type="hidden" name="end" value="">
 						<input type="hidden" name="last_uid" value="' . $rec[4] . '">
 
-						<div class="button_wrap left">
-                        <input style="float:left; margin-right:1em; width:12em;;" class="button" type="submit" value="' . _ADMIN_CONTINUE . '">
+						<div class="button_wrap left clearfix">
+                        <input class="button" type="submit" value="' . _ADMIN_CONTINUE . '">
                         <input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
                         </div>
 						</form>
@@ -122,8 +122,8 @@ if (!isset($_COOKIE['examiner'])) {
 							<input type="hidden" name="uid" value="' . $uid . '">
 							<input type="hidden" name="last_uid" value="' . $last_uid . '">
 
-							<div class="button_wrap left">
-                            <input style="float:left; margin-right:1em; width:12em;;" class="button" type="submit" value="' . _ADMIN_CONTINUE . '">
+							<div class="button_wrap left clearfix">
+                            <input class="button" type="submit" value="' . _ADMIN_CONTINUE . '">
                             <input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
                             </div>
 							</form>');
@@ -211,8 +211,8 @@ if (!isset($_COOKIE['examiner'])) {
                     <input type="hidden" name="uid" value="' . $uid . '">
                     <input type="hidden" name="end" value="">
 
-                    <div class="button_wrap left">
-                    <input style="float:left; margin-right:1em; width:12em;" class="button bad" type="button" onclick = "getData(\'delete_user_test.php?user_id=' . $uid . '&test_id=' . $test_id . '\', \'targetDiv\')" value="' . _ADMIN_ADD_USER_DELETE_USER . '">
+                    <div class="button_wrap left clearfix">
+                    <input class="button bad" type="button" onclick = "getData(\'delete_user_test.php?user_id=' . $uid . '&test_id=' . $test_id . '\', \'targetDiv\')" value="' . _ADMIN_ADD_USER_DELETE_USER . '">
                     <input class="button" type="button" name="bt1" value="' . _ADMIN_FORM_CANCEL . '" onClick="javascript: window.history.go(-1)">
                     </div>
 
@@ -246,8 +246,8 @@ if (!isset($_COOKIE['examiner'])) {
                     <input type="hidden" name="uid" value="' . $uid . '">
                     <input type="hidden" name="end" value="">
 
-                    <div class="button_wrap left">
-                    <input style="float:left; margin-right:1em; width:12em;" class="button bad" type="submit" value="' . _ADMIN_ADD_USER_DELETE_USER . '">
+                    <div class="button_wrap left clearfix">
+                    <input class="button bad" type="submit" value="' . _ADMIN_ADD_USER_DELETE_USER . '">
                     <input class="button" type="button" name="bt1" value="' . _ADMIN_FORM_CANCEL . '" onClick="javascript: window.history.go(-1)">
                     </div>
 
@@ -312,7 +312,7 @@ if (!isset($_COOKIE['examiner'])) {
 		//--> 
 		</script> ');
 
-				echo ('<article><div class="content box" style="width:500px;">
+				echo ('<article><div class="content login box">
 				<h1 class="title">' . _ADMIN_ADD_USER_RESET_PASSWORD . '</h1>
 		        <form action="edit_user?case=newpass" method="post" onSubmit="return CheckForm(this);">
 
@@ -324,8 +324,8 @@ if (!isset($_COOKIE['examiner'])) {
 
                 <input type="hidden" name="uid" value="' . $rec[0] . '">
                 <input type="hidden" name="end" value="">
-                <div class="button_wrap left">
-				<input style="float:left; margin-right:1em;" class="button" type="submit" value="' . _ADMIN_CONTINUE . '" name="B1">
+                <div class="button_wrap left clearfix">
+				<input class="button" type="submit" value="' . _ADMIN_CONTINUE . '" name="B1">
 				<input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
 				</div>
 
@@ -406,8 +406,8 @@ if (!isset($_COOKIE['examiner'])) {
                     </div>
                     <input type="hidden" name="end" value="">
 
-                    <div class="button_wrap left">
-                    <input style="float:left; margin-right:1em; width:12em;" class="button bad" type="submit" value="' . _ADMIN_DELETE_USERS_DELETE_USERS . '">
+                    <div class="button_wrap left clearfix">
+                    <input class="button bad" type="submit" value="' . _ADMIN_DELETE_USERS_DELETE_USERS . '">
                     <input class="button" type="button" name="bt1" value="' . _ADMIN_FORM_CANCEL . '" onClick="javascript: window.history.go(-1)">
                     </div>
 
@@ -473,8 +473,8 @@ if (!isset($_COOKIE['examiner'])) {
                     <input type="hidden" name="end" value="">
 		            <input type="hidden" name="test_id" value="' . $test_id . '">
 
-                    <div class="button_wrap left">
-                    <input style="float:left; margin-right:1em; width:12em;" class="button bad" type="submit" value="' . _ADMIN_STATS_DELETE_EXAM_USERS . '">
+                    <div class="button_wrap left clearfix">
+                    <input class="button bad" type="submit" value="' . _ADMIN_STATS_DELETE_EXAM_USERS . '">
                     <input class="button" type="button" name="bt1" value="' . _ADMIN_FORM_CANCEL . '" onClick="javascript: window.history.go(-1)">
                     </div>
 

@@ -23,8 +23,8 @@ echo ('
 	<label for="a4">' . _ADMIN_ADD_CHOICE4 . '</label>
 	<textarea id="elm4" dir="' . $rtl_input . '" name="choice4" style="width: 100%; height: 7em"></textarea>
 
-    <div class="button_wrap left">
-	<input class="button good" style="float:left; margin-right:1em;" type="submit" value="' . _ADMIN_NEXT_Q . '" />
+    <div class="button_wrap left clearfix">
+	<input class="button good" type="submit" value="' . _ADMIN_NEXT_Q . '" />
     <input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onclick="dosubmit()"/>
     </div>
 

@@ -35,7 +35,7 @@ if (isset($_REQUEST["uname"])) {
         echo ('
             <article>
             <form method="POST" action="index" onSubmit="return CheckForm(this);">
-            <div class="content box" style="width:500px;">
+            <div class="content login box">
 	        <h1 class="title">' . _ADMIN_SYSTEM_ALERT . '</h1>
 	        ');
 	        if (isset($_REQUEST['wrong'])) {
@@ -48,7 +48,7 @@ if (isset($_REQUEST["uname"])) {
 	        <div class="label '. $align .'">' . _ADMIN_PASSWORD . ':</div>
 	        <input type="password" name="pass" dir="ltr">
 
-            <div class="button_wrap left">
+            <div class="button_wrap left clearfix">
 	        <input  class="button good" type="submit" value="' . _ADMIN_ENTER . '" name="B1">
             </div>
 
@@ -58,8 +58,9 @@ if (isset($_REQUEST["uname"])) {
         ');
     } else {
         echo ('
-            <article>
-			<nav class="content grid admin">
+            <article id="grid_wrap">
+			<nav class="grid admin">
+			<div id="pad" class="content clearfix">
 			<ul>
                 <li><a href="add_test"><div data-icon="a" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_INDEX_ADD_EXAM . '</div></a></li>
                 <li><a href="all_tests"><div data-icon="t" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_EDIT_EXAMS . '</div></a></li>
@@ -68,6 +69,7 @@ if (isset($_REQUEST["uname"])) {
                 <li><a href="charts"><div data-icon="c" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_CHARTS . '</div></a></li>
                 <li><a href="settings"><div data-icon="s" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_SETTINGS . '</div></a></li>
             </ul>
+            </div>
 			</nav>
             </article>
         ');

@@ -6,7 +6,8 @@
     <script src="http://css3-mediaqueries-js.googlecode.com/files/css3-mediaqueries.js"></script>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link rel="stylesheet" type="text/css" href="../style.css" media="all">
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="all">
+    <link rel="stylesheet" type="text/css" href="../css/jquery.powertip.min.css" media="all">
     <title>Examiner</title>
 <?php
     require_once ('../config.php');

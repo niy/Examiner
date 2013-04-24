@@ -1,3 +1,4 @@
+
 function setup() {
     tinymce.init({
         selector: "textarea",
@@ -162,3 +163,10 @@ function examinerPopUp(url_pop,name,etc) {
     Yaldex=window.open(url_pop,'accwindow','width=500,height=400,left='+lef+',top='+to);
     Yaldex.focus();
 }
+$('.admin_menu a').powerTip({
+    fadeInTime: 60,
+    fadeOutTime:40,
+    closeDelay:50,
+    smartPlacement:true,
+    placement: 's'
+});
