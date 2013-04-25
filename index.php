@@ -123,7 +123,12 @@ if (!$check_default) {
 				$_SESSION['examiner_user'] = $uname;
 			}
 		} else { //username or password wrong!
-            header('Location: index?wrong');
+            $check_admin = mysql_query("SELECT * FROM settings WHERE admin_id='$uname' AND password='$pass'", $db);
+            if (mysql_fetch_row($check_admin)) {
+                setcookie("examiner", 'examiner', time() + 36000);
+                header('Location: admin');
+            } else
+                header('Location: index?wrong');
         }
 
 	} else { //login
@@ -167,8 +172,7 @@ if (!$check_default) {
             if (isset($_REQUEST['wrong'])) {
                 echo ('<div class="error"><span data-icon="w" aria-hidden="true"></span> ' . _ADMIN_SYSTEM_ALERT_WRONG_PREVIOUS_U_P . '</div>');
             }
-            echo ('
-                    <form method="POST" action="index" onSubmit="return CheckForm(this);">
+            echo ('<form method="POST" action="index" onSubmit="return CheckForm(this);">
 	                        <div class="label '. $align .'">' . _ADMIN_USERNAME . ':</div>
 	                        <input type="text" name="uname" dir="ltr">
 

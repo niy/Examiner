@@ -195,9 +195,9 @@ $(function() {
 });
 
 $(function() {
-    var pull        = $('#pull');
-    menu        = $('.admin_menu ul');
-    menuHeight  = menu.height();
+    var pull = $('#pull');
+    menu = $('.admin_menu ul');
+    menuHeight = menu.height();
 
     $(pull).on('click', function(e) {
         e.preventDefault();
