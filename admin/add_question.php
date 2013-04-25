@@ -191,7 +191,7 @@ if (!isset($_COOKIE['examiner'])) {
 
 		echo ('</form>');
 	} else {
-        die('
+        echo('
         <article class="msg">
 
 		<div class="info_box clearfix" >
@@ -206,8 +206,17 @@ if (!isset($_COOKIE['examiner'])) {
 
         </article>
 		');
+        include ('../footer.php');
+        include('../footer_end.php');
+        die();
 	}
-    echo ('
+
+
+
+}
+?>
+<?php include('../footer.php');
+echo ('
 	<script language="javascript">
 		function dosubmit() {
 			document.forms[0].action = "all_tests"
@@ -217,8 +226,7 @@ if (!isset($_COOKIE['examiner'])) {
 	</script>
 	<script language="JavaScript">
 		function CheckForm(formID) {
-			if (formID.question.value == "") { alert("'
-        . _ADD_Q_ALTER_FILL . '");
+			if (formID.question.value == "") { alert("'. _ADD_Q_ALTER_FILL . '");
 			formID.question.focus(); return false; }
 			if (formID.choice1.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
 			formID.choice1.focus(); return false; }
@@ -232,8 +240,8 @@ if (!isset($_COOKIE['examiner'])) {
 			var fieldRequired = Array("answer");
 			var fieldDescription = Array("answer");
 			var alertMsg = "'
-        . _ADMIN_ADD_Q_CHOOSE_ANSWER
-        . '";
+    . _ADMIN_ADD_Q_CHOOSE_ANSWER
+    . '";
 
 			var l_Msg = alertMsg.length;
 
@@ -273,12 +281,7 @@ if (!isset($_COOKIE['examiner'])) {
 			return true;
 		}
 	</script> ');
-
-    echo ('<!-- TinyMCE -->
-	<script type="text/javascript" src="../tinymce/js/tinymce/tinymce.min.js"></script>
-	<script type="text/javascript" src="../tinymce/js/tinymce/jquery.tinymce.min.js"></script>
-<!-- /TinyMCE -->');
-}
 ?>
-
-<?php include('../footer.php');?>
+<script type="text/javascript" src="../tinymce/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="../tinymce/js/tinymce/jquery.tinymce.min.js"></script>
+<?php include('../footer_end.php');?>

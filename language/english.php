@@ -4,7 +4,7 @@ define("_EXAMINER_VERSION","Version 1.0");
 define("_EXAMINER_OTMS","<b>Examiner</b> Online Test Management System");
 define("_EXAMINER_HOMEPAGE","Examiner Home Page");
 define("_EXAMINER_PROGRAMMER_CONTACT","Contact developer at:");
-define("_EXAMINER_PROGRAMMER_EMAIL","nima.k68@gmail.com");
+define("_EXAMINER_PROGRAMMER_EMAIL","nima.k68 at gmail dot com");
 
 /***************TEST***************/
 define("_NO_DEFAULT", "Sorry! but there's no defined exam!");
@@ -231,6 +231,7 @@ define("_NEXT_EXAM_ADDED","New question added to database successfully");
 define("_FIRST_EXAM_ADDED","Please enter the properties of the Test");
 define("FIRST_Q_ADDED","First question added to database");
 define("_ADMIN_INDEX_ADD_EXAM","Creating a New Test");
+define("_ADMIN_FIND","Find");
 define("_ADMIN_ADD_Q_CHOOSE_ANSWER","Please select one choice as the correct answer");
 define("_ADD_Q_ALTER_FILL","Please check all fields again and then click this button again");
 define("_ADMIN_CHANGE_SETTINGS","System Settings");

@@ -36,7 +36,7 @@ if (!isset($_COOKIE['examiner'])) {
 
 				echo ('
 						<article id="edit_user">
-                        <div class="content box" style="width:600px;">
+                        <div class="content box">
                         <h1 class="title" style="margin-bottom: .2em;">' . _ADMIN_ADD_USER . '</h1>
 						<form action="edit_user?case=edituser" method="post" onSubmit="return CheckForm(this);">
 
@@ -99,7 +99,7 @@ if (!isset($_COOKIE['examiner'])) {
 
 					echo ('
 							<article id="edit_user">
-                            <div class="content box" style="width:600px;">
+                            <div class="content box">
                             <h1 class="title" style="margin-bottom: .2em;">' . _ADMIN_ADD_USER . '</h1>
 							<form action="edit_user?case=edituser" method="post" onSubmit="return CheckForm(this);">
 
@@ -135,7 +135,7 @@ if (!isset($_COOKIE['examiner'])) {
 					if (!$result) {
 						die('Database query error:' . mysql_error());
 					}
-					die('
+					echo('
 					<article class="msg">
                     <div class="info_box clearfix" >
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
@@ -153,39 +153,14 @@ if (!isset($_COOKIE['examiner'])) {
                     <div id="back" class="button_wrap clearfix">
                     <a class="button" id="back_b" href="users"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_ADD_EDIT_USER . '</div></a>
                     </div>
-                    </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer>
-                    </div></body></html>
-			        ');
+                    </article>');
+                    include('../footer.php');
+                    include('../footer_end.php');
+                    die();
 				}
 			}
 		} else if ($case == "deleteuser_test") {
-			echo ('<script language = "javascript">
-	  var XMLHttpRequestObject = false;
 
-	  if (window.XMLHttpRequest) {
-		XMLHttpRequestObject = new XMLHttpRequest();
-	  } else if (window.ActiveXObject) {
-		XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
-	  }
-
-	  function getData(dataSource, divID)
-	  {
-		if(XMLHttpRequestObject) {
-		  var obj = document.getElementById(divID);
-		  XMLHttpRequestObject.open("GET", dataSource);
-
-		  XMLHttpRequestObject.onreadystatechange = function()
-		  {
-			if (XMLHttpRequestObject.readyState == 4 &&
-			  XMLHttpRequestObject.status == 200) {
-				obj.innerHTML = XMLHttpRequestObject.responseText;
-			}
-		  }
-
-		  XMLHttpRequestObject.send(null);
-		}
-	  }
-	</script>');
 			$test_id = $_REQUEST['test_id'];
 			$test_prop = mysql_query("SELECT * FROM tests WHERE id='$test_id'");
 			$test_prop = mysql_fetch_row($test_prop);
@@ -199,7 +174,7 @@ if (!isset($_COOKIE['examiner'])) {
                     ' . _ADMIN_USER_DELETE_ARE_YOU_SURE_1 . '<b>' . $rec[4] . '</b>
                     ' . _ADMIN_USER_DELETE_ARE_YOU_SURE_3 . ': <b>' . $test_prop[1] . '</b>
                     ' . _ADMIN_USER_DELETE_ARE_YOU_SURE_4 . '
-                    <div class="info_box clearfix" style="width:100%;height:8em;">
+                    <div class="info_box clearfix">
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                     <div class="content clearfix">
                     <h1>'. _ADMIN_NOTE . '</h1><ul><li>'
@@ -234,7 +209,7 @@ if (!isset($_COOKIE['examiner'])) {
 
                     <h1>' . _ADMIN_ADD_USER_DELETE_USER . '</h1>
                     ' . _ADMIN_USER_DELETE_ARE_YOU_SURE_1 . '' . $rec[4] . ' ' . _ADMIN_USER_DELETE_ARE_YOU_SURE_2 . '
-                    <div class="info_box clearfix" style="width:100%;height:8em;">
+                    <div class="info_box clearfix">
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                     <div class="content clearfix">
                     <h1>'. _ADMIN_NOTE . '</h1><ul><li>'
@@ -276,7 +251,7 @@ if (!isset($_COOKIE['examiner'])) {
 				if (!$result) {
 					die('Database query error:' . mysql_error());
 				}
-				die('
+				echo('
 				<article id="delete_test">
                 <div class="content">
                 <div class="info_box clearfix" >
@@ -290,25 +265,14 @@ if (!isset($_COOKIE['examiner'])) {
                 <a class="button" id="back_b" href="users"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_ADD_EDIT_USER . '</div></a>
                 </div>
                 </div>
-                </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer>
-                </div></body></html>
-			    ');
+                </article>');
+                include('../footer.php');
+                include('../footer_end.php');
+                die();
 			}
 		} else if ($case == "newpass") {
 			if (!(isset($_REQUEST["end"]))) {
-				echo ('<script language="JavaScript">
-		<!-- 
-		function CheckForm(formID) { 
-		if (formID.new_pass.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_PASSWORD . '"); 
-		formID.new_pass.focus(); return false; } 
-		if (formID.new_pass_confirm.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_CONFIRM_PASSWORD . '"); 
-		formID.new_pass_confirm.focus(); return false; } 
-		if (formID.new_pass.value !== formID.new_pass_confirm.value) { alert("' . _ADMIN_ADD_USER_PASSWORD_AND_CONFIRM_NOT_MATCH . '");
-		formID.new_pass_confirm.focus(); return false; } 		
-		return true; 
-		} 
-		//--> 
-		</script> ');
+
 
 				echo ('<article><div class="content login box">
 				<h1 class="title">' . _ADMIN_ADD_USER_RESET_PASSWORD . '</h1>
@@ -344,11 +308,11 @@ if (!isset($_COOKIE['examiner'])) {
 				if (!$result) {
 					die('Database query error:' . mysql_error());
 				}
-				die('
+				echo('
 				<article class="msg">
 
 
-                <div class="info_box clearfix" style="width:27em;height:7em;">
+                <div class="info_box clearfix">
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                     <div class="content clearfix">
                     <h1>' . _ADMIN_ADD_USER_EDIT_USER . '</h1>
@@ -361,14 +325,16 @@ if (!isset($_COOKIE['examiner'])) {
                     <div class="grid_txt">' . _ADMIN_ADD_EDIT_USER . '</div></a>
                 </div>
 
-                </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-			    ');
+                </article>');
+                include('../footer.php');
+                include('../footer_end.php');
+                die();
 			}
 		} else {
-			die('
+			echo('
 			<article class="msg">
 
-            <div class="info_box clearfix" style="width:21em;">
+            <div class="info_box clearfix">
                 <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                 <div class="content clearfix">' . _ADMIN_NOT_ALLOWED . '!</div>
             </div>
@@ -378,8 +344,10 @@ if (!isset($_COOKIE['examiner'])) {
                 <div class="grid_txt">' . _ADMIN_HOME . '</div></a>
             </div>
 
-            </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-			');
+            </article>');
+            include('../footer.php');
+            include('../footer_end.php');
+            die();
 		}
 	} else {
 		if (isset($_REQUEST["case"]) && $_REQUEST["case"] == "delete_all_users") {
@@ -392,7 +360,7 @@ if (!isset($_COOKIE['examiner'])) {
 
                     <h1>' . _ADMIN_ADD_USER_DELETE_USER . '</h1>
                     ' . _ADMIN_DELETE_USERS_ARE_YOU_SURE . '
-                    <div class="info_box clearfix" style="width:100%;height:10em;">
+                    <div class="info_box clearfix">
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                     <div class="content clearfix">
                     <h1>'. _ADMIN_NOTE . '</h1><ul><li>'
@@ -427,7 +395,7 @@ if (!isset($_COOKIE['examiner'])) {
 					die('Database query error:' . mysql_error());
 				}
 
-				die('
+				echo('
 				<article class="msg">
 
                 <div class="info_box clearfix" >
@@ -443,8 +411,10 @@ if (!isset($_COOKIE['examiner'])) {
                     <div class="grid_txt">' . _ADMIN_ADD_EDIT_USER . '</div></a>
                 </div>
 
-                </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-			    ');
+                </article>');
+                include('../footer.php');
+                include('../footer_end.php');
+                die();
 			}
 		} else if (isset($_REQUEST["case"]) && $case == "delete_users_test") {
 			$test_id = $_REQUEST['test_id'];
@@ -493,7 +463,7 @@ if (!isset($_COOKIE['examiner'])) {
 				if (!$result2) {
 					die('Database query error:' . mysql_error());
 				}
-				die('
+				echo('
 				<article class="msg">
 
                 <div class="info_box clearfix" >
@@ -509,11 +479,14 @@ if (!isset($_COOKIE['examiner'])) {
                     <div class="grid_txt">' . _ADMIN_CHARTS . '</div></a>
                 </div>
 
-                </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
+                </article>
 			');
+                include('../footer.php');
+                include('../footer_end.php');
+                die();
 			}
 		} else
-			die('
+			echo('
 		<article class="msg">
 
 		<div class="info_box clearfix" >
@@ -526,11 +499,55 @@ if (!isset($_COOKIE['examiner'])) {
 			<div class="grid_txt">' . _ADMIN_HOME . '</div></a>
 		</div>
 
-		</article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-		');
+		</article>');
+        include('../footer.php');
+        include('../footer_end.php');
+        die();
 
 	}
 }
 ?>
 
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+echo ('<script language = "javascript">
+	  var XMLHttpRequestObject = false;
+
+	  if (window.XMLHttpRequest) {
+		XMLHttpRequestObject = new XMLHttpRequest();
+	  } else if (window.ActiveXObject) {
+		XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+
+	  function getData(dataSource, divID)
+	  {
+		if(XMLHttpRequestObject) {
+		  var obj = document.getElementById(divID);
+		  XMLHttpRequestObject.open("GET", dataSource);
+
+		  XMLHttpRequestObject.onreadystatechange = function()
+		  {
+			if (XMLHttpRequestObject.readyState == 4 &&
+			  XMLHttpRequestObject.status == 200) {
+				obj.innerHTML = XMLHttpRequestObject.responseText;
+			}
+		  }
+
+		  XMLHttpRequestObject.send(null);
+		}
+	  }
+	</script>');
+    echo ('<script language="JavaScript">
+		<!--
+		function CheckForm(formID) {
+		if (formID.new_pass.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_PASSWORD . '");
+		formID.new_pass.focus(); return false; }
+		if (formID.new_pass_confirm.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_CONFIRM_PASSWORD . '");
+		formID.new_pass_confirm.focus(); return false; }
+		if (formID.new_pass.value !== formID.new_pass_confirm.value) { alert("' . _ADMIN_ADD_USER_PASSWORD_AND_CONFIRM_NOT_MATCH . '");
+		formID.new_pass_confirm.focus(); return false; }
+		return true;
+		}
+		//-->
+		</script> ');
+
+?>

@@ -130,24 +130,24 @@ if (!isset($_COOKIE['examiner'])) {
 		</div>
 		<div class="content box">
 		<label for="question"><div class="label ' . $align . '">' . _ADMIN_ADD_Q_Q . '</div></label>
-		<textarea id="question" dir="' . $rtl_input . '" name="question" style="width: 100%; height: 10em">' . $question[2] . '</textarea>
+		<textarea id="question" dir="' . $rtl_input . '" name="question">' . $question[2] . '</textarea>
 		<div class="label ' . $align . '"><a href="javascript:setup();">' . _ADMIN_ADD_EXAM_ENABLE_ALL_EDITOR . '</a></div>
 
 		<input ' . $checked1 . ' type="radio" value="1" id="a1" name="answer">
 		<label for="a1">' . _ADMIN_ADD_CHOICE1 . '</label>
-		<textarea id="choice1" dir="' . $rtl_input . '" name="choice1" style="width: 100%; height: 7em">' . $question[3] . '</textarea>
+		<textarea id="choice1" dir="' . $rtl_input . '" name="choice1">' . $question[3] . '</textarea>
 
 		<input ' . $checked2 . ' type="radio" value="2" id="a2" name="answer">
 		<label for="a2">' . _ADMIN_ADD_CHOICE2 . '</label>
-		<textarea id="elm2" dir="' . $rtl_input . '" name="choice2" style="width: 100%; height: 7em">' . $question[4] . '</textarea>
+		<textarea id="elm2" dir="' . $rtl_input . '" name="choice2">' . $question[4] . '</textarea>
 
 		<input ' . $checked3 . ' type="radio" value="3" id="a3" name="answer">
 		<label for="a3">' . _ADMIN_ADD_CHOICE3 . '</label>
-		<textarea id="elm3" dir="' . $rtl_input . '" name="choice3" style="width: 100%; height: 7em">' . $question[5] . '</textarea>
+		<textarea id="elm3" dir="' . $rtl_input . '" name="choice3">' . $question[5] . '</textarea>
 
 		<input ' . $checked4 . ' type="radio" value="4" id="a4" name="answer">
 		<label for="a4">' . _ADMIN_ADD_CHOICE4 . '</label>
-		<textarea id="elm4" dir="' . $rtl_input . '" name="choice4" style="width: 100%; height: 7em">' . $question[6] . '</textarea>
+		<textarea id="elm4" dir="' . $rtl_input . '" name="choice4">' . $question[6] . '</textarea>
 
 		<div class="button_wrap left clearfix">
 		<input class="button good" type="submit" value="' . _ADMIN_EDIT_Q_FINISH . '" />
@@ -172,7 +172,7 @@ if (!isset($_COOKIE['examiner'])) {
 		if (!$result) {
 			die('Database query error:' . mysql_error());
 		}
-		die('
+		echo('
 			<article class="msg">
 
 			<div class="info_box clearfix" >
@@ -184,12 +184,12 @@ if (!isset($_COOKIE['examiner'])) {
 			</div>
 			<div id="back" class="button_wrap clearfix">
 			<a class="button" id="back_b" href="questions?tid=' . $tid . '"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_EDIT_QUESTIONS . '</div></a>
-			</div>
-
-			</article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-		');
+			</div></article>');
+        include ('../footer.php');
+        include('../footer_end.php');
+        die();
 	} else {
-		die('
+		echo('
 		<article class="msg">
 
 		<div class="info_box clearfix" >
@@ -202,73 +202,73 @@ if (!isset($_COOKIE['examiner'])) {
 			<div class="grid_txt">' . _ADMIN_HOME . '</div></a>
 		</div>
 
-		</article>
-		');
+		</article>');
+        include ('../footer.php');
+        include('../footer_end.php');
+        die();
 	}
-    echo ('<script language="JavaScript">
+
+}
+
+include('../footer.php');
+echo ('<script language="JavaScript">
 		<!--
 		function CheckForm(formID) {
-		if (formID.question.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
-		formID.question.focus(); return false; }
-		if (formID.choice1.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
-		formID.choice1.focus(); return false; }
-		if (formID.choice2.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
-		formID.choice2.focus(); return false; }
-		if (formID.choice3.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
-		formID.choice3.focus(); return false; }
-		if (formID.choice4.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
-		formID.choice4.focus(); return false; }
+            if (formID.question.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
+                formID.question.focus(); return false; }
+            if (formID.choice1.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
+                formID.choice1.focus(); return false; }
+            if (formID.choice2.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
+                formID.choice2.focus(); return false; }
+            if (formID.choice3.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
+                formID.choice3.focus(); return false; }
+            if (formID.choice4.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");
+                formID.choice4.focus(); return false; }
 
-		var fieldRequired = Array("answer");
-		var fieldDescription = Array("answer");
-		var alertMsg = "'
+            var fieldRequired = Array("answer");
+            var fieldDescription = Array("answer");
+            var alertMsg = "'
         . _ADMIN_ADD_Q_CHOOSE_ANSWER
         . '";
 
-		var l_Msg = alertMsg.length;
+            var l_Msg = alertMsg.length;
 
-		for (var i = 0; i < fieldRequired.length; i++){
-		var obj = formID.elements[fieldRequired[i]];
+            for (var i = 0; i < fieldRequired.length; i++){
+                var obj = formID.elements[fieldRequired[i]];
 		if (obj){
-			if (obj.type == null){
-				var blnchecked = false;
-				for (var j = 0; j < obj.length; j++){
-					if (obj[j].checked){
-						blnchecked = true;
-					}
+            if (obj.type == null){
+                var blnchecked = false;
+                for (var j = 0; j < obj.length; j++){
+                    if (obj[j].checked){
+                        blnchecked = true;
+                    }
 				}
 				if (!blnchecked){
-					alertMsg += " ";
-				}
+                    alertMsg += " ";
+                }
 				continue;
 			}
 
-			switch(obj.type){
-			case "select-one":
-				if (obj.selectedIndex == -1 || obj.options[obj.selectedIndex].text == ""){
-					alertMsg += " ";
-				}
+            switch(obj.type){
+                case "select-one":
+                    if (obj.selectedIndex == -1 || obj.options[obj.selectedIndex].text == ""){
+                    alertMsg += " ";
+                }
 				break;
-			default:
-			}
-		}
+                default:
+            }
+        }
 		}
 
 		if (alertMsg.length == l_Msg){
+            return true;
+        }else{
+            alert(alertMsg);
+            return false;
+        }
 		return true;
-		}else{
-		alert(alertMsg);
-		return false;
 		}
-		return true;
-		}
-		//-->
 		</script> ');
+include('../footer_end.php');
 
-    echo ('<!-- TinyMCE -->
-<script type="text/javascript" src="../tinymce/js/tinymce/tinymce.min.js"></script>
-<script type="text/javascript" src="../tinymce/js/tinymce/jquery.tinymce.min.js"></script>
-<!-- /TinyMCE -->');
-}
 ?>
-<?php include('../footer.php');?>

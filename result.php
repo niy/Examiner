@@ -57,11 +57,11 @@ else
 		
 		if (($check_default[9] == 0) && ($check_default[10] == 0))
 	{
-        die('
+        echo('
                 <div class="msg">
                 <div class="content">
 
-                <div class="error_box clearfix" style="width:30em;">
+                <div class="error_box clearfix">
                     <div class="box_icon" data-icon="w" aria-hidden="true"></div>
                     <div class="content clearfix">' . _SHOW_ANSWERS_AND_SHOW_MARK_NOT_ALLOWED . '</div>
                 </div>
@@ -72,8 +72,11 @@ else
 
                 </div>
                 </div>
-                </form><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
+                </form>
              ');
+        include ('footer1.php');
+        include('footer_end.php');
+        die();
 	}
     $choices=mysql_fetch_row($choices1);
     $user_test_id=$choices[0];
@@ -92,7 +95,7 @@ else
             echo ('
             <section class="msg">
 			<div class="content">
-                <div class="info_box clearfix" style="width:17.5em;">
+                <div class="info_box clearfix">
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                     <div class="content clearfix">
                         <ul>
@@ -255,11 +258,11 @@ if ($check_default[9] == 1)
     $num_incorrect_answers=$num_all_answers - ($num_correct_answers + $num_non_answered);
 	if ($check_default[10] == 0)
 		{
-            die('
+            echo('
                 <div class="msg">
                 <div class="content">
 
-                <div class="error_box clearfix" style="width:30em;">
+                <div class="error_box clearfix">
                     <div class="box_icon" data-icon="w" aria-hidden="true"></div>
                     <div class="content clearfix">' . _SHOW_MARK_NOT_ALLOWED . '</div>
                 </div>
@@ -270,8 +273,11 @@ if ($check_default[9] == 1)
 
                 </div>
                 </div>
-                </form><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
+                </form>
              ');
+            include ('footer1.php');
+            include('footer_end.php');
+            die();
 
 		}
 	if ($check_default[9] == 0)
@@ -280,7 +286,7 @@ if ($check_default[9] == 1)
                 <div class="msg">
                 <div class="content">
 
-                <div class="error_box clearfix" style="width:30em;">
+                <div class="error_box clearfix">
                     <div class="box_icon" data-icon="w" aria-hidden="true"></div>
                     <div class="content clearfix">' . _SHOW_ANSWERS_NOT_ALLOWED . '</div>
                 </div>
@@ -315,7 +321,7 @@ if ($check_default[9] == 1)
         {
         $num_correct_answers_neg=$num_correct_answers - round(($num_incorrect_answers / 3), 2);
 
-        echo ('<div class="info_box clearfix" style="width:20em; margin:1em;">
+        echo ('<div class="info_box clearfix">
 			<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 			<div class="content">
 			<ul><li>' . _EXAM_NEGATIVE_1 . '</li></ul>
@@ -330,7 +336,7 @@ if ($check_default[9] == 1)
         }
     else
         {
-        echo ('<div class="info_box clearfix" style="width:20em; margin:1em;">
+        echo ('<div class="info_box clearfix">
 			<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 			<div class="content">
 			<ul><li>' . _EXAM_NEGATIVE_0 . '</li></ul>
@@ -477,4 +483,6 @@ if ($check_default[9] == 1)
     }
         ?>
 
-<?php include('footer1.php');?>
+<?php include('footer1.php');
+include('footer_end.php');
+?>

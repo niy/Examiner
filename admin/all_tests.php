@@ -39,7 +39,7 @@ else
 
     if (!$rec=mysql_fetch_row($result))
         {
-        die('
+        echo('
         <article id="show_tests"><div class="clearfix pagehead">
             <h1>' . _ADMIN_SHOWW_ALL_EXAMS . '</h1>
             <a id="add_test_b" class="button good" href="edit_test" title="' . _ADMIN_INDEX_ADD_EXAM . '"><span data-icon="a" aria-hidden="true"></span></a>
@@ -52,30 +52,34 @@ else
                 </div>
             </div>
 		</article>
-		<footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer>
-		</div></body></html>');
+		');
+        include('../footer.php');
+        include('../footer_end.php');
+        die();
         }
     echo ('<article id="show_tests">
             <div class="clearfix pagehead">
             <h1>' . _ADMIN_SHOWW_ALL_EXAMS . '</h1>
             <a id="add_test_b" class="button" href="add_test" title="' . _ADMIN_INDEX_ADD_EXAM . '"><span data-icon="a" aria-hidden="true"></span></a>
-            </div>');
+            <a id="find" class="button" href="#" title="' . _ADMIN_FIND . '"><span data-icon="f" aria-hidden="true"></span></a><input type="text" id="filter" placeholder="' . _ADMIN_FIND . '">
+            </div>
+            ');
 
     echo ('
-	<table class="test_list">
+	<table data-filter="#filter" class="test_list">
         <thead>
             <tr>
-                <th scope="col" id="name">' . _EXAM_NAME . '</th>
+                <th data-class="expand" data-sort-initial="true" scope="col" id="name">' . _EXAM_NAME . '</th>
                 <th scope="col" id="q_num">' . _EXAM_NOQ_ADDED . '</th>
-                <th scope="col" id="q_num_final">' . _EXAM_NOQ . '</th>
+                <th data-hide="phone" scope="col" id="q_num_final">' . _EXAM_NOQ . '</th>
                 <th scope="col" id="time">' . _EXAM_TIME . '</th>
-                <th scope="col" id="def">' . _EXAM_BE_DEFAULT . '</th>
-                <th scope="col" id="register">' . _EXAM_REGISTRAR . '</th>
-                <th scope="col" id="rand">' . _EXAM_RANDOM . '</th>
-                <th scope="col" id="align">' . _EXAM_ALIGNMENT . '</th>
-                <th scope="col" id="minus">' . _EXAM_MINUS_MARK . '</th>
-                <th scope="col" id="show_ans">' . _EXAM_SHOW_ANSWERS . '</th>
-                <th scope="col" id="show_mark">' . _EXAM_SHOW_MARK . '</th>
+                <th data-hide="phone" scope="col" id="def">' . _EXAM_BE_DEFAULT . '</th>
+                <th data-hide="phone,tablet" scope="col" id="register">' . _EXAM_REGISTRAR . '</th>
+                <th data-hide="phone,tablet" scope="col" id="rand">' . _EXAM_RANDOM . '</th>
+                <th data-hide="phone,tablet" scope="col" id="align">' . _EXAM_ALIGNMENT . '</th>
+                <th data-hide="phone,tablet" scope="col" id="minus">' . _EXAM_MINUS_MARK . '</th>
+                <th data-hide="phone,tablet" scope="col" id="show_ans">' . _EXAM_SHOW_ANSWERS . '</th>
+                <th data-hide="phone,tablet" scope="col" id="show_mark">' . _EXAM_SHOW_MARK . '</th>
                 <th scope="col" id="tools">' . _EXAM_TOOLS . '</th>
 
             </tr>
@@ -129,16 +133,16 @@ else
         $tr_class = '';
         echo ('<tr class="'.$tr_class.'">
 				<td>' . $rec[1] . '</td>
-				<td><center>' . $result_noq . '</center></td>
-				<td><center>' . $rec[2] . '</center></td>
-				<td><center>' . $rec[6] . '</center></td>
-				<td><center>' . $Be_Default . '</center></td>
-				<td><center>' . $reg_user . '</center></td>
-				<td><center>' . $test_random . '</center></td>
-				<td><center>' . $test_RTL . '</center></td>
-				<td><center>' . $minus_mark . '</center></td>
-				<td><center>' . $show_answers . '</center></td>
-				<td><center>' . $show_mark . '</center></td>
+				<td>' . $result_noq . '</td>
+				<td>' . $rec[2] . '</td>
+				<td>' . $rec[6] . '</td>
+				<td>' . $Be_Default . '</td>
+				<td>' . $reg_user . '</td>
+				<td>' . $test_random . '</td>
+				<td>' . $test_RTL . '</td>
+				<td>' . $minus_mark . '</td>
+				<td>' . $show_answers . '</td>
+				<td>' . $show_mark . '</td>
 				<td>
 				<a class="bar_icon modify" href="edit_test?tid=' . $rec[0] . '" title="' . _ADMIN_EDIT_EXAM_PROP . '"><span data-icon="m" aria-hidden="true" class="grid_img"></span></a>
 				<a class="bar_icon modify_q" href="questions?tid=' . $rec[0] . '" title="' . _ADMIN_EDIT_QUESTIONS . '"><span data-icon="n" aria-hidden="true" class="grid_img"></span></a>
@@ -175,4 +179,6 @@ else
     }
 ?>
 
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+include('../footer_end.php');
+?>

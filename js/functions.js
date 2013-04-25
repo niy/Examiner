@@ -163,12 +163,35 @@ function examinerPopUp(url_pop,name,etc) {
     Yaldex=window.open(url_pop,'accwindow','width=500,height=400,left='+lef+',top='+to);
     Yaldex.focus();
 }
+
 $('.admin_menu a').powerTip({
     fadeInTime: 60,
     fadeOutTime:40,
     closeDelay:50,
     smartPlacement:true,
     placement: 's'
+});
+$('.icon span').powerTip({
+    fadeInTime: 60,
+    fadeOutTime:40,
+    closeDelay:50,
+    smartPlacement:true,
+    placement: 'e'
+});
+
+$('.button').powerTip({
+    fadeInTime: 60,
+    fadeOutTime:40,
+    closeDelay:50,
+    smartPlacement:true,
+    placement: 'ne'
+});
+
+$(function() {
+    $('.test_list').footable();
+    $('#find').click(function() {
+        $('#filter').slideToggle();
+    })
 });
 
 $(function() {
@@ -184,8 +207,14 @@ $(function() {
 
 $(window).resize(function(){
     var w = $(window).width();
-    if(w > 320 && menu.is(':hidden')) {
-        menu.removeAttr('style');
+    f=$("#filter");
+    if(w < 530) {
+        $("footer p").text("© 2013 Mohammad Ali Karimi.");
+        if (f.is(':none')) {
+            menu.removeAttr('style');
+        }
+    } else if(w >= 530) {
+        $("footer p").text("© 2013 Mohammad Ali Karimi. All rights reserved.");
     }
 });
 

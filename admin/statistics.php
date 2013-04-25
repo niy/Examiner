@@ -96,7 +96,7 @@ if (isset($_REQUEST["case"])) {
         }
 
         if (!$rec = mysql_fetch_row($result)) {
-            die('
+            echo('
                 </article>
                 <article class="msg">
                 <div class="clearfix pagehead">
@@ -114,27 +114,27 @@ if (isset($_REQUEST["case"])) {
 			            <div class="grid_txt">' . _ADMIN_CHARTS . '</div></a>
 		                </div>
                     </div>
-                </article>
-                <footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer>
-                </div>
-                <script src="../js/functions.js" type = "text/javascript"></script></body></html>');
+                </article>');
+            include('../footer.php');
+            include('../footer_end.php');
+            die();
         }
 
 /******************************************************************************/
 
         echo ('
-	    <table class="test_list small">
+	    <table data-filter="#filter" class="test_list small">
 		<thead>
 			<tr>
-				<th scope="col" id="lname">' . _ADMIN_ADD_USER_LAST_NAME . '</th>
+				<th data-class="expand" data-sort-initial="true" scope="col" id="lname">' . _ADMIN_ADD_USER_LAST_NAME . '</th>
 				<th scope="col" id="fname">' . _ADMIN_ADD_USER_NAME . '</th>
 				<th scope="col" id="uname">' . _ADMIN_ADD_USER_USER_ID . '</th>
-				<th scope="col" id="date">' . _ADMIN_EXAM_DATE . '</th>
-				<th scope="col" id="ans">' . EXAM_ADMIN_NUM_ALL_ANSWERS . '</th>
-				<th scope="col" id="time">' . EXAM_ADMIN_USER_TIME . '</th>
-				<th scope="col" id="cans">' . EXAM_NUM_CORRECT_ANSWERS . '</th>
-				<th scope="col" id="wans">' . EXAM_NUM_INCORRECT_ANSWERS . '</th>
-				<th scope="col" id="nans">' . EXAM_NUM_NON_ANSWERED . '</th>
+				<th data-hide="phone,tablet" scope="col" id="date">' . _ADMIN_EXAM_DATE . '</th>
+				<th data-hide="phone,tablet" scope="col" id="ans">' . EXAM_ADMIN_NUM_ALL_ANSWERS . '</th>
+				<th data-hide="phone,tablet" scope="col" id="time">' . EXAM_ADMIN_USER_TIME . '</th>
+				<th data-hide="phone" id="cans">' . EXAM_NUM_CORRECT_ANSWERS . '</th>
+				<th data-hide="phone" id="wans">' . EXAM_NUM_INCORRECT_ANSWERS . '</th>
+				<th data-hide="phone" id="nans">' . EXAM_NUM_NON_ANSWERED . '</th>
 				<th scope="col" id="grade">' . _EXAM_FINAL_GRADE_NOT_NEG . '</th>
 				<th scope="col" id="tools">' . _EXAM_TOOLS . '</th>
 			</tr>
@@ -492,85 +492,6 @@ if (isset($_REQUEST["case"])) {
             </tbody>
         </table>
 
-        <script type="text/javascript">
-            window.onload = function () {
-                (function () { //keep the global space clean
-
-                    ///// STEP 0 - setup
-
-                    // source data table and canvas tag
-                    var data_table = document.getElementById('mydata');
-                    var canvas = document.getElementById('canvas');
-                    var td_index = 1; // which TD contains the data
-
-                    ///// STEP 1 - Get the, get the, get the data!
-
-                    // get the data[] from the table
-                    var tds, data = [], color, colors = [], value = 0, total = 0;
-                    var trs = data_table.getElementsByTagName('tr'); // all TRs
-
-                    for (var i = 0; i < trs.length; i++) {
-                        tds = trs[i].getElementsByTagName('td'); // all TDs
-
-                        if (tds.length === 0)
-                            continue;                            //  no TDs here, move on
-
-                        // get the value, update total
-                        value = parseFloat(tds[td_index].innerHTML);
-                        data[data.length] = value;
-                        total += value;
-                    }
-                    colors[0] = "#C9EDAD";
-                    colors[1] = "#edcac7";
-                    colors[2] = "#afafaf";
-                    ///// STEP 2 - Draw pie on canvas
-
-
-                    // exit if canvas is not supported
-                    if (typeof canvas.getContext === 'undefined') {
-                        return;
-                    }
-
-                    // get canvas context, determine radius and center
-                    var ctx = canvas.getContext('2d');
-                    var canvas_size =
-                        [
-                            canvas.width,
-                            canvas.height
-                        ];
-
-                    var radius = Math.min(canvas_size[0], canvas_size[1]) / 2;
-                    var center =
-                        [
-                            canvas_size[0] / 2,
-                            canvas_size[1] / 2
-                        ];
-
-                    var sofar = 0; // keep track of progress
-                    // loop the data[]
-                    for (var piece in data) {
-
-                        var thisvalue = data[piece] / total;
-
-                        ctx.beginPath();
-                        ctx.moveTo(center[0], center[1]);                           // center of the pie
-                        ctx.arc(                                                    // draw next arc
-                            center[0], center[1], radius, Math.PI * (-0.5 + 2 * sofar), // -0.5 sets set the start to be top
-                            Math.PI * (-0.5 + 2 * (sofar + thisvalue)), false);
-
-                        ctx.lineTo(center[0], center[1]);                           // line back to the center
-                        ctx.closePath();
-                        ctx.fillStyle = colors[piece];                              // color
-                        ctx.fill();
-
-                        sofar += thisvalue;                                         // increment progress tracker
-                    }
-
-
-                    ///// DONE!
-                })() // exec!
-            }
-        </script>
 
         <?php
         echo ('
@@ -663,7 +584,7 @@ if (isset($_REQUEST["case"])) {
         }
 
         if (!$rec = mysql_fetch_row($result)) {
-            die('
+            echo('
                 </article>
                 <article class="msg">
                 <div class="clearfix pagehead">
@@ -681,11 +602,10 @@ if (isset($_REQUEST["case"])) {
 			            <div class="grid_txt">' . _ADMIN_RETURN . '</div></a>
 		                </div>
                     </div>
-                </article>
-                <footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer>
-                </div>
-                <script src="../js/functions.js" type = "text/javascript"></script></body></html>
-                ');
+                </article>');
+            include('../footer.php');
+            include('../footer_end.php');
+            die();
         }
 
 
@@ -957,7 +877,7 @@ if (isset($_REQUEST["case"])) {
         }
 
         if (!$rec = mysql_fetch_row($result)) {
-            die('
+            echo('
                 </article>
                 <article class="msg">
                 <div class="clearfix pagehead">
@@ -976,10 +896,10 @@ if (isset($_REQUEST["case"])) {
 		                </div>
                     </div>
                 </article>
-                <footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer>
-                </div>
-                <script src="../js/functions.js" type = "text/javascript"></script></body></html>
                 ');
+            include('../footer.php');
+            include('../footer_end.php');
+            die();
         }
 
         ///////////////////////////////////////
@@ -1008,12 +928,12 @@ if (isset($_REQUEST["case"])) {
         <table class="test_list small">
 		<thead>
 			<tr>
-				<th scope="col" id="lname">' . _ADMIN_ADD_USER_LAST_NAME . '</th>
+				<th data-class="expand" data-sort-initial="true" scope="col" id="lname">' . _ADMIN_ADD_USER_LAST_NAME . '</th>
 				<th scope="col" id="fname">' . _ADMIN_ADD_USER_NAME . '</th>
 				<th scope="col" id="uname">' . _ADMIN_ADD_USER_USER_ID . '</th>
-				<th scope="col" id="date">' . _ADMIN_EXAM_DATE . '</th>
-				<th scope="col" id="q_ans_num" class="num">' . EXAM_ADMIN_NUM_ALL_ANSWERS . '</th>
-				<th scope="col" id="time">' . EXAM_ADMIN_USER_TIME . '</th>
+				<th data-hide="phone,tablet" scope="col" id="date">' . _ADMIN_EXAM_DATE . '</th>
+				<th data-hide="phone,tablet" scope="col" id="q_ans_num" class="num">' . EXAM_ADMIN_NUM_ALL_ANSWERS . '</th>
+				<th data-hide="phone,tablet" scope="col" id="time">' . EXAM_ADMIN_USER_TIME . '</th>
 				<th scope="col" id="qc1" class="precent">' . _ADMIN_CHART_CHOICE1 . '</th>
 				<th scope="col" id="qc2" class="precent">' . _ADMIN_CHART_CHOICE2 . '</th>
 				<th scope="col" id="qc3" class="precent">' . _ADMIN_CHART_CHOICE3 . '</th>
@@ -1101,8 +1021,8 @@ if (isset($_REQUEST["case"])) {
 
         echo ('</article>');
     }
-} else
-    die('
+} else {
+    echo('
         <article class="msg">
 
 		<div class="info_box clearfix" >
@@ -1115,8 +1035,94 @@ if (isset($_REQUEST["case"])) {
             <div class="grid_txt">' . _ADMIN_HOME . '</div></a>
 		</div>
 
-        </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-		');
+        </article>');
+    include('../footer.php');
+    include('../footer_end.php');
+    die();
+}
 ?>
 
-<?php include('../footer.php'); ?>
+<?php include('../footer.php');?>
+        <script type="text/javascript">
+            window.onload = function () {
+                (function () { //keep the global space clean
+
+                    ///// STEP 0 - setup
+
+                    // source data table and canvas tag
+                    var data_table = document.getElementById('mydata');
+                    var canvas = document.getElementById('canvas');
+                    var td_index = 1; // which TD contains the data
+
+                    ///// STEP 1 - Get the, get the, get the data!
+
+                    // get the data[] from the table
+                    var tds, data = [], color, colors = [], value = 0, total = 0;
+                    var trs = data_table.getElementsByTagName('tr'); // all TRs
+
+                    for (var i = 0; i < trs.length; i++) {
+                        tds = trs[i].getElementsByTagName('td'); // all TDs
+
+                        if (tds.length === 0)
+                            continue;                            //  no TDs here, move on
+
+                        // get the value, update total
+                        value = parseFloat(tds[td_index].innerHTML);
+                        data[data.length] = value;
+                        total += value;
+                    }
+                    colors[0] = "#C9EDAD";
+                    colors[1] = "#edcac7";
+                    colors[2] = "#afafaf";
+                    ///// STEP 2 - Draw pie on canvas
+
+
+                    // exit if canvas is not supported
+                    if (typeof canvas.getContext === 'undefined') {
+                        return;
+                    }
+
+                    // get canvas context, determine radius and center
+                    var ctx = canvas.getContext('2d');
+                    var canvas_size =
+                        [
+                            canvas.width,
+                            canvas.height
+                        ];
+
+                    var radius = Math.min(canvas_size[0], canvas_size[1]) / 2;
+                    var center =
+                        [
+                            canvas_size[0] / 2,
+                            canvas_size[1] / 2
+                        ];
+
+                    var sofar = 0; // keep track of progress
+                    // loop the data[]
+                    for (var piece in data) {
+
+                        var thisvalue = data[piece] / total;
+
+                        ctx.beginPath();
+                        ctx.moveTo(center[0], center[1]);                           // center of the pie
+                        ctx.arc(                                                    // draw next arc
+                            center[0], center[1], radius, Math.PI * (-0.5 + 2 * sofar), // -0.5 sets set the start to be top
+                            Math.PI * (-0.5 + 2 * (sofar + thisvalue)), false);
+
+                        ctx.lineTo(center[0], center[1]);                           // line back to the center
+                        ctx.closePath();
+                        ctx.fillStyle = colors[piece];                              // color
+                        ctx.fill();
+
+                        sofar += thisvalue;                                         // increment progress tracker
+                    }
+
+
+                    ///// DONE!
+                })() // exec!
+            }
+        </script>
+
+<?php
+include('../footer_end.php');
+?>

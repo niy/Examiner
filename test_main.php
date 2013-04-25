@@ -9,16 +9,18 @@ if (!$result){
     require_once ('language/farsi.php');
     echo ('<!doctype html><html dir="rtl">');
     include ('index_header.php');
-    die('
+    echo('
 		<article class="msg">
 
-		<div class="error_box clearfix" style="width:21em;">
+		<div class="error_box clearfix">
 			<div class="box_icon" data-icon="w" aria-hidden="true"></div>
 			<div class="content clearfix">' . _EXAMINER_INSTALL_FARSI1 . '</div>
 		</div>
 
-		</article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-		');
+		</article>');
+    include ('footer1.php');
+    include('footer_end.php');
+    die();
     }
 else
     {

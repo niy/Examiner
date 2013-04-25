@@ -7,15 +7,6 @@ if (!isset($_COOKIE['examiner'])) {
 } else {
     include('admin_config.php');
 
-    echo ('
-    <script language="javascript">
-        function dosubmit() {
-            document.forms[0].action = "settings"
-            document.forms[0].method = "POST"
-            document.forms[0].submit()
-        }
-    </script>
-    ');
     if (isset($_REQUEST["case"])) {
         $case = $_REQUEST["case"];
         if ($case == "changepass") {
@@ -25,20 +16,6 @@ if (!isset($_COOKIE['examiner'])) {
                 $check_security = mysql_query("SELECT * FROM settings WHERE admin_id='$p_uname' AND password='$p_pass'", $db);
                 if ($rec = mysql_fetch_row($check_security)) {  //if user is authorized
                     //Print "Change Password" form
-                    echo ('
-                    <script language="JavaScript">
-                        function CheckForm(formID) {
-                            if (formID.new_uname.value =="") { alert("' . _ADMIN_ENTER_NEW_USERNAME . '");
-                            formID.new_uname.focus(); return false; }
-                            if (formID.new_pass.value =="") { alert("' . _ADMIN_ENTER_NEW_PASSWORD . '");
-                            formID.new_pass.focus(); return false; }
-                            if (formID.new_again_pass.value =="") { alert("' . _ADMIN_ENTER_NEW_PASSWORD_CONFIRM . '");
-                            formID.new_again_pass.focus(); return false; }
-                            if (formID.new_pass.value !== formID.new_again_pass.value) { alert("' . _ADMIN_NEW_PASSWORD_NOT_MATCH . '");
-                            formID.new_pass.focus(); return false; }
-                            return true;
-                        }
-					</script> ');
 
                     echo ('
                     <article>
@@ -101,7 +78,7 @@ if (!isset($_COOKIE['examiner'])) {
                 if (!$change_u_p) {
                     die('Database query error:' . mysql_error());
                 }
-                die('
+                echo('
                     <article class="msg">
                     <div class="info_box clearfix" >
                     <div class="box_icon" data-icon="y" aria-hidden="true"></div>
@@ -113,8 +90,10 @@ if (!isset($_COOKIE['examiner'])) {
                     <div id="back" class="button_wrap clearfix">
                     <a class="button" id="back_b" href="settings""><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_SETTINGS . '</div></a>
                     </div>
-                    </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-			    ');
+                    </article>');
+                include('../footer.php');
+                include('../footer_end.php');
+                die();
             } else { //if new name is not supplied show the admin auth form
                 echo ('
                     <article>
@@ -151,7 +130,7 @@ if (!isset($_COOKIE['examiner'])) {
                     $rtl = "RTL";
                 else
                     $rtl = "LTR";
-                die('
+                echo('
                     <article class="msg">
 
                     <div class="info_box clearfix" >
@@ -168,8 +147,10 @@ if (!isset($_COOKIE['examiner'])) {
                     <a class="button" id="back_b" href="settings""><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_SETTINGS . '</div></a>
                     </div>
 
-                    </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-			    ');
+                    </article>');
+                include('../footer.php');
+                include('../footer_end.php');
+                die();
             }
             else //if language has not been requested to change
             {
@@ -245,7 +226,7 @@ if (!isset($_COOKIE['examiner'])) {
             <div id="about"><ul class="content"><li><a href="https://github.com/niy/examiner"><img src="../img/logo_tny.png"/></a></li><li>' . _EXAMINER_OTMS . '</li><li>'
             . _EXAMINER_VERSION .
             '</li><li><a href="https://github.com/niy/examiner">' . _EXAMINER_HOMEPAGE . '</a></li><li>'
-            . _EXAMINER_PROGRAMMER_CONTACT . ': <a href="mailto:' . _EXAMINER_PROGRAMMER_EMAIL . '">' . _EXAMINER_PROGRAMMER_EMAIL . '</a></li></ul>
+            . _EXAMINER_PROGRAMMER_CONTACT . ': ' . _EXAMINER_PROGRAMMER_EMAIL . '</li></ul>
 		    </div>
 
 		    </article>
@@ -253,4 +234,30 @@ if (!isset($_COOKIE['examiner'])) {
     }
 }
 ?>
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+
+echo ('
+    <script language="javascript">
+        function dosubmit() {
+            document.forms[0].action = "settings"
+            document.forms[0].method = "POST"
+            document.forms[0].submit()
+        }
+    </script>
+    ');
+echo ('
+                    <script language="JavaScript">
+                        function CheckForm(formID) {
+                            if (formID.new_uname.value =="") { alert("' . _ADMIN_ENTER_NEW_USERNAME . '");
+                            formID.new_uname.focus(); return false; }
+                            if (formID.new_pass.value =="") { alert("' . _ADMIN_ENTER_NEW_PASSWORD . '");
+                            formID.new_pass.focus(); return false; }
+                            if (formID.new_again_pass.value =="") { alert("' . _ADMIN_ENTER_NEW_PASSWORD_CONFIRM . '");
+                            formID.new_again_pass.focus(); return false; }
+                            if (formID.new_pass.value !== formID.new_again_pass.value) { alert("' . _ADMIN_NEW_PASSWORD_NOT_MATCH . '");
+                            formID.new_pass.focus(); return false; }
+                            return true;
+                        }
+					</script> ');
+
+include('../footer_end.php');?>

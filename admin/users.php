@@ -7,41 +7,11 @@ if (!isset($_COOKIE['examiner'])) {
 } else {
 	include('admin_config.php');
 
-	echo ('
-		<script language=javascript>
-		function dosubmit() {
-		document.forms[0].action = "settings"
-		document.forms[0].method = "post"
-		document.forms[0].submit()
-		}
-	</script>');
 
 	if (isset($_REQUEST["case"])) {
 		$case = $_REQUEST["case"];
 
 		if (($case == "adduser") && !(isset($_REQUEST["end"]))) {
-			echo ('
-				<script language=javascript>
-				function dosubmit() {
-					document.forms[0].action = "users"
-					document.forms[0].method = "post"
-					document.forms[0].submit()
-				}
-				</script>
-				<script language="JavaScript">
-				function CheckForm(formID) {
-					if (formID.uid.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_ID . '");
-					formID.uid.focus(); return false; }
-					if (formID.password.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_PASSWORD . '");
-					formID.password.focus(); return false; }
-					if (formID.password_confirm.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_CONFIRM_PASSWORD . '");
-					formID.password_confirm.focus(); return false; }
-					if (formID.password_confirm.value !== formID.password.value) { alert("' . _ADMIN_ADD_USER_PASSWORD_AND_CONFIRM_NOT_MATCH . '");
-					formID.password.focus(); return false; }
-					return true;
-				}
-				</script>
-			');
 
 			echo ('
 			<article id="add_user">
@@ -173,10 +143,10 @@ if (!isset($_COOKIE['examiner'])) {
 				if (!$result) {
 					die('Database query error:' . mysql_error());
 				}
-				die('
+				echo('
 				    <article class="msg">
 
-                    <div class="info_box clearfix" style="width:29em; height: 10em;">
+                    <div class="info_box clearfix">
                         <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                         <div class="content clearfix">
                             <h1 class="title">' . _ADMIN_ADD_USER . '</h1>
@@ -197,6 +167,9 @@ if (!isset($_COOKIE['examiner'])) {
 
                     </article>
 				');
+                include('../footer.php');
+                include('../footer_end.php');
+                die();
 			}
 		}
 	} else {
@@ -216,4 +189,37 @@ if (!isset($_COOKIE['examiner'])) {
 }
 ?>
 
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+
+echo ('
+		<script language=javascript>
+		function dosubmit() {
+		document.forms[0].action = "settings"
+		document.forms[0].method = "post"
+		document.forms[0].submit()
+		}
+	</script>');
+echo ('
+				<script language=javascript>
+				function dosubmit() {
+					document.forms[0].action = "users"
+					document.forms[0].method = "post"
+					document.forms[0].submit()
+				}
+				</script>
+				<script language="JavaScript">
+				function CheckForm(formID) {
+					if (formID.uid.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_ID . '");
+					formID.uid.focus(); return false; }
+					if (formID.password.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_PASSWORD . '");
+					formID.password.focus(); return false; }
+					if (formID.password_confirm.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_CONFIRM_PASSWORD . '");
+					formID.password_confirm.focus(); return false; }
+					if (formID.password_confirm.value !== formID.password.value) { alert("' . _ADMIN_ADD_USER_PASSWORD_AND_CONFIRM_NOT_MATCH . '");
+					formID.password.focus(); return false; }
+					return true;
+				}
+				</script>
+			');
+
+include('../footer_end.php');?>

@@ -8,31 +8,6 @@ if (!isset($_COOKIE['examiner'])) {
     include('admin_config.php');
 
     echo ('
-    <script language="javascript">
-        function dosubmit() {
-            document.forms[0].action = "index"
-            document.forms[0].method = "POST"
-            document.forms[0].submit()
-        }
-    </SCRIPT>
-    <script language="JavaScript">
-		function CheckForm(formID) { 
-		if (formID.TName.value == "") { alert("' . _ADMIN_ADD_EXAM_ENTER_TNAME . '");
-		formID.TName.focus(); return false; } 
-		if (formID.NOQ.value == "") { alert("' . _ADMIN_ADD_EXAM_ENTER_NOQ . '");
-		formID.NOQ.focus(); return false; } 
-		if (formID.NOQ.value < 1) { alert("' . _ADMIN_ADD_EXAM_MORE_NOQ . '");
-		formID.NOQ.focus(); return false; } 
-		if (formID.time.value == "") { alert("' . _ADMIN_ADD_EXAM_ENTER_TIME . '");
-		formID.time.focus(); return false; } 
-		if (formID.time.value < 1) { alert("' . _ADMIN_ADD_EXAM_MORE_TIME . '");
-		formID.time.focus(); return false; } 
-		return true; 
-		}
-	</script>
-	');
-
-    echo ('
         <article id="add_test">
         <div class="content box">
         <h1 class="title" style="margin-bottom: .2em;">' . _ADMIN_ADD_EXAM. '</h1>
@@ -132,4 +107,30 @@ if (!isset($_COOKIE['examiner'])) {
 }
 ?>
 
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+echo ('
+<script language="javascript">
+    function dosubmit() {
+        document.forms[0].action = "index"
+        document.forms[0].method = "POST"
+        document.forms[0].submit()
+    }
+</SCRIPT>
+<script language="JavaScript">
+    function CheckForm(formID) {
+        if (formID.TName.value == "") { alert("' . _ADMIN_ADD_EXAM_ENTER_TNAME . '");
+            formID.TName.focus(); return false; }
+        if (formID.NOQ.value == "") { alert("' . _ADMIN_ADD_EXAM_ENTER_NOQ . '");
+            formID.NOQ.focus(); return false; }
+        if (formID.NOQ.value < 1) { alert("' . _ADMIN_ADD_EXAM_MORE_NOQ . '");
+            formID.NOQ.focus(); return false; }
+        if (formID.time.value == "") { alert("' . _ADMIN_ADD_EXAM_ENTER_TIME . '");
+            formID.time.focus(); return false; }
+        if (formID.time.value < 1) { alert("' . _ADMIN_ADD_EXAM_MORE_TIME . '");
+            formID.time.focus(); return false; }
+        return true;
+    }
+</script>
+');
+include('../footer_end.php');
+?>

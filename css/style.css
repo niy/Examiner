@@ -611,7 +611,8 @@ textarea {
     border: 0;
     display: block;
     font-family: "tahoma", "arial", sans-serif;
-
+    width: 100%;
+    min-height: 7em;
 }
 .box a {
     color: #51a9c7;
@@ -764,6 +765,10 @@ font-size: 2em;
 border-bottom: .5em solid #313c3a;
 }
 
+.test_list th:hover{
+    background-color: #1c2321;
+}
+
 table th {
     padding: .5em;
 }
@@ -783,6 +788,7 @@ table #name {
 table #tools {
     text-align: center;
     width: 8em;
+    min-width: 4em;
 }
 
 article:not([id="add_question"]):not([id="exam_prop"]) tbody:not([id="_mc_tmp"]) > tr:hover:not([class="correct_q"]):not([class="incorrect_q"]):not([class="null_q"]) {
@@ -836,7 +842,7 @@ article:not([id="add_question"]):not([id="exam_prop"]) tbody:not([id="_mc_tmp"])
     width: 1.3em;
 }
 #show_questions {
-    width: 960px;
+    max-width: 960px;
 }
 
 .q {
@@ -941,17 +947,19 @@ h3 {
     color: #ffffff;
 }
 
-#add_test_b {
+#add_test_b,#find {
+    margin-bottom: 0.3em;
     min-width: 2em;
     height: 2em;
     margin-left: 0;
     font-size: 1em;
-    line-height: 2em;
+    line-height: 2.1em;
     text-align: center;
     display: block;
     float: left;
     color: white;
 }
+
 
 #delete_all_b {
     margin-right: 0.5em;
@@ -960,7 +968,7 @@ h3 {
     min-width: 2em;
     height: 2em;
     font-size: 1em;
-    line-height: 2em;
+    line-height: 2.1em;
     text-align: center;
     display: block;
     float: left;
@@ -978,7 +986,7 @@ h3 {
 
 .pagehead h1 {
     font-size: 1.5em;
-    margin-bottom: 1em;
+    margin-bottom: 0.6em;
 }
 #show_users h1 {
     float: right;
@@ -991,14 +999,16 @@ h3 {
 .test_list {
     width: 100%;
 }
-
+table #uname {
+    width: 10em;
+}
 
 table #fname {
-    width: 20%;
+    width: 20em;
 }
 
 table #lname {
-    width: 20%;
+    width: 20em;
 }
 table #father {
     width: 10%;
@@ -1051,9 +1061,6 @@ table #email {
     width: 1%;
 }
 
-#show_stats #fname,#show_stats #lname {
-    width: 15%;
-}
 #show_stats #grade {
     width: 10%;
 }
@@ -1391,7 +1398,25 @@ nav a#pull {
 .menu_txt {
     display: none;
 }
-
+#filter {
+    display: none;
+    font-size: 1em;
+}
+#find {
+    margin-left: 0.5em;
+}
+.test_list.breakpoint > tbody .footable-row-detail-inner {
+    border-right: 0.3em solid black;
+    padding-right: 1em;
+    border-left: 0.3em solid black;
+    padding-left: 1em;
+}
+.test_list.breakpoint > tbody > tr.footable-row-detail {
+    background: #f4fff8;
+}
+.test_list > thead > tr > th.footable-sortable:hover {
+    cursor:pointer;
+}
 /***********************************************************************************************/
 @media (max-width: 1025px) {
     header {
@@ -1447,6 +1472,23 @@ nav a#pull {
 }
 /**************************/
 @media only screen and (max-width : 530px) {
+
+    #filter {
+        float: none;
+        width: 100%;
+        max-width: 100%;
+        display: block;
+        margin-left: 0;
+    }
+    #find {
+        display: none;
+    }
+    footer p {
+        margin: 9px auto auto 15px;
+    }
+    #add_test_b , #find, #delete_all_b {
+        font-size: 1.5em;
+    }
     #a404 h1 {
         font-size: 3em;
     }
@@ -1570,9 +1612,11 @@ nav a#pull {
     }
     #test_header h1 {
         height: auto;
+        margin-left: 15px;
     }
     #user .admin_menu a {
         line-height: 2.7em;
+        font-size: 1em;
     }
     #user {
         height: 42px;
@@ -1580,7 +1624,7 @@ nav a#pull {
     #user h1 {
         float: left;
         width: 119px;
-        margin-left: 30px;
+        margin-left: 15px;
         height: auto;
     }
     #user .admin_menu,#test_header .admin_menu {

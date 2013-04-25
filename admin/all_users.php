@@ -36,7 +36,7 @@ if (!isset($_COOKIE['examiner'])) {
     }
 
     if (!$rec = mysql_fetch_row($result)) {
-        die('
+        echo('
             <div class="clearfix pagehead">
             <h1>' . _ADMIN_SHOW_ALL_USERS . '</h1>
             <a id="add_test_b" class="button good" href="users?case=adduser" title="' . _ADMIN_ADD_USER . '"><span data-icon="i" aria-hidden="true"></span></a>
@@ -50,9 +50,10 @@ if (!isset($_COOKIE['examiner'])) {
                 </div>
             </div>
             </article>
-            <footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer>
-		    </div></body></html>
             ');
+        include ('../footer.php');
+        include('../footer_end.php');
+        die();
     }
 
     echo ('
@@ -60,16 +61,17 @@ if (!isset($_COOKIE['examiner'])) {
         <h1>' . _ADMIN_ALL_USERS . '</h1>
         <a id="delete_all_b" class="button bad" href="edit_user?case=delete_all_users" title="' . _ADMIN_DELETE_ALL_USERS . '"><span data-icon="!" aria-hidden="true"></span></a>
         <a id="add_test_b" class="button" href="users?case=adduser" title="' . _ADMIN_ADD_USER . '"><span data-icon="i" aria-hidden="true"></span></a>
+        <a id="find" class="button" href="#" title="' . _ADMIN_FIND . '"><span data-icon="f" aria-hidden="true"></span></a><input type="text" id="filter" placeholder="' . _ADMIN_FIND . '">
         </div>
 
-        <table class="test_list">
+        <table data-filter="#filter" class="test_list">
         <thead>
             <tr>
-                <th scope="col" id="lname">' . _ADMIN_ADD_USER_LAST_NAME . '</th>
+                <th data-class="expand" data-sort-initial="true" scope="col" id="lname">' . _ADMIN_ADD_USER_LAST_NAME . '</th>
                 <th scope="col" id="fname">' . _ADMIN_ADD_USER_NAME . '</th>
-                <th scope="col" id="father">' . _ADMIN_ADD_USER_FATHER_NAME . '</th>
+                <th data-hide="phone,tablet" scope="col" id="father">' . _ADMIN_ADD_USER_FATHER_NAME . '</th>
                 <th scope="col" id="uname">' . _ADMIN_ADD_USER_USER_ID . '</th>
-                <th scope="col" id="email">' . _ADMIN_ADD_USER_EMAIL . '</th>
+                <th data-hide="phone" scope="col" id="email">' . _ADMIN_ADD_USER_EMAIL . '</th>
                 <th scope="col" id="tools">' . _EXAM_TOOLS . '</th>
             </tr>
         </thead>
@@ -126,4 +128,6 @@ if (!isset($_COOKIE['examiner'])) {
 }
 ?>
 
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+include('../footer_end.php');
+?>

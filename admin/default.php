@@ -34,7 +34,7 @@ if (!isset($_COOKIE['examiner'])) {
         }
 
         if (!$rec = mysql_fetch_row($result)) {
-            die('
+            echo('
                     <div class="clearfix pagehead">
                         <h1>' . _ADMIN_SHOWW_ALL_EXAMS . '</h1>
                         <a id="add_test_b" class="button good" href="add_test" title="' . _ADMIN_INDEX_ADD_EXAM . '"><span data-icon="a" aria-hidden="true"></span></a>
@@ -46,9 +46,10 @@ if (!isset($_COOKIE['examiner'])) {
                                 </div>
                             </div>
                         </div>
-                    </article>
-                    <footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer>
-                    </div></body></html>');
+                    </article>');
+            include ('../footer.php');
+            include('../footer_end.php');
+            die();
         }
         echo ('
 	    <table class="test_list">
@@ -122,7 +123,7 @@ if (!isset($_COOKIE['examiner'])) {
 
             if (!$edit_test)
                 die('Database query error:' . mysql_error());
-            die('
+            echo('
             <article class="msg">
 
             <div class="info_box clearfix" >
@@ -135,9 +136,10 @@ if (!isset($_COOKIE['examiner'])) {
             <div id="back" class="button_wrap clearfix">
             <a class="button" id="back_b" href="../admin"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_HOME . '</div></a>
             </div>
-
-            </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-		    ');
+            </article>');
+            include ('../footer.php');
+            include('../footer_end.php');
+            die();
         } else {
             $tid = $_REQUEST["tid"];
             $sqlstring = "UPDATE tests SET Be_Default='0'";
@@ -151,7 +153,7 @@ if (!isset($_COOKIE['examiner'])) {
 
             if (!$edit_test)
                 die('Database query error:' . mysql_error());
-            die('
+            echo('
             <article class="msg">
 
             <div class="info_box clearfix" >
@@ -163,13 +165,15 @@ if (!isset($_COOKIE['examiner'])) {
             </div>
             <div id="back" class="button_wrap clearfix">
             <a class="button" id="back_b" href="../admin"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_HOME . '</div></a>
-            </div>
-
-            </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-		    ');
+            </div></article>');
+            include ('../footer.php');
+            include('../footer_end.php');
+            die();
         }
     }
 }
 ?>
 
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+include('../footer_end.php');
+?>

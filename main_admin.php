@@ -10,9 +10,9 @@ if (!$result) {
     echo ('<!doctype html><html dir="rtl">');
     include ('header_admin.php');
 
-    echo ('</header><article id="install">
+    echo ('</header><article id="install" class="login">
     <section class="msg">
-		<div class="info_box clearfix" style="width:30em;">
+		<div class="info_box clearfix">
             <div class="box_icon" data-icon="y" aria-hidden="true"></div>
             <div class="content clearfix">
                 <ul>
@@ -89,6 +89,7 @@ if (!$result) {
 		}
 	</script> ');
     include ('footer.php');
+    include('footer_end.php');
     die();
 } else {
     $rec = mysql_fetch_row($result);

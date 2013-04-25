@@ -117,7 +117,7 @@ if (isset($_REQUEST["language"])) {
 		die ('Database query error:' . mysql_error());
 	} else {
 	echo ('
-		<div class="info_box clearfix" style="width:30em; height:8.5em;">
+		<div class="info_box clearfix">
 			<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 			<div class="content clearfix">
 			<h1>Examiner installed successfully...</h1>
@@ -134,4 +134,5 @@ if (isset($_REQUEST["language"])) {
 </article>');
  }
 ?>
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+ include('../footer_end.php');?>

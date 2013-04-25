@@ -31,6 +31,7 @@ if (!isset($_COOKIE['examiner'])) {
 	<article id="show_stats">
 			<div class="clearfix pagehead">
 			<h1>' . _ADMIN_CHARTS_TOTAL . '</h1>
+			<a id="find" class="button" href="#" title="' . _ADMIN_FIND . '"><span data-icon="f" aria-hidden="true"></span></a><input type="text" id="filter" placeholder="' . _ADMIN_FIND . '">
 			</div>'
 	);
 
@@ -39,7 +40,7 @@ if (!isset($_COOKIE['examiner'])) {
 	}
 
 	if (!$rec = mysql_fetch_row($result)) {
-		die('
+		echo('
 		<div class="clearfix pagehead">
 			<h1>' . _ADMIN_SHOWW_ALL_EXAMS . '</h1>
 			<a id="add_test_b" class="button good" href="add_test" title="' . _ADMIN_INDEX_ADD_EXAM . '"><span data-icon="a" aria-hidden="true"></span></a>
@@ -51,9 +52,10 @@ if (!isset($_COOKIE['examiner'])) {
 					</div>
 				</div>
 			</div>
-		</article>
-		<footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer>
-		</div></body></html>');
+		</article>');
+        include ('../footer.php');
+        include('../footer_end.php');
+        die();
 	}
 
 	?>
@@ -62,15 +64,15 @@ if (!isset($_COOKIE['examiner'])) {
 
 	<?php
 	echo ('
-	<table>
+	<table data-filter="#filter" class="test_list">
 		<thead>
 			<tr>
-				<th scope="col" id="name">' . _EXAM_NAME . '</th>
-				<th scope="col" id="q_num">' . _EXAM_NOQ_ADDED . '<a class="bar_icon blue" onMouseover="third2(\'' . _EXAM_ADMIN_NOQ_IN_DB . '\', \'white\', 170)"; onMouseout="first4()"> <span data-icon="?" aria-hidden="true" class="grid_img"></span></a></th>
-				<th scope="col" id="q_num_final">' . _EXAM_ADMIN_SHOW_NOQ . '<a class="bar_icon blue" onMouseover="third2(\'' . _EXAM_ADMIN_NOQ_DEPENDS_ON_DB . '\', \'white\', 170)"; onMouseout="first4()"> <span data-icon="?" aria-hidden="true" class="grid_img"></span></a></th>
+				<th data-class="expand" data-sort-initial="true" scope="col" id="name">' . _EXAM_NAME . '</th>
+				<th data-hide="phone,tablet" scope="col" id="q_num">' . _EXAM_NOQ_ADDED . '<a class="bar_icon blue" onMouseover="third2(\'' . _EXAM_ADMIN_NOQ_IN_DB . '\', \'white\', 170)"; onMouseout="first4()"> <span data-icon="?" aria-hidden="true" class="grid_img"></span></a></th>
+				<th data-hide="phone,tablet" scope="col" id="q_num_final">' . _EXAM_ADMIN_SHOW_NOQ . '<a class="bar_icon blue" onMouseover="third2(\'' . _EXAM_ADMIN_NOQ_DEPENDS_ON_DB . '\', \'white\', 170)"; onMouseout="first4()"> <span data-icon="?" aria-hidden="true" class="grid_img"></span></a></th>
 				<th scope="col" id="examinee">' . _EXAM_ADMIN_MEM_NUMS . '</th>
 				<th scope="col" id="cratio">' . _EXAM_ADMIN_AVERAGE . ' <a class="bar_icon blue" onMouseover="third2(\'' . _EXAM_ADMIN_AVE_PERCENT_MINUS . '\', \'white\', 170)"; onMouseout="first4()"> <span data-icon="?" aria-hidden="true" class="grid_img"></span></a></th>
-				<th scope="col" id="time">' . _EXAM_ADMIN_AVERAGE_TIME . '</th>
+				<th data-hide="phone" scope="col" id="time">' . _EXAM_ADMIN_AVERAGE_TIME . '</th>
 				<th scope="col" id="stats">' . _EXAM_ADMIN_TOTAL_STATISTICS . '</th>
 
 			</tr>
@@ -236,4 +238,5 @@ if (!isset($_COOKIE['examiner'])) {
     echo ('</article>');
 }
 include('../footer.php');
+include('../footer_end.php');
 ?>

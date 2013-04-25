@@ -32,7 +32,8 @@
             </div>
             </article>
 <?php
-            include ('../footer.php');
+            include('../footer.php');
+            include('../footer_end.php');
             die();
 
 ?>

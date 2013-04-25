@@ -12,7 +12,7 @@ if (!$check_default) {
 } else {
 	if ($default_n = mysql_num_rows($check_default) < 1) {
 		include('main.php');
-		die('
+		echo('
 		<article class="msg">
 		<div class="content">
 
@@ -22,8 +22,10 @@ if (!$check_default) {
 		</div>
 
 		</div>
-		</article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-		');
+		</article>');
+        include ('footer1.php');
+        include('footer_end.php');
+        die();
 	}
 	$check_default = mysql_fetch_row($check_default);
 	if (isset($_REQUEST["uname"])) {
@@ -41,7 +43,7 @@ if (!$check_default) {
 				session_start();
 				$_SESSION['examiner_user'] = $uname;
 				include('main.php');
-				die('
+				echo('
 				<article class="msg">
 
 				<div class="error_box clearfix" >
@@ -53,33 +55,15 @@ if (!$check_default) {
 					<div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
 				</div>
 
-				</article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body>
-				</html>
-			');
+				</article>');
+                include ('footer1.php');
+                include('footer_end.php');
+                die();
 			}
 
 			if ($check_security[1] == "" || $check_security[2] == "" || $check_security[3] == "") {
 				if (!(isset($_REQUEST["ufname"]))) { //edit properties of user
 					include('main.php');
-
-					echo ('<SCRIPT LANGUAGE=JAVASCRIPT>
-							function dosubmit() {
-							document.forms[0].action = "logout"
-							document.forms[0].method = "POST"
-							document.forms[0].submit()
-							}
-							</SCRIPT>
-							<script language="JavaScript">
-								function CheckForm(formID) {
-								if (formID.ufname.value == "") { alert("' . _EXAM_REGISTER_ENTER_NAME . '");
-								formID.ufname.focus(); return false; }
-								if (formID.ulname.value == "") { alert("' . _EXAM_REGISTER_ENTER_LAST_NAME . '");
-								formID.ulname.focus(); return false; }
-								if (formID.fname.value == "") { alert("' . _EXAM_REGISTER_ENTER_FATHER_NAME . '");
-								formID.fname.focus(); return false; }
-								return true;
-								}
-								</script> ');
 
 					echo ('
                             <article id="add_user">
@@ -225,7 +209,7 @@ if (!$check_default) {
 					$db);
 
 			if ($check_hold = mysql_fetch_row($check_hold)) {
-                die('
+                echo('
 				<article class="msg">
 
 				<div class="error_box clearfix" >
@@ -237,9 +221,10 @@ if (!$check_default) {
 					<div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
 				</div>
 
-				</article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body>
-				</html>
-			    ');
+				</article>');
+                include ('footer1.php');
+                include('footer_end.php');
+                die();
 			}
 
 			if ($check_default[5] == 1){
@@ -325,4 +310,7 @@ if (!$check_default) {
 }
 ?>
 
-<?php include('footer1.php'); ?>
+<?php
+include('footer1.php');
+include('footer_end.php');
+?>

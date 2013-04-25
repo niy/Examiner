@@ -50,7 +50,7 @@ if (!isset($_COOKIE['examiner'])) {
 		if (!$result) {
 			die('Database query error:' . mysql_error());
 		}
-		die('
+		echo('
             <article id="delete_test">
             <div class="content">
             <div class="info_box clearfix" >
@@ -65,12 +65,12 @@ if (!isset($_COOKIE['examiner'])) {
             <a class="button" id="back_b" href="all_tests"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_EDIT_EXAMS . '</div></a>
             </div>
             </div>
-            </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body>
-
-</html>
-		');
+            </article>');
+        include ('../footer.php');
+        include('../footer_end.php');
+        die();
 	} else {
-        die('
+        echo('
         <article class="msg">
 
 		<div class="info_box clearfix" >
@@ -83,10 +83,13 @@ if (!isset($_COOKIE['examiner'])) {
             <div class="grid_txt">' . _ADMIN_HOME . '</div></a>
 		</div>
 
-        </article><footer><p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p></footer></div></body></html>
-		');
+        </article>');
+        include ('../footer.php');
+        include('../footer_end.php');
+        die();
 	}
 }
 ?>
 
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+include('../footer_end.php');?>

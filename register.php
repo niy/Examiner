@@ -10,14 +10,17 @@ $check_default_reg = mysql_fetch_row($check_default);
 
 if (!($check_default_reg[4] == 0)) {
 	include('main.php');
-	die('<article id="add_question"><div class="content">
-		<div class="info_box clearfix" style="width:21em;">
+	echo('<article id="add_question"><div class="content">
+		<div class="info_box clearfix">
 		<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 		<div class="content clearfix">' . _ADMIN_NOT_ALLOWED . '!</div>
 		</div>
 		</div>
 		</article>
 		');
+    include ('footer1.php');
+    include('footer_end.php');
+    die();
 }
 
 if (!isset($_SESSION['examiner_user'])) {
@@ -116,10 +119,10 @@ if (!isset($_SESSION['examiner_user'])) {
 			$_SESSION['examiner_user'] = $uid;
 			header("Refresh: 5; url=index.php");
 			include('main.php');
-            die('
+            echo('
 				    <article class="msg">
 
-                    <div class="info_box clearfix" style="width:29em; height: 10em;">
+                    <div class="info_box clearfix">
                         <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                         <div class="content clearfix">
                             <h1>' . _ADMIN_ADD_USER . '</h1>
@@ -141,6 +144,9 @@ if (!isset($_SESSION['examiner_user'])) {
 
                     </article>
 				');
+            include ('footer1.php');
+            include('footer_end.php');
+            die();
 
 		}
 	} else if (isset($_REQUEST["reg"]) && !(isset($_REQUEST["step2"]))) {
@@ -220,7 +226,7 @@ if (!isset($_SESSION['examiner_user'])) {
     echo('
 		<article class="msg">
 
-		<div class="error_box clearfix" style="width:21em;">
+		<div class="error_box clearfix">
 			<div class="box_icon" data-icon="w" aria-hidden="true"></div>
 			<div class="content clearfix">' . _EXAM_REGISTER_COOKIE_THERE_IS . '</div>
 		</div>
@@ -230,4 +236,6 @@ if (!isset($_SESSION['examiner_user'])) {
 }
 ?>
 
-<?php include('footer1.php'); ?>
+<?php include('footer1.php');
+include('footer_end.php');
+?>

@@ -4,7 +4,7 @@ define("_EXAMINER_VERSION","ویرایش 1.0");
 define("_EXAMINER_OTMS","سیستم مدیریت آزمون آنلاین <b>اگزمینر</b>");
 define("_EXAMINER_HOMEPAGE","صفحه اینترنتی اگزمینر");
 define("_EXAMINER_PROGRAMMER_CONTACT","تماس با برنامه‌نویس پروژه");
-define("_EXAMINER_PROGRAMMER_EMAIL","nima.k68@gmail.com");
+define("_EXAMINER_PROGRAMMER_EMAIL","nima.k68 at gmail dot com");
 
 /***************INSTALL***************/
 define("_EXAMINER_INSTALL_FARSI","به نظر مي‌رسد اين، اولين اجراي شما باشد. <br>  «اگزمینر» هنوز به درستي نصب نشده
@@ -207,6 +207,7 @@ define("_RTL_0","چپ به راست");
 define("_MINUS_MARK_1","دارد");
 define("_MINUS_MARK_0","ندارد");
 define("_ADMIN_SHOWW_ALL_EXAMS","نمايش آزمون‌ها");
+define("_ADMIN_FIND","جستجو");
 define("_ADMIN_NO_EXAM_FOUND","تاكنون هيچ آزموني تعريف نشده است!");
 define("_DEFAULT_BE_BEFAULT","تعيين به عنوان آزمون پيشفرض");
 define("_DEFAULT_NOT_BE_BEFAULT","حذف از حالت پيشفرض");
@@ -300,7 +301,7 @@ define("_ADMIN_ADD_USER_NAME","نام");
 define("_ADMIN_ADD_USER_LAST_NAME","نام خانوادگي");
 define("_ADMIN_ADD_USER_NAME_AND_LNAME","نام و نام خانوادگي");
 define("_ADMIN_ADD_USER_FATHER_NAME","نام پدر");
-define("_ADMIN_ADD_USER_USER_ID","نام كاربري (انگليسي)");
+define("_ADMIN_ADD_USER_USER_ID","نام كاربري");
 define("_ADMIN_ADD_USER_PASSWORD","رمز عبور");
 define("_ADMIN_ADD_USER_CONFIRM_PASSWORD","تكرار رمز عبور");
 define("_ADMIN_ADD_USER_EMAIL","ايميل");

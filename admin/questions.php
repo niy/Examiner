@@ -7,8 +7,8 @@ if (!isset($_COOKIE['examiner'])) {
 } else {
     include('admin_config.php');
 
-    if (!(isset($_REQUEST['tid'])))
-        die('<article id="add_question"><div class="content">
+    if (!(isset($_REQUEST['tid']))) {
+        echo('<article id="add_question"><div class="content">
 		<div class="info_box clearfix" >
 		<div class="box_icon" data-icon="y" aria-hidden="true"></div>
 		<div class="content clearfix">' . _ADMIN_NOT_ALLOWED . '!</div>
@@ -17,6 +17,10 @@ if (!isset($_COOKIE['examiner'])) {
 		</div>
         </article>
 		');
+    include('../footer.php');
+    include('../footer_end.php');
+    die();
+    }
     $tid = $_REQUEST['tid'];
 
     $questions = mysql_query("SELECT * FROM questions WHERE test_id = '$tid'");
@@ -107,4 +111,5 @@ if (!isset($_COOKIE['examiner'])) {
 }
 ?>
 
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+include('../footer_end.php');?>

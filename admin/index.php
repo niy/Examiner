@@ -20,17 +20,6 @@ if (isset($_REQUEST["uname"])) {
     include('admin_config.php');
 
     if (!isset($_COOKIE['examiner'])) { //if admin is not logged in
-        echo ('
-        <script language="JavaScript">
-            function CheckForm(formID) {
-                if (formID.uname.value == "") { alert("' . _ADMIN_ENTER_USERNAME . '");
-                formID.uname.focus(); return false; }
-                if (formID.pass.value == "") { alert("' . _ADMIN_ENTER_PASSWORD . '");
-                formID.pass.focus(); return false; }
-                return true;
-            }
-		</script>
-		');
 
         echo ('
             <article>
@@ -77,4 +66,17 @@ if (isset($_REQUEST["uname"])) {
 }
 ?>
 
-<?php include('../footer.php');?>
+<?php include('../footer.php');
+echo ('
+        <script language="JavaScript">
+            function CheckForm(formID) {
+                if (formID.uname.value == "") { alert("' . _ADMIN_ENTER_USERNAME . '");
+                formID.uname.focus(); return false; }
+                if (formID.pass.value == "") { alert("' . _ADMIN_ENTER_PASSWORD . '");
+                formID.pass.focus(); return false; }
+                return true;
+            }
+		</script>
+		');
+
+include('../footer_end.php');?>
