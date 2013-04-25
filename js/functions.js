@@ -208,11 +208,14 @@ $(function() {
 $(window).resize(function(){
     var w = $(window).width();
     f=$("#filter");
+    if(w > 530 && menu.is(':hidden')) {
+        menu.removeAttr('style');
+    }
     if(w < 530) {
-        $("footer p").text("© 2013 Mohammad Ali Karimi.");
-        if (f.is(':none')) {
-            menu.removeAttr('style');
+        if (f.is(':hidden')) {
+            f.removeAttr('style');
         }
+        $("footer p").text("© 2013 Mohammad Ali Karimi.");
     } else if(w >= 530) {
         $("footer p").text("© 2013 Mohammad Ali Karimi. All rights reserved.");
     }
