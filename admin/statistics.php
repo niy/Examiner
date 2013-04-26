@@ -1,4 +1,5 @@
 <?php
+/*
 function p_round($num)
 {
     if ($num > 0)
@@ -6,7 +7,7 @@ function p_round($num)
     else
         $x = $num;
     return (($x = 0) ? round($num, 0, PHP_ROUND_HALF_DOWN) : round($num, 0, PHP_ROUND_HALF_DOWN) + 1);
-}
+}*/
 
 if (!isset($_COOKIE['examiner'])) {
     header('Location: index');
@@ -63,11 +64,11 @@ if (isset($_REQUEST["case"])) {
         $select_users = mysql_query("SELECT * FROM user_test WHERE test_id='$test_id'");
         $ineachpage = "12";
 
-        if (!(isset($_REQUEST["start"]))) {
+        if (!(isset($_REQUEST["p"]))) {
             $start = 0;
             $finish = $start + $ineachpage;
         } else {
-            $start = $_REQUEST["start"];
+            $start = ($_REQUEST["p"]-1) * $ineachpage;
             $finish = $start + $ineachpage;
         }
         $result = mysql_query("SELECT * FROM user_test WHERE test_id='$test_id' ORDER BY id LIMIT $start,$ineachpage");
@@ -205,7 +206,15 @@ if (isset($_REQUEST["case"])) {
 
         echo ('</tbody></table>');
 
-        if ($num_users > $ineachpage) //Pagination
+        /**Pagination**/
+        $page=1;
+        if(isset($_GET['p']) && $_GET['p']!=''){
+            $page=$_GET['p'];
+        }
+        echo pagination($ineachpage,$page,'?case=' . $case . '&test_id=' . $test_id . '&p=',$num_users);
+        /**</Pagination>**/
+
+        /*if ($num_users > $ineachpage) //Pagination
         {
             echo ('<ul class="content pagination" style="width: '. p_round($num_users / $ineachpage) * 2.6 .'em;">');
             $page_number=0;
@@ -222,7 +231,7 @@ if (isset($_REQUEST["case"])) {
                     echo ('<a href="?case=' . $case . '&test_id=' . $test_id . '&start=' . $y . '"><li class="page_num">' . $page_number . '</li></a>');
             }
             echo ('</ul>');
-        }
+        }*/
 
         echo ('</article>');
 
@@ -509,11 +518,11 @@ if (isset($_REQUEST["case"])) {
         $select_users = mysql_query("SELECT * FROM questions WHERE test_id='$test_id'");
         $ineachpage = "12";
 
-        if (!(isset($_REQUEST["start"]))) {
+        if (!(isset($_REQUEST["p"]))) {
             $start = 0;
             $finish = $start + $ineachpage;
         } else {
-            $start = $_REQUEST["start"];
+            $start = ($_REQUEST["p"]-1) * $ineachpage;
             $finish = $start + $ineachpage;
         }
         $result = mysql_query("SELECT * FROM questions WHERE test_id='$test_id' ORDER BY id LIMIT $start,$ineachpage");
@@ -721,8 +730,15 @@ if (isset($_REQUEST["case"])) {
 
         echo ('</tbody></table>');
 
+        /**Pagination**/
+        $page=1;
+        if(isset($_GET['p']) && $_GET['p']!=''){
+            $page=$_GET['p'];
+        }
+        echo pagination($ineachpage,$page,'?case=q&test_id=' . $test_id . '&p=',$num_users);
+        /**</Pagination>**/
 
-        if ($num_users > $ineachpage) //Pagination
+        /*if ($num_users > $ineachpage) //Pagination
         {
             echo ('<ul class="content pagination" style="width: '. p_round($num_users / $ineachpage) * 2.6 .'em;">');
             $page_number=0;
@@ -739,7 +755,7 @@ if (isset($_REQUEST["case"])) {
                     echo ('<a href="?case=q&test_id=' . $test_id . '&start=' . $y . '"><li class="page_num">' . $page_number . '</li></a>');
             }
             echo ('</ul>');
-        }
+        }*/
 
         echo ('</article>');
 
@@ -775,11 +791,11 @@ if (isset($_REQUEST["case"])) {
         $select_users = mysql_query("SELECT * FROM user_choice WHERE q_id='$q_id' $show");
         $ineachpage = "12";
 
-        if (!(isset($_REQUEST["start"]))) {
+        if (!(isset($_REQUEST["p"]))) {
             $start = 0;
             $finish = $start + $ineachpage;
         } else {
-            $start = $_REQUEST["start"];
+            $start = ($_REQUEST["p"]-1) * $ineachpage;
             $finish = $start + $ineachpage;
         }
         $result = mysql_query("SELECT * FROM user_choice WHERE q_id='$q_id' $show ORDER BY id LIMIT $start,$ineachpage");
@@ -998,9 +1014,15 @@ if (isset($_REQUEST["case"])) {
         } while ($rec = mysql_fetch_row($result));
 
         echo ('</tbody></table>');
+        /**Pagination**/
+        $page=1;
+        if(isset($_GET['p']) && $_GET['p']!=''){
+            $page=$_GET['p'];
+        }
+        echo pagination($ineachpage,$page,'?case=uu&test_id=' . $test_id . '&q_id=' . $q_id . '&show=' . $show . '&p=',$num_users);
+        /**</Pagination>**/
 
-
-        if ($num_users > $ineachpage) //Pagination
+        /*if ($num_users > $ineachpage) //Pagination
         {
             echo ('<ul class="content pagination" style="width: '. p_round($num_users / $ineachpage) * 2.6 .'em;">');
             $page_number=0;
@@ -1017,7 +1039,7 @@ if (isset($_REQUEST["case"])) {
                     echo ('<a href="?case=uu&test_id=' . $test_id . '&q_id=' . $q_id . '&show=' . $show . '&start=' . $y . '"><li class="page_num">' . $page_number . '</li></a>');
             }
             echo ('</ul>');
-        }
+        }*/
 
         echo ('</article>');
     }

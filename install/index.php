@@ -54,7 +54,7 @@ if (isset($_REQUEST["language"])) {
 						die ('Couldn not connect:' . mysql_error());
 					}
 					if (_DBNAME == "examiner") {
-						if (mysql_query('CREATE DATABASE examiner', $db)) {
+						if (mysql_query('CREATE DATABASE examiner CHARACTER SET utf8 COLLATE utf8_unicode_ci;', $db)) {
 							echo "<li> Database created successfully</li>";
 						} else {
 							echo '<li class="incorrect"> Error at creating database: ' . mysql_error() . '</li>';
@@ -68,40 +68,45 @@ if (isset($_REQUEST["language"])) {
 					}
 					////////////////Users
 					if (mysql_query('CREATE TABLE users (id INT NOT NULL AUTO_INCREMENT, FName VARCHAR(30), LName VARCHAR(30), fatherName VARCHAR(30), userid VARCHAR(20) NOT NULL, password VARCHAR(20) NOT NULL, email VARCHAR(50), PRIMARY KEY  (id))', $db)) {
-						echo '<li> Table "users" created successfully</li>';
+						echo '<li>Table "users" created successfully</li>';
 					} else {
-						echo '<li class="incorrect"> Error ocurred at creating table : ' . mysql_error() . '</li>';
+						echo '<li class="incorrect">Error ocurred at creating table : ' . mysql_error() . '</li>';
 					}
 					////////////////Tests
 					if (mysql_query('CREATE TABLE tests (id INT NOT NULL AUTO_INCREMENT, TName VARCHAR(250), NOQ INT, be_default TINYINT(1) DEFAULT "0", prof_or_user TINYINT(1) DEFAULT "0", random TINYINT(1) DEFAULT "0", time INT, rtl TINYINT(1) DEFAULT "1", minus_mark TINYINT(1) DEFAULT "0", show_answers TINYINT(1) DEFAULT "1", show_mark TINYINT(1) DEFAULT "1", PRIMARY KEY (id))', $db)) {
-						echo '<li> Table "tests" created successfully</li>';
+						echo '<li>Table "tests" created successfully</li>';
 					} else {
-						echo '<li class="incorrect"> Error ocurred at creating table : ' . mysql_error() . '</li>';
+						echo '<li class="incorrect">Error ocurred at creating table : ' . mysql_error() . '</li>';
 					}
 					////////////////Questions
 					if (mysql_query('CREATE TABLE questions (id INT NOT NULL AUTO_INCREMENT, test_id INT NOT NULL, question TEXT NOT NULL, choice1 TEXT, choice2 TEXT, choice3 TEXT, choice4 TEXT, answer TINYINT(5) NOT NULL, PRIMARY KEY (id))', $db)) {
 						echo '<li> Table "questions" created successfully</li>';
 					} else {
-						echo '<li class="incorrect"> Error ocurred at creating table : ' . mysql_error() . '</li>';
+						echo '<li class="incorrect">Error ocurred at creating table : ' . mysql_error() . '</li>';
 					}
 					////////////////User_Test
 					if (mysql_query('CREATE TABLE user_test (id INT NOT NULL AUTO_INCREMENT, user_id INT, test_id INT, date DATE, time_length TINYTEXT, PRIMARY KEY (id))', $db)) {
-						echo '<li> Table "user_test" created successfully</li>';
+						echo '<li>Table "user_test" created successfully</li>';
 					} else {
 						echo '<li class="incorrect"> Error ocurred at creating table : ' . mysql_error() . '</li>';
 					}
 					////////////////User_Test_Questions
 					if (mysql_query('CREATE TABLE user_choice (id INT NOT NULL AUTO_INCREMENT, user_test_id INT NOT NULL, q_id INT NOT NULL, answer TINYINT(5), PRIMARY KEY (id))', $db)) {
-						echo '<li> Table "user_choice" created successfully</li>';
+						echo '<li>Table "user_choice" created successfully</li>';
 					} else {
-						echo '<li class="incorrect"> Error ocurred at creating table : ' . mysql_error() . '</li>';
+						echo '<li class="incorrect">Error ocurred at creating table : ' . mysql_error() . '</li>';
 					}
 					////////////////System Settings
 					if (mysql_query('CREATE TABLE settings (id INT NOT NULL, admin_id VARCHAR(20) NOT NULL, password VARCHAR(20) NOT NULL, language VARCHAR(30), rtl TINYINT(1), PRIMARY KEY (id))', $db)) {
-						echo '<li> Table "settings" created successfully</li>';
+						echo '<li>Table "settings" created successfully</li>';
 					} else {
-						echo '<li class="incorrect"> Error ocurred at creating table : ' . mysql_error() . '</li>';
+						echo '<li class="incorrect">Error ocurred at creating table : ' . mysql_error() . '</li>';
 					}
+                    if (mysql_query('INSERT INTO users (FName, LName, fatherName, userid, password, email) VALUES ("Tester", "Rodriguez", "Testing", "test", "test", "test@example.com")')){
+                        echo ('<li>Debugging Account (test:test) created successfully</li>');
+                    } else {
+                        echo '<li class="incorrect">Error ocurred at creating Debugger User : ' . mysql_error() . '</li>';
+                    }
 					echo('
 				</ul>
 			</div>

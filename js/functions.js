@@ -204,10 +204,20 @@ $(function() {
         menu.slideToggle();
     });
 });
+$(document).ready(function(e){
+    last=$("li.last");
+    first=$("li.first");
+    var lstr = last.text();
+    var fstr = first.text();
+    last.data("tl",lstr);
+    first.data("tf",fstr);
+    responsive();
+});
 
-$(window).resize(function(){
+function responsive(){
     var w = $(window).width();
     f=$("#filter");
+
     if(w > 530 && menu.is(':hidden')) {
         menu.removeAttr('style');
     }
@@ -216,8 +226,19 @@ $(window).resize(function(){
             f.removeAttr('style');
         }
         $("footer p").text("© 2013 Mohammad Ali Karimi.");
+        last.text("Last");
+        last.addClass("next");
+        first.text("First");
+        first.addClass("next");
     } else if(w >= 530) {
+        last.text(last.data("tl"));
+        last.removeClass("next");
+        first.text(first.data("tf"));
+        first.removeClass("next");
         $("footer p").text("© 2013 Mohammad Ali Karimi. All rights reserved.");
     }
+}
+$(window).resize(function(){
+    responsive();
 });
 

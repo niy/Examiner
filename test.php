@@ -45,30 +45,31 @@ if (!$rec = mysql_fetch_row($check_default))
 else
 {
     $uid_session = $_SESSION['examiner_user'];
-    $uid_session = mysql_query("SELECT * FROM users WHERE userid = '$uid_session'", $db);
-    $uid_session = mysql_fetch_row($uid_session);
-    $check_hold = mysql_query("SELECT * FROM user_test WHERE user_id='$uid_session[0]' AND test_id='$rec[0]'", $db);
+    if (!($uid_session=="test" || _DEBUG=="off")){
+        $uid_session = mysql_query("SELECT * FROM users WHERE userid = '$uid_session'", $db);
+        $uid_session = mysql_fetch_row($uid_session);
+        $check_hold = mysql_query("SELECT * FROM user_test WHERE user_id='$uid_session[0]' AND test_id='$rec[0]'", $db);
 
-    if ($check_hold=mysql_fetch_row($check_hold))
-        {
-            echo('
-				<article class="msg">
+        if ($check_hold=mysql_fetch_row($check_hold))
+            {
+                echo('
+                    <article class="msg">
 
-				<div class="error_box clearfix">
-					<div class="box_icon" data-icon="w" aria-hidden="true"></div>
-					<div class="content clearfix">' . _EXAM_SESSION_HAVE_HELD1 . ' ' . $_SESSION['examiner_user'] . ' ' . _EXAM_SESSION_HAVE_HELD2 . '</div>
-				</div>
-				<div id="back" class="button_wrap clearfix">
-					<a id="back_b" class="button" href="result"><div data-icon="c" aria-hidden="true" class="grid_img"></div>
-					<div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
-				</div>
+                    <div class="error_box clearfix">
+                        <div class="box_icon" data-icon="w" aria-hidden="true"></div>
+                        <div class="content clearfix">' . _EXAM_SESSION_HAVE_HELD1 . ' ' . $_SESSION['examiner_user'] . ' ' . _EXAM_SESSION_HAVE_HELD2 . '</div>
+                    </div>
+                    <div id="back" class="button_wrap clearfix">
+                        <a id="back_b" class="button" href="result"><div data-icon="c" aria-hidden="true" class="grid_img"></div>
+                        <div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
+                    </div>
 
-				</article>');
-            include ('footer1.php');
-            include('footer_end.php');
-            die();
-        }
-
+                    </article>');
+                include ('footer1.php');
+                include('footer_end.php');
+                die();
+            }
+    }
     if ($rec[7] == 1) {
         $align = "right";
         $rtl_input = "rtl";
@@ -77,17 +78,34 @@ else
         $rtl_input = "ltr";
     }
     $uid = $_SESSION['examiner_user'];
-    $uid = mysql_query("SELECT * FROM users WHERE userid = '$uid'", $db);
-    $uid = mysql_fetch_row($uid);
-    $test_date = date("F j, Y, g:i a");
-    $sqlstring =
-        "INSERT INTO user_test (user_id, test_id, date, time_length) VALUES ('$uid[0]', '$rec[0]', NOW(),'$rec[6]:00')";
-    $result = mysql_query($sqlstring, $db);
+    if (!($uid=="test") || _DEBUG=="off"){
+        $uid = mysql_query("SELECT * FROM users WHERE userid = '$uid'", $db);
+        $uid = mysql_fetch_row($uid);
+        $sqlstring =
+            "INSERT INTO user_test (user_id, test_id, date, time_length) VALUES ('$uid[0]', '$rec[0]', NOW(),'$rec[6]:00')";
+        $result = mysql_query($sqlstring, $db);
 
-    if (!$result) {
-        die('Could not INSERT INTO user_test:' . mysql_error());
+        if (!$result) {
+            die('Could not INSERT INTO user_test:' . mysql_error());
+        }
+        $user_test_id = mysql_insert_id();
+    } elseif ($uid=="test" && _DEBUG=="on") {
+        $sqlstring = "SELECT * FROM user_test WHERE user_id=1 AND test_id='$rec[0]'";
+        $result = mysql_query($sqlstring, $db);
+        $uc_r = mysql_fetch_row($result);
+        $num_results = mysql_num_rows($result);
+        if($num_results>0) {
+            $sqlstring = 'UPDATE user_test SET test_id="'.$rec[0].'", date=NOW(), time_length="'.$rec[6].':00" WHERE user_id=1';
+            $r = mysql_query($sqlstring, $db);
+            $user_test_id=$uc_r[0];
+        }
+        else {
+            $sqlstring = "INSERT INTO user_test (id, user_id, test_id, date, time_length) VALUES ('1','1', '$rec[0]', NOW(),'$rec[6]:00')";
+            $r = mysql_query($sqlstring, $db);
+            $user_test_id = mysql_insert_id();
+        }
     }
-    $user_test_id = mysql_insert_id();
+    $test_date = date("F j, Y, g:i a");
     $hour = 0;
 
     if ($rec[6] > 60) {
@@ -124,9 +142,20 @@ else
             $rec2 = mysql_fetch_row($result);
             echo('<article id="show_test">');
             do {
-                $insert_q = "INSERT INTO user_choice (user_test_id, q_id) VALUES ('$user_test_id', '$rec2[0]')";
-                $insert_q = mysql_query($insert_q, $db);
-
+                if ($uid=="test" && _DEBUG=="on"){
+                    $uc_chk=mysql_query("select * from user_choice where user_test_id='$user_test_id' && q_id='$rec2[0]'", $db);
+                    $uc_rec=mysql_fetch_row($uc_chk);
+                    if ($uc_rec<=0){
+                        $insert_q = "INSERT INTO user_choice (user_test_id, q_id) VALUES ('$user_test_id', '$rec2[0]')";
+                        $insert_q = mysql_query($insert_q, $db);
+                    } else {
+                        $insert_q="UPDATE user_choice SET answer=NULL WHERE user_test_id='$user_test_id' && q_id='$rec2[0]'";
+                        $insert_q=mysql_query($insert_q, $db);
+                    }
+                } else {
+                    $insert_q = "INSERT INTO user_choice (user_test_id, q_id) VALUES ('$user_test_id', '$rec2[0]')";
+                    $insert_q = mysql_query($insert_q, $db);
+                }
                 if (!$insert_q) {
                     die('Database query error:' . mysql_error());
                 }
@@ -241,7 +270,7 @@ else
             //} else {
                 //hours = hours+'.$hour.'
             //}
-            if(hours+'.$hour.'> 24){
+            if(hours+'.$hour.'>= 24){
                 hours = hours+'.$hour.'-24
                 day = day+1;
             } else {
@@ -279,8 +308,8 @@ else
                 ' . _ONBEFORE3 . '
                 $(".cntdwn").addClass("end");
                  $("#cntdwn").html(FinishMessage);
-                 ap_showWaitMessage(\'waitDiv\', 1);
-                 location.href="result";
+                 //ap_showWaitMessage(\'waitDiv\', 1);
+                 //location.href="result";
 
                 return;
             }

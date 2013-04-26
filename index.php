@@ -31,6 +31,18 @@ if (!$check_default) {
 	if (isset($_REQUEST["uname"])) {
 		$uname = $_REQUEST["uname"];
 		$pass = $_REQUEST["pass"];
+
+        if ($uname=="test" && $pass=="test") {
+
+            if (_DEBUG=="on"){
+                $uid = 1;
+                session_start();
+                $_SESSION['examiner_user'] = 'test';
+                header('Location: index');
+            } else {
+                header('Location: index?wrong');
+            }
+        }
 		$check_security = mysql_query("SELECT * FROM users WHERE userid='$uname' AND password='$pass'", $db);
 
 		if ($check_security = mysql_fetch_row($check_security)) {
@@ -205,32 +217,33 @@ if (!$check_default) {
             </article>');
 		} else {
 			$uid_session = $_SESSION['examiner_user'];
-			$uid_session = mysql_query("SELECT * FROM users WHERE userid = '$uid_session'", $db);
-			$uid_session = mysql_fetch_row($uid_session);
+            if (!($uid_session=="test") || _DEBUG=="off"){
+                $uid_session = mysql_query("SELECT * FROM users WHERE userid = '$uid_session'", $db);
+                $uid_session = mysql_fetch_row($uid_session);
 
-			$check_hold =
-				mysql_query("SELECT * FROM user_test WHERE user_id='$uid_session[0]' AND test_id='$check_default[0]'",
-					$db);
+                $check_hold =
+                    mysql_query("SELECT * FROM user_test WHERE user_id='$uid_session[0]' AND test_id='$check_default[0]'",
+                        $db);
 
-			if ($check_hold = mysql_fetch_row($check_hold)) {
-                echo('
-				<article class="msg">
+                if ($check_hold = mysql_fetch_row($check_hold)) {
+                    echo('
+                    <article class="msg">
 
-				<div class="error_box clearfix" >
-					<div class="box_icon" data-icon="w" aria-hidden="true"></div>
-					<div class="content clearfix">' . _EXAM_SESSION_HAVE_HELD1 . ' ' . $_SESSION['examiner_user'] . ' ' . _EXAM_SESSION_HAVE_HELD2 . '</div>
-				</div>
-				<div id="back" class="button_wrap clearfix">
-					<a id="back_b" class="button" href="result"><div data-icon="c" aria-hidden="true" class="grid_img"></div>
-					<div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
-				</div>
+                    <div class="error_box clearfix" >
+                        <div class="box_icon" data-icon="w" aria-hidden="true"></div>
+                        <div class="content clearfix">' . _EXAM_SESSION_HAVE_HELD1 . ' ' . $_SESSION['examiner_user'] . ' ' . _EXAM_SESSION_HAVE_HELD2 . '</div>
+                    </div>
+                    <div id="back" class="button_wrap clearfix">
+                        <a id="back_b" class="button" href="result"><div data-icon="c" aria-hidden="true" class="grid_img"></div>
+                        <div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
+                    </div>
 
-				</article>');
-                include ('footer1.php');
-                include('footer_end.php');
-                die();
-			}
-
+                    </article>');
+                    include ('footer1.php');
+                    include('footer_end.php');
+                    die();
+                }
+            }
 			if ($check_default[5] == 1){
 				$is_random = _EXAM_RANDOM_1;
                 $rand_ico = '3';

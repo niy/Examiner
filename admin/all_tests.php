@@ -1,11 +1,5 @@
 <?php
-function p_round ($num){
-    if ($num > 0)
-        $x = $num - floor($num);
-    else
-        $x = $num;
-    return (($x = 0) ? round($num,0,PHP_ROUND_HALF_DOWN) : round($num,0,PHP_ROUND_HALF_DOWN) + 1);
-}
+
 header("Content-Type: text/html; charset=utf-8");
 
 if (!isset($_COOKIE['examiner']))
@@ -17,7 +11,7 @@ else
     include('admin_config.php');
     $ineachpage="12";
 
-    if (!(isset($_REQUEST["start"])))
+    if (!(isset($_REQUEST["p"])))
         {
         $start=0;
         $finish=$start + $ineachpage;
@@ -156,7 +150,15 @@ else
 
         echo ('</tbody></table>');
 
-        if ($num_users > $ineachpage) //Pagination
+        /**Pagination**/
+        $page=1;
+        if(isset($_GET['p']) && $_GET['p']!=''){
+            $page=$_GET['p'];
+        }
+        echo pagination($ineachpage,$page,'?p=',$num_users);
+        /**</Pagination>**/
+
+        /*if ($num_users > $ineachpage) //Pagination
         {
             echo ('<ul class="content pagination" style="width: '. p_round($num_users / $ineachpage) * 2.6 .'em;">');
             $page_number=0;
@@ -173,7 +175,7 @@ else
                     echo ('<a href="?start=' . $y . '"><li class="page_num">' . $page_number . '</li></a>');
             }
             echo ('</ul>');
-        }
+        }*/
 
         echo ('</article>');
     }

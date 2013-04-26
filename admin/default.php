@@ -10,11 +10,11 @@ if (!isset($_COOKIE['examiner'])) {
     if (!(isset($_REQUEST["tid"]))) {
         $ineachpage = "30";
 
-        if (!(isset($_REQUEST["start"]))) {
+        if (!(isset($_REQUEST["p"]))) {
             $start = 0;
             $finish = $start + $ineachpage;
         } else {
-            $start = $_REQUEST["start"];
+            $start = ($_REQUEST["p"]-1) * $ineachpage;
             $finish = $start + $ineachpage;
         }
         $result = mysql_query("SELECT * FROM tests ORDER BY id LIMIT $start,$ineachpage", $db);
@@ -94,7 +94,16 @@ if (!isset($_COOKIE['examiner'])) {
         } while ($rec = mysql_fetch_row($result));
 
         echo ('</tbody></table>');
-        if ($num_users > $ineachpage) //Pagination
+
+        /**Pagination**/
+        $page=1;
+        if(isset($_GET['p']) && $_GET['p']!=''){
+            $page=$_GET['p'];
+        }
+        echo pagination($ineachpage,$page,'?p=',$num_users);
+        /**</Pagination>**/
+
+        /*if ($num_users > $ineachpage) //Pagination
         {
             echo ('<ul class="content pagination" style="width: '. p_round($num_users / $ineachpage) * 2.6 .'em;">');
             $page_number=0;
@@ -111,7 +120,7 @@ if (!isset($_COOKIE['examiner'])) {
                     echo ('<a href="?start=' . $y . '"><li class="page_num">' . $page_number . '</li></a>');
             }
             echo ('</ul>');
-        }
+        }*/
 
         echo ('</article>');
     } else //if(isset($_REQUEST["tid"]))

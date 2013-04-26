@@ -8,8 +8,9 @@ $answer=$_REQUEST["answer"];
 
 
 $check_default=mysql_query("select * from user_choice where user_test_id='$user_test_id' && q_id='$q_id'", $db);
+$rec=mysql_fetch_row($check_default)
 
-if ($rec=mysql_fetch_row($check_default))
+if ($rec>0)
     {
 	if ($answer == 0)
 		{
