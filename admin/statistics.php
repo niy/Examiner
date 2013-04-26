@@ -698,23 +698,11 @@ if (isset($_REQUEST["case"])) {
             }
 
             echo ('
-                <tr class="'.$tr_class.'">
+                <tr onclick="$(\'#' . $rec[0] . '\').toggle();" class="q_details '.$tr_class.'">
 				<td>
                 <table class="q_txt"><tr><td class="q_choices">
-				<a href="#" onclick="showhide(\'' . $rec[0] . '\'); return(false);" title="' . _ADMIN_CHART_CHOICES . '"><span class="blue info_icon" data-icon="=" aria-hidden="true"></span></a></td>
-				<td>' . $rec[2] . '
-                <div style="display: none;" id="' . $rec[0] . '">
-                <table class="choices content"><tbody>
-                <tr class="even"><td class="q_c even">' . _ADMIN_CHART_CHOICE1 . ')</td><td>' . $rec[3] . '</td></tr>
-                <tr class="even"><td class="q_c even">' . _ADMIN_CHART_CHOICE2 . ')</td><td>' . $rec[4] . '</td></tr>
-                <tr class="even"><td class="q_c even">' . _ADMIN_CHART_CHOICE3 . ')</td><td>' . $rec[5] . '</td></tr>
-                <tr class="even"><td class="q_c even">' . _ADMIN_CHART_CHOICE4 . ')</td><td>' . $rec[6] . '</td></tr>
-                </tbody>
-                </table>
-                </div>
-                </td></tr></table>
-
-                </td>
+				<a href="#" title="' . _ADMIN_CHART_CHOICES . '"><span class="blue info_icon" data-icon="=" aria-hidden="true"></span></a></td>
+				<td>' . $rec[2] . '</td></tr></table></td>
 
 				<td><a href="statistics?case=uu&test_id=' . $test_prop[0] . '&q_id=' . $rec[0] . '&show=all">' . $num_all . '</a></td>
 				<td class="' . $bg1 . '"><a href="statistics?case=uu&test_id=' . $test_prop[0] . '&q_id=' . $rec[0] . '&show=1">' . $num_1 . '</a> (' . $num_1_pr . '%)</td>
@@ -725,6 +713,21 @@ if (isset($_REQUEST["case"])) {
 				');
 
             echo ('</tr>');
+            echo ('
+                <tr style="display: none;" id="' . $rec[0] . '">
+                <td class="content" colspan="7">
+                <div class="inner_choices">
+                <table class="choices content"><tbody>
+                <tr class="even"><td class="q_c even">' . _ADMIN_CHART_CHOICE1 . ')</td><td>' . $rec[3] . '</td></tr>
+                <tr class="even"><td class="q_c even">' . _ADMIN_CHART_CHOICE2 . ')</td><td>' . $rec[4] . '</td></tr>
+                <tr class="even"><td class="q_c even">' . _ADMIN_CHART_CHOICE3 . ')</td><td>' . $rec[5] . '</td></tr>
+                <tr class="even"><td class="q_c even">' . _ADMIN_CHART_CHOICE4 . ')</td><td>' . $rec[6] . '</td></tr>
+                </tbody>
+                </table>
+                </div>
+                </td>
+                </tr>
+            ');
             $tr_num++;
         } while ($rec = mysql_fetch_row($result));
 

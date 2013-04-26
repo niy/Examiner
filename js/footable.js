@@ -17,7 +17,8 @@
             delay: 100, // The number of millseconds to wait before triggering the react event
             breakpoints: { // The different screen resolution breakpoints
                 phone: 530,
-                tablet: 1024
+                tablet: 1024,
+                all: 9999
             },
             parsers: {  // The default parser to parse the value out of a cell (values are used in building up row detail)
                 alpha: function (cell) {

@@ -47,24 +47,6 @@ function Go()
     window.setTimeout('getSecs()', 1)
 }
 
-function showhide(id)
-{
-    if (document.getElementById)
-    {
-        obj = document.getElementById(id);
-
-        if (obj.style.display == "none")
-        {
-            obj.style.display = "";
-        }
-
-        else
-        {
-            obj.style.display = "none";
-        }
-    }
-}
-
 var sixteenth = -62;
 
 var seventeenth = 21;
@@ -178,13 +160,20 @@ $('.icon span').powerTip({
     smartPlacement:true,
     placement: 'e'
 });
-
 $('.button').powerTip({
     fadeInTime: 60,
     fadeOutTime:40,
     closeDelay:50,
     smartPlacement:true,
     placement: 'ne'
+});
+
+$('.test_list a').powerTip({
+    fadeInTime: 60,
+    fadeOutTime:40,
+    closeDelay:50,
+    smartPlacement:true,
+    placement: 'nw'
 });
 
 $(function() {

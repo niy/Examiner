@@ -832,9 +832,14 @@ article:not([id="add_question"]):not([id="exam_prop"]) tbody:not([id="_mc_tmp"])
     height: 100%;
 }
 
+.inner_choices {
+    border-right: 0.3em solid black;
+    padding-right: 1em;
+    border-left: 0.3em solid black;
+    padding-left: 1em;
+}
 .choices {
     width: 100%;
-    margin-top: 1em;
 }
 .choices tr {
     height: 1em;
