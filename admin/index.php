@@ -12,7 +12,7 @@ if (isset($_REQUEST["uname"])) {
 
     if ($rec = mysql_fetch_row($check_security)) {
         header('Location: index');
-        setcookie("examiner", 'examiner', time() + 36000);
+        setcookie('examiner', 'examiner', time() + 36000, '/');
     } else
         header('Location: index?wrong');
     include('../main.php');

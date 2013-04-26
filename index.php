@@ -137,7 +137,7 @@ if (!$check_default) {
 		} else { //username or password wrong!
             $check_admin = mysql_query("SELECT * FROM settings WHERE admin_id='$uname' AND password='$pass'", $db);
             if (mysql_fetch_row($check_admin)) {
-                setcookie("examiner", 'examiner', time() + 36000);
+                setcookie('examiner', 'examiner', time() + 36000, '/');
                 header('Location: admin');
             } else
                 header('Location: index?wrong');

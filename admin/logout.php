@@ -22,7 +22,7 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 $_COOKIE['examiner']=array();
-setcookie('examiner', "", time()-3600);
+setcookie('examiner', '', time()-3600, '/');
 header('Location: index');
 include('../main.php');
 ?>
