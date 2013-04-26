@@ -168,7 +168,7 @@ $('.button').powerTip({
     placement: 'ne'
 });
 
-$('.test_list a').powerTip({
+$('.test_list a, .q_sign').powerTip({
     fadeInTime: 60,
     fadeOutTime:40,
     closeDelay:50,

@@ -100,7 +100,7 @@ else
             $user_test_id=$uc_r[0];
         }
         else {
-            $sqlstring = "INSERT INTO user_test (id, user_id, test_id, date, time_length) VALUES ('1','1', '$rec[0]', NOW(),'$rec[6]:00')";
+            $sqlstring = "INSERT INTO user_test (user_id, test_id, date, time_length) VALUES ('1', '$rec[0]', NOW(),'$rec[6]:00')";
             $r = mysql_query($sqlstring, $db);
             $user_test_id = mysql_insert_id();
         }

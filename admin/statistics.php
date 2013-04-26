@@ -298,6 +298,8 @@ if (isset($_REQUEST["case"])) {
             if ($question[7] == $rec[3]) {
                 $num_correct_answers++;
                 $anu1 = $anu2 = $anu3 = $anu4 = "";
+                $anclass1 = $anclass2 = $anclass3 = $anclass4 = "";
+                $ansign1 = $ansign2 = $ansign3 = $ansign4 = "";
                 $answer = '<span data-icon="d" aria-hidden="true"></span>';
                 $ansign = "correct_sign";
                 $title=_EXAM_YOUR_ANSWER_IS_CORRECT;
@@ -306,6 +308,8 @@ if (isset($_REQUEST["case"])) {
                 $ansign = "null_sign";
                 $title=_EXAM_YOUR_ANSWER_IS_NULL;
                 $anu1 = $anu2 = $anu3 = $anu4 = "";
+                $anclass1 = $anclass2 = $anclass3 = $anclass4 = "";
+                $ansign1 = $ansign2 = $ansign3 = $ansign4 = "";
                 $num_non_answered++;
             } else {
                 $anu1 = $anu2 = $anu3 = $anu4 = "";
