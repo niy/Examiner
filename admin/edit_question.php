@@ -124,9 +124,8 @@ if (!isset($_COOKIE['examiner'])) {
 		<input type="hidden" name="q_id" value="' . $q_id . '">
 		<input type="hidden" name="tid" value="' . $question[1] . '">
 
-
 		<div class="button_wrap left clearfix" style="margin-bottom:1em;"><h1>' . _ADMIN_EDIT_QUESTIONS . '</h1>
-		<input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="javascript: window.history.go(-1)">
+
 		</div>
 		<div class="content box">
 		<label for="question"><div class="label ' . $align . '">' . _ADMIN_ADD_Q_Q . '</div></label>
@@ -151,6 +150,7 @@ if (!isset($_COOKIE['examiner'])) {
 
 		<div class="button_wrap left clearfix">
 		<input class="button good" type="submit" value="' . _ADMIN_EDIT_Q_FINISH . '" />
+		<input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="javascript: window.history.go(-1)">
 		</div>
 		 </div>
 		 </form>

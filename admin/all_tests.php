@@ -18,7 +18,7 @@ else
         }
     else
         {
-        $start=$_REQUEST["start"];
+        $start=($_REQUEST["p"]-1) * $ineachpage;;
         $finish=$start + $ineachpage;
         }
     $result=mysql_query("select * from tests ORDER BY id DESC LIMIT $start,$ineachpage", $db);

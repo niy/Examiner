@@ -97,7 +97,7 @@ if (!isset($_COOKIE['examiner'])) {
 
 		echo ('<article id="edit_test">
         <div class="content box">
-        <h1 class="title" style="margin-bottom: .2em;">' . _ADMIN_ADD_EXAM. '</h1>
+        <h1 class="title" style="margin-bottom: .2em;">' . _ADMIN_EDIT_EXAM . '</h1>
         <h2 class="title">'. _ADMIN_ADD_EXAM_FIRST_PROPERTIES . '</h2>
 		<form action="edit_test" method="post" onSubmit="return CheckForm(this);">
 

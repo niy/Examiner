@@ -453,7 +453,7 @@ input[type='text']:disabled, input[type='password']:disabled, input[type='email'
 .bad {
     float: right;
     background-color: transparent;
-    color: white;
+    color: #f00300;
     min-width:4em;
 }
 .bad:hover {
@@ -569,14 +569,6 @@ article {
     width: 100%;
     background-color: #6a7e76;
 }
-.user_tools {
-    width: 500px;
-    height: 128px;
-}
-.user_tools li {
-    width: 50%;
-    height: 100%;
-}
 
 h1 {
     margin-bottom: 1em;
@@ -690,13 +682,13 @@ table {
 }
 
 #delete_test {
-    width: 500px;
+    max-width: 500px;
 }
 
 #delete_test .box {
     color: #333;
     background-color: #efe8e7;
-    border: .3em solid #e3c0ba;
+    border: .3em solid #f00300;
 }
 
 #delete_q .info_box {

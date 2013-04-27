@@ -1,7 +1,7 @@
 <?PHP/*
 ini_set("memory_limit","1024M");
 ini_set('auto_detect_line_endings', true);
-ini_set('max_execution_time', 1000);
+ini_set('max_execution_time', 100000);
 
 $db = mysql_connect('localhost', 'root', 'toor');
 mysql_select_db('examiner', $db);
@@ -18,7 +18,7 @@ while (($row = fgetcsv($final)) !== false) {
     $sqlstring ="INSERT INTO users (FName, LName, fatherName, userid, password, email) VALUES ('$uname', '$ulname', '$fname', '$uid', '$password', '$email')";
     $result = mysql_query($sqlstring, $db);
 }
-*/
+fclose($final);*/
 /****************************************************************
 ini_set("memory_limit","1024M");
 ini_set('auto_detect_line_endings', true);
