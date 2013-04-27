@@ -764,7 +764,12 @@ font-size: 2em;
 .test_list {
 border-bottom: .5em solid #313c3a;
 }
-
+.footable-sorted {
+    background-color: #242B2A;
+}
+.footable-sorted-desc {
+    background-color: #414F4C;
+}
 .test_list th:hover{
     background-color: #1c2321;
 }
