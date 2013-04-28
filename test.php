@@ -309,8 +309,8 @@ else
                 ' . _ONBEFORE3 . '
                 $(".cntdwn").addClass("end");
                  $("#cntdwn").html(FinishMessage);
-                 //ap_showWaitMessage(\'waitDiv\', 1);
-                 //location.href="result";
+                 ap_showWaitMessage(\'waitDiv\', 1);
+                 location.href="result";
 
                 return;
             }
