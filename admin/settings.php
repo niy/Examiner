@@ -1,4 +1,6 @@
 <?php
+require '../inc/PasswordHash.php';
+$t_hasher = new PasswordHash(8, FALSE);
 
 header("Content-Type: text/html; charset=utf-8");
 
@@ -13,10 +15,14 @@ if (!isset($_COOKIE['examiner'])) {
             if (isset($_REQUEST["p_uname"])) {
                 $p_uname = $_REQUEST["p_uname"];
                 $p_pass = $_REQUEST["p_pass"];
-                $check_security = mysql_query("SELECT * FROM settings WHERE admin_id='$p_uname' AND password='$p_pass'", $db);
-                if ($rec = mysql_fetch_row($check_security)) {  //if user is authorized
-                    //Print "Change Password" form
 
+                $check_security=mysql_query("SELECT * FROM settings WHERE admin_id='$p_uname'", $db);
+                $st=mysql_fetch_row($check_security);
+                $stored_hash=$st[2];
+                $check = $t_hasher->CheckPassword($p_pass, $stored_hash);
+                if ($check) {  //if user is authorized
+                    //Print "Change Password" form
+                    $rec = mysql_fetch_row($check_security);
                     echo ('
                     <article>
                     <form method="POST" action="settings?case=changepass" onSubmit="return CheckForm(this);">
@@ -72,7 +78,8 @@ if (!isset($_COOKIE['examiner'])) {
             else if (isset($_REQUEST["new_uname"])) { //if new name is supplied. change the username
                 $new_uname = $_REQUEST["new_uname"];
                 $new_pass = $_REQUEST["new_pass"];
-                $change_u_p = "UPDATE settings SET admin_id='$new_uname', password ='$new_pass' WHERE id=1";
+                $hash = $t_hasher->HashPassword($new_pass);
+                $change_u_p = "UPDATE settings SET admin_id='$new_uname', password ='$hash' WHERE id=1";
                 $change_u_p = mysql_query($change_u_p, $db);
 
                 if (!$change_u_p) {

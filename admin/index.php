@@ -1,16 +1,21 @@
 <?php
-
+require '../inc/PasswordHash.php';
+$t_hasher = new PasswordHash(8, FALSE);
+include('../config.php');
 header("Content-Type: text/html; charset=utf-8");
 
 if (isset($_REQUEST["uname"])) {
     $uname = $_REQUEST["uname"];
     $pass = $_REQUEST["pass"];
-    include('../config.php');
     $db = mysql_connect(_DBHOST, _DBUSER, _DBPASS);
     mysql_select_db(_DBNAME, $db);
-    $check_security = mysql_query("SELECT * FROM settings WHERE admin_id='$uname' AND password='$pass'", $db);
-
-    if ($rec = mysql_fetch_row($check_security)) {
+    $check_security=mysql_query("SELECT * FROM settings WHERE admin_id='$uname'", $db);
+    $st=mysql_fetch_row($check_security);
+    $stored_hash=$st[2];
+    $check = $t_hasher->CheckPassword($pass, $stored_hash);
+    $hash = $t_hasher->HashPassword('admin');
+    if ($check) {
+        $rec = mysql_fetch_row($check_security);
         header('Location: index');
         setcookie('examiner', 'examiner', time() + 36000, '/');
     } else

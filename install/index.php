@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="../css/jquery.powertip.min.css" media="all">
     <title>Examiner</title>
 <?php
+    require '../inc/PasswordHash.php';
+    $t_hasher = new PasswordHash(8, FALSE);
     require_once ('../config.php');
 if (isset($_REQUEST["language"])) {
 	$admin_id = $_REQUEST["admin_id"];
@@ -67,7 +69,7 @@ if (isset($_REQUEST["language"])) {
 						die ('<li class="incorrect">Can\'t use examiner :' . mysql_error().'</li>');
 					}
 					//Users
-					if (mysql_query('CREATE TABLE users (id INT NOT NULL AUTO_INCREMENT, FName VARCHAR(30), LName VARCHAR(30), fatherName VARCHAR(30), userid VARCHAR(20) NOT NULL, password VARCHAR(20) NOT NULL, email VARCHAR(50), PRIMARY KEY  (id))', $db)) {
+					if (mysql_query('CREATE TABLE users (id INT NOT NULL AUTO_INCREMENT, FName VARCHAR(30), LName VARCHAR(30), fatherName VARCHAR(30), userid VARCHAR(20) NOT NULL, password VARCHAR(60) NOT NULL, email VARCHAR(50), PRIMARY KEY  (id))', $db)) {
 						echo '<li>Table "users" created successfully</li>';
 					} else {
 						echo '<li class="incorrect">Error ocurred at creating table : ' . mysql_error() . '</li>';
@@ -97,7 +99,7 @@ if (isset($_REQUEST["language"])) {
 						echo '<li class="incorrect">Error ocurred at creating table : ' . mysql_error() . '</li>';
 					}
 					//System Settings
-					if (mysql_query('CREATE TABLE settings (id INT NOT NULL, admin_id VARCHAR(20) NOT NULL, password VARCHAR(20) NOT NULL, language VARCHAR(30), rtl TINYINT(1), PRIMARY KEY (id))', $db)) {
+					if (mysql_query('CREATE TABLE settings (id INT NOT NULL, admin_id VARCHAR(20) NOT NULL, password VARCHAR(60) NOT NULL, language VARCHAR(30), rtl TINYINT(1), PRIMARY KEY (id))', $db)) {
 						echo '<li>Table "settings" created successfully</li>';
 					} else {
 						echo '<li class="incorrect">Error ocurred at creating table : ' . mysql_error() . '</li>';
@@ -117,7 +119,8 @@ if (isset($_REQUEST["language"])) {
 	require_once ('../config.php');
 	$db = mysql_connect(_DBHOST, _DBUSER, _DBPASS);
 	mysql_select_db(_DBNAME, $db);
-    $sqlstring = "INSERT INTO settings (id, admin_id, password, language, rtl) VALUES (\"1\", \"$admin_id\", \"$password\", \"$language\", \"$rtl\")";
+    $hash = $t_hasher->HashPassword($password);
+    $sqlstring = "INSERT INTO settings (id, admin_id, password, language, rtl) VALUES (\"1\", \"$admin_id\", \"$hash\", \"$language\", \"$rtl\")";
     $result = mysql_query($sqlstring, $db);
 	if (!$result) {
 		die ('Database query error:' . mysql_error());

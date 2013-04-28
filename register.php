@@ -1,5 +1,6 @@
 <?php
-
+require 'inc/PasswordHash.php';
+$t_hasher = new PasswordHash(8, FALSE);
 session_start();
 
 include('config.php');
@@ -109,8 +110,9 @@ if (!isset($_SESSION['examiner_user'])) {
 				');
 
 		} else {
+            $hash = $t_hasher->HashPassword($password);
 			$sqlstring =
-				"INSERT INTO users (FName, LName, fatherName, userid, password, email) VALUES ('$uname', '$ulname', '$fname', '$uid', '$password', '$email')";
+				"INSERT INTO users (FName, LName, fatherName, userid, password, email) VALUES ('$uname', '$ulname', '$fname', '$uid', '$hash', '$email')";
 			$result = mysql_query($sqlstring, $db);
 
 			if (!$result) {

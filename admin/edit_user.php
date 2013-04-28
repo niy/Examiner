@@ -1,5 +1,6 @@
 <?php
-
+require 'inc/PasswordHash.php';
+$t_hasher = new PasswordHash(8, FALSE);
 header("Content-Type: text/html; charset=utf-8");
 
 if (!isset($_COOKIE['examiner'])) {
@@ -302,7 +303,8 @@ if (!isset($_COOKIE['examiner'])) {
 				$uid = $_REQUEST["uid"];
 				$check_uname = mysql_query("SELECT * FROM users WHERE id='$uid'", $db);
 				$rec = mysql_fetch_row($check_uname);
-				$sqlstring = "UPDATE users SET password='$new_pass' WHERE id='$uid'";
+                $hash = $t_hasher->HashPassword($new_pass);
+				$sqlstring = "UPDATE users SET password='$hash' WHERE id='$uid'";
 				$result = mysql_query($sqlstring, $db);
 
 				if (!$result) {

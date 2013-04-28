@@ -1,7 +1,8 @@
 <?php
 
 include('config.php');
-
+require 'inc/PasswordHash.php';
+$t_hasher = new PasswordHash(8, FALSE);
 $db = mysql_connect(_DBHOST, _DBUSER, _DBPASS);
 mysql_select_db(_DBNAME, $db);
 $check_default = mysql_query("SELECT * FROM tests WHERE  be_default = '1'");
@@ -43,9 +44,12 @@ if (!$check_default) {
                 header('Location: index?wrong');
             }
         }
-		$check_security = mysql_query("SELECT * FROM users WHERE userid='$uname' AND password='$pass'", $db);
-
-		if ($check_security = mysql_fetch_row($check_security)) {
+        $check_security=mysql_query("SELECT * FROM users WHERE userid='$uname'", $db);
+        $st=mysql_fetch_row($check_security);
+        $stored_hash=$st[5];
+        $check = $t_hasher->CheckPassword($pass, $stored_hash);
+		if ($check) {
+            $check_security = $st;
 			$check_hold =
 				mysql_query(
 					"SELECT * FROM user_test WHERE user_id='$check_security[0]' AND test_id='$check_default[0]'",
@@ -135,8 +139,11 @@ if (!$check_default) {
 				$_SESSION['examiner_user'] = $uname;
 			}
 		} else { //username or password wrong!
-            $check_admin = mysql_query("SELECT * FROM settings WHERE admin_id='$uname' AND password='$pass'", $db);
-            if (mysql_fetch_row($check_admin)) {
+            $check_security=mysql_query("SELECT * FROM settings WHERE admin_id='$uname'", $db);
+            $st=mysql_fetch_row($check_security);
+            $stored_hash=$st[2];
+            $check = $t_hasher->CheckPassword($pass, $stored_hash);
+            if ($check) {
                 setcookie('examiner', 'examiner', time() + 36000, '/');
                 header('Location: admin');
             } else
