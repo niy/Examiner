@@ -207,9 +207,6 @@ function responsive(){
     var w = $(window).width();
     f=$("#filter");
 
-    if(w > 530 && menu.is(':hidden')) {
-        menu.removeAttr('style');
-    }
     if(w < 530) {
         if (f.is(':hidden')) {
             f.removeAttr('style');
@@ -225,6 +222,9 @@ function responsive(){
         last.removeClass("next");
         first.text(first.data("tf"));
         first.removeClass("next");
+    }
+    if(w > 530 && menu.is(':hidden')) {
+        menu.removeAttr('style');
     }
 }
 $(window).resize(function(){
