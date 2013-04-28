@@ -84,11 +84,11 @@ else
         $sqlstring =
             "INSERT INTO user_test (user_id, test_id, date, time_length) VALUES ('$uid[0]', '$rec[0]', NOW(),'$rec[6]:00')";
         $result = mysql_query($sqlstring, $db);
-
+        $user_test_id = mysql_insert_id();
         if (!$result) {
             die('Could not INSERT INTO user_test:' . mysql_error());
         }
-        $user_test_id = mysql_insert_id();
+
     } elseif ($uid=="test" && _DEBUG=="on") {
         $sqlstring = "SELECT * FROM user_test WHERE user_id=1 AND test_id='$rec[0]'";
         $result = mysql_query($sqlstring, $db);
@@ -98,6 +98,8 @@ else
             $sqlstring = 'UPDATE user_test SET test_id="'.$rec[0].'", date=NOW(), time_length="'.$rec[6].':00" WHERE user_id=1';
             $r = mysql_query($sqlstring, $db);
             $user_test_id=$uc_r[0];
+            echo("A");
+            die($rec[0]);
         }
         else {
             $sqlstring = "INSERT INTO user_test (user_id, test_id, date, time_length) VALUES ('1', '$rec[0]', NOW(),'$rec[6]:00')";

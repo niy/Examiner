@@ -133,6 +133,7 @@ else
                 $answer = '<span data-icon="d" aria-hidden="true"></span>';
                 $ansign = "correct_sign";
                 $anclass1 = $anclass2 = $anclass3 = $anclass4 = "";
+                $ansign1 = $ansign2 = $ansign3 = $ansign4 = "";
                 $title=_EXAM_YOUR_ANSWER_IS_CORRECT;
 
             }
