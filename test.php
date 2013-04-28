@@ -274,6 +274,7 @@ else
                 hours = hours+'.$hour.'-24
                 day = day+1;
             } else {
+                hours = hours+'.$hour.'
                 day = day;
             }
 
