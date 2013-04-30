@@ -13,7 +13,6 @@ echo ('
     if (isset($_SERVER['HTTP_USER_AGENT'])&& (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false))
         header('X-UA-Compatible: IE=edge,chrome=1');
     echo('
-    <meta name="title" content="Examiner Online Examination Management System">
     <meta name="description" content="Examiner is a online examination management system.">
     <meta name="author" content="Mohammad Ali Karimi">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">

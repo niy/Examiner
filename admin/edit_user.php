@@ -9,7 +9,7 @@ if (!isset($_COOKIE['examiner'])) {
 	include('admin_config.php');
 
 	echo ('
-	<script language=javascript>
+	<script type="text/javascript">
 		function dosubmit() {
 			document.forms[0].action = "all_users";
 			document.forms[0].method = "post";
@@ -29,7 +29,7 @@ if (!isset($_COOKIE['examiner'])) {
 		if ($case == "edituser") {
 			if (!(isset($_REQUEST["end"]))) {
 				echo ('
-					<script language="JavaScript">
+					<script type="text/javascript">
 						function CheckForm(formID) {
 							if (formID.userid.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_ID . '");
 							formID.userid.focus(); return false; }
@@ -89,14 +89,14 @@ if (!isset($_COOKIE['examiner'])) {
 
 				if (($last_uid !== $userid) && ($rec = $db->single())) {
 					echo ('
-				            <script language=javascript>
+				            <script type="text/javascript">
 						        function dosubmit() {
 									document.forms[0].action = "all_users"
 									document.forms[0].method = "post"
 									document.forms[0].submit()
 								}
 							</script>
-							<script language="JavaScript">
+							<script type="text/javascript">
 								function CheckForm(formID) {
 									if (formID.userid.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_ID . '");
 									formID.userid.focus(); return false; }
@@ -546,7 +546,7 @@ echo ('<script language = "javascript">
 		}
 	  }
 	</script>');
-    echo ('<script language="JavaScript">
+    echo ('<script type="text/javascript">
 		<!--
 		function CheckForm(formID) {
 		if (formID.new_pass.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_PASSWORD . '");

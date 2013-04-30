@@ -73,14 +73,14 @@ if (!isset($_COOKIE['examiner'])) {
 
 			if ($rec = $db->single()) {
 				echo ('
-				<script language=javascript>
+				<script type="text/javascript">
 				function dosubmit() {
 					document.forms[0].action = "users"
 					document.forms[0].method = "post"
 					document.forms[0].submit()
 				}
 				</script>
-				<script language="JavaScript">
+				<script type="text/javascript">
 				function CheckForm(formID) {
 				if (formID.uid.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_ID . '");
 				formID.uid.focus(); return false; }
@@ -202,7 +202,7 @@ if (!isset($_COOKIE['examiner'])) {
 <?php include('../footer.php');
 
 echo ('
-		<script language=javascript>
+		<script type="text/javascript">
 		function dosubmit() {
 		document.forms[0].action = "settings";
 		document.forms[0].method = "post";
@@ -210,14 +210,14 @@ echo ('
 		}
 	</script>');
 echo ('
-				<script language=javascript>
+				<script type="text/javascript">
 				function dosubmit() {
 					document.forms[0].action = "users"
 					document.forms[0].method = "post"
 					document.forms[0].submit()
 				}
 				</script>
-				<script language="JavaScript">
+				<script type="text/javascript">
 				function CheckForm(formID) {
 					if (formID.uid.value == "") { alert("' . _ADMIN_ADD_USER_ENTER_ID . '");
 					formID.uid.focus(); return false; }

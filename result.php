@@ -14,7 +14,7 @@ else
     //session_destroy();
     include('main.php');
     echo ('
-        <script type="text/javascript" language="javascript">
+        <script type="text/javascript" type="text/javascript">
             function do_err()
                 {
                     return true

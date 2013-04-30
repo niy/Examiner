@@ -124,7 +124,7 @@ if (isset($_REQUEST["uname"])) {
 
 <?php include('../footer.php');
 echo ('
-        <script language="JavaScript">
+        <script type="text/javascript">
             function CheckForm(formID) {
                 if (formID.uname.value == "") { alert("' . _ADMIN_ENTER_USERNAME . '");
                 formID.uname.focus(); return false; }

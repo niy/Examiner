@@ -33,7 +33,7 @@ echo ('<head>
 if ($prompt==1)
 {
 echo ('
-<script language="javascript">
+<script type="text/javascript">
 var x;
 function quit(what){
 
@@ -107,7 +107,7 @@ return true;
 
 </SCRIPT>
 
-<script type="text/javascript" language="javascript">
+<script type="text/javascript" type="text/javascript">
 <!--
 
 function do_err()

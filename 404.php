@@ -8,11 +8,8 @@
         <![endif]-->
         <link rel="stylesheet" type="text/css" href="../css/style.css" media="all">
         <link rel="stylesheet" type="text/css" href="css/style.css" media="all">
-        <link rel="stylesheet" type="text/css" href="../css/jquery.powertip.min.css" media="all">
         <title>Examiner - 404</title>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="title" content="Examiner Online Examination Management System">
         <meta name="description" content="Examiner is a online examination management system.">
         <meta name="author" content="Mohammad Ali Karimi">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -21,7 +18,7 @@
     <body>
         <div id="wrap">
             <header>
-                <h1><div id="floater"></div><a id="logo" class="logo" href="index">Examiner</a></h1>
+                <div id="head"><div id="floater"></div><h1><a id="logo" class="logo" href="index">Examiner</a></h1></div>
             </header>
             <article id="a404">
                 <div class="content box">
@@ -66,7 +63,7 @@
                 </div>
             </article>
             <footer>
-                <p>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</p>
+                <small>&copy; Copyright 2013 Mohammad Ali Karimi. All rights reserved.</small>
             </footer>
         </div>
     </body>

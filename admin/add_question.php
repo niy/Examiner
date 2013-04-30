@@ -239,14 +239,14 @@ if (!isset($_COOKIE['examiner'])) {
 ?>
 <?php include('../footer.php');
 echo ('
-	<script language="javascript">
+	<script type="text/javascript">
 		function dosubmit() {
 			document.forms[0].action = "all_tests"
 			document.forms[0].method = "POST"
 			document.forms[0].submit()
 		}
 	</script>
-	<script language="JavaScript">
+	<script type="text/javascript">
 		function CheckForm(formID) {
 			if (formID.question.value == "") { alert("'. _ADD_Q_ALTER_FILL . '");
 			formID.question.focus(); return false; }

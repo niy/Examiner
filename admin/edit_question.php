@@ -220,7 +220,7 @@ if (!isset($_COOKIE['examiner'])) {
 }
 
 include('../footer.php');
-echo ('<script language="JavaScript">
+echo ('<script type="text/javascript">
 		<!--
 		function CheckForm(formID) {
             if (formID.question.value == "") { alert("' . _ADD_Q_ALTER_FILL . '");

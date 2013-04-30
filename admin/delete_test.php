@@ -13,7 +13,7 @@ if (!isset($_COOKIE['examiner'])) {
 		$result = $db->db_query("SELECT * FROM tests WHERE id=:tid",$pars);
 		$rec = $db->single();
 
-		echo ('<SCRIPT LANGUAGE=JAVASCRIPT>
+		echo ('<SCRIPT type="text/javascript">
 	function dosubmit() {
 	document.forms[0].action = "all_tests";
 	document.forms[0].method = "POST";

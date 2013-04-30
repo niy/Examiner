@@ -199,7 +199,7 @@ if (!$check_default) {
 		include('main.php');
 
 		if (!isset($_SESSION['examiner_user'])) {
-			echo ('<script language="JavaScript">
+			echo ('<script type="text/javascript">
 			function CheckForm(formID) { 
 			if (formID.uname.value == "") { alert("' . _ADMIN_ENTER_USERNAME . '"); 
 			formID.uname.focus(); return false; } 
@@ -268,7 +268,7 @@ if (!$check_default) {
 			if ($check_default[4] == 0) {
 				echo ('
 				<input type="hidden" name="reg">
-				<script language=javascript>
+				<script type="text/javascript">
                 function dosubmit() {
                 document.forms[0].action = "register"
                 document.forms[0].method = "post"
@@ -348,7 +348,7 @@ if (!$check_default) {
 				$test_noq = $check_default[2];
 
 			echo ('
-			        <script  language="javascript"  type="text/javascript">
+			        <script  type="text/javascript"  type="text/javascript">
                     function disableForm(theform) {
                     if (document.all || document.getElementById) {
                     for (i = 0; i < theform.length; i++) {
@@ -383,7 +383,7 @@ if (!$check_default) {
                     </div>
                     <input type="hidden" name="agree">
                     <input type="hidden" name="reg">
-                    <script language=javascript>
+                    <script type="text/javascript">
                         function dosubmit() {
                         document.forms[0].action = "logout"
                         document.forms[0].method = "post"

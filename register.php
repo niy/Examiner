@@ -59,12 +59,12 @@ if (!isset($_SESSION['examiner_user'])) {
                 include('main.php');
 
                 echo ('
-                        <SCRIPT LANGUAGE=JAVASCRIPT>
+                        <SCRIPT type="text/javascript">
                         function dosubmit() {
                         document.forms[0].action = "logout"
                         document.forms[0].method = "POST"
                         document.forms[0].submit()
-                        }</SCRIPT><script language="JavaScript">
+                        }</SCRIPT><script type="text/javascript">
                         function CheckForm(formID) {
                         if (formID.uname.value == "") { alert("' . _EXAM_REGISTER_ENTER_NAME . '");
                         formID.uname.focus(); return false; }
@@ -196,12 +196,12 @@ if (!isset($_SESSION['examiner_user'])) {
 
 		include('main.php');
         echo ('
-					<SCRIPT LANGUAGE=JAVASCRIPT>
+					<SCRIPT type="text/javascript">
 					function dosubmit() {
 					document.forms[0].action = "logout"
 					document.forms[0].method = "POST"
 					document.forms[0].submit()
-					}</SCRIPT><script language="JavaScript">
+					}</SCRIPT><script type="text/javascript">
 					function CheckForm(formID) {
 					if (formID.uname.value == "") { alert("' . _EXAM_REGISTER_ENTER_NAME . '");
 					formID.uname.focus(); return false; }

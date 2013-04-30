@@ -248,7 +248,7 @@ if (!isset($_COOKIE['examiner'])) {
 <?php include('../footer.php');
 
 echo ('
-    <script language="javascript">
+    <script type="text/javascript">
         function dosubmit() {
             document.forms[0].action = "settings";
             document.forms[0].method = "POST";
@@ -257,7 +257,7 @@ echo ('
     </script>
     ');
 echo ('
-                    <script language="JavaScript">
+                    <script type="text/javascript">
                         function CheckForm(formID) {
                             if (formID.new_uname.value =="") { alert("' . _ADMIN_ENTER_NEW_USERNAME . '");
                             formID.new_uname.focus(); return false; }

@@ -254,7 +254,7 @@ else
         <?php
         include('footer1.php');
         echo ('
-        <script language="javascript" type="text/javascript">
+        <script type="text/javascript" type="text/javascript">
             startday = new Date();
 
             clockStart = startday.getTime();

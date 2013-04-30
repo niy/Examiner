@@ -66,14 +66,14 @@ if (!$result) {
 	</article>
 	');
     echo ('
-    <script language=javascript>
+    <script type="text/javascript">
     function dosubmit() {
         document.forms[0].action = "index"
         document.forms[0].method = "post"
         document.forms[0].submit()
     }
     </script>
-    <script language="JavaScript">
+    <script type="text/javascript">
 		function CheckForm(formID) {
 		if (formID.admin_id.value == "") { alert("' . _ADMIN_INSTALL_ENTER_USERNAME . '");
 		formID.admin_id.focus(); return false; }

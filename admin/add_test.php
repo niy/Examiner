@@ -109,14 +109,14 @@ if (!isset($_COOKIE['examiner'])) {
 
 <?php include('../footer.php');
 echo ('
-<script language="javascript">
+<script type="text/javascript">
     function dosubmit() {
         document.forms[0].action = "index"
         document.forms[0].method = "POST"
         document.forms[0].submit()
     }
 </SCRIPT>
-<script language="JavaScript">
+<script type="text/javascript">
     function CheckForm(formID) {
         if (formID.TName.value == "") { alert("' . _ADMIN_ADD_EXAM_ENTER_TNAME . '");
             formID.TName.focus(); return false; }

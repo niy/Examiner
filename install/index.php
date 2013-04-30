@@ -26,8 +26,10 @@ if (isset($_REQUEST["language"])) {
 
 ?>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="title" content="Examiner Online Examination Management System">
+    <?php
+    if (isset($_SERVER['HTTP_USER_AGENT'])&& (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false))
+        header('X-UA-Compatible: IE=edge,chrome=1');
+    ?>
     <meta name="description" content="Examiner is a online examination management system.">
     <meta name="author" content="Mohammad Ali Karimi">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -40,7 +42,7 @@ if (isset($_REQUEST["language"])) {
 <body>
 <div id="wrap">
     <header>
-        <h1><div id="floater"></div><a id="logo" class="logo" href="index">Examiner</a></h1>
+        <div id="head"><div id="floater"></div><h1><a id="logo" class="logo" href="index">Examiner</a></h1></div>
     </header>
     <article class="msg">
 		<div class="info_box clearfix" >
