@@ -1419,30 +1419,6 @@ header {
     direction: ltr;
 }
 
-#a404 .box {
-    max-width: 40em;
-    background-color: #e1ecec;
-    text-align: center;
-    color: #333;
-}
-
-#a404 .button_wrap{
-    margin-top: 2em;
-}
-#a404 a.button{
-    color: #333;
-    text-decoration: none;
-}
-#a404 a.button:hover{
-    color: #333;
-    text-decoration: none;
-}
-#a404 h1 {
-    color: #ec6859;
-    text-shadow: 1px 1px 0 #333;
-    font-size: 5em;
-    line-height: 1em;
-}
 nav a#pull {
     display: none;
 }
@@ -1679,9 +1655,6 @@ iframe {display:none !important;}
     }
     #add_test_b , #find, #delete_all_b {
         font-size: 1.5em;
-    }
-    #a404 h1 {
-        font-size: 3em;
     }
     header:not([id="user"]):not([id="test_header"]) .admin_menu ul {
         display: none;
