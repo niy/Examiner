@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 define("_TITLE","Examiner");
 define("_EXAMINER_VERSION","ویرایش 1.0");
 define("_EXAMINER_OTMS","سیستم مدیریت آزمون آنلاین <b>اگزمینر</b>");

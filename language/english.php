@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 define("_TITLE","Examiner");
 define("_EXAMINER_VERSION","Version 1.0");
 define("_EXAMINER_OTMS","<b>Examiner</b> Online Test Management System");

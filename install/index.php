@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 <head>
     <!--[if lte IE 7]><script src="../js/lte-ie7.js"></script><![endif]-->
