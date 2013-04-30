@@ -1076,7 +1076,7 @@ table #email {
     font-size: 2em;
 }
 
-#.test_list:not([class="inf"]) {
+.test_list:not([class="inf"]) {
     border-bottom: .5em solid #313c3a;
 }
 #show_stats .msg table td {
