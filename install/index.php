@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../css/jquery.powertip.min.css" media="all">
     <title>Examiner</title>
 <?php
+    error_reporting(0);
     require '../inc/PasswordHash.php';
     $t_hasher = new PasswordHash(8, FALSE);
     require_once ('../config.php');
@@ -68,37 +69,37 @@ if (isset($_REQUEST["language"])) {
 						die ('<li class="incorrect">Can\'t use Examiner database</li>');
 					}
 					//Users
-					if ($db->db_query('CREATE TABLE users (id INT NOT NULL AUTO_INCREMENT, FName VARCHAR(30), LName VARCHAR(30), fatherName VARCHAR(30), userid VARCHAR(20) NOT NULL, password VARCHAR(60) NOT NULL, email VARCHAR(50), PRIMARY KEY  (id))')) {
+					if ($db->db_query('CREATE TABLE users (id INT NOT NULL AUTO_INCREMENT, FName VARCHAR(30), LName VARCHAR(30), fatherName VARCHAR(30), userid VARCHAR(20) NOT NULL, password VARCHAR(60) NOT NULL, email VARCHAR(50), PRIMARY KEY  (id)) CHARACTER SET utf8 COLLATE utf8_unicode_ci;')) {
 						echo '<li>Table "users" created successfully</li>';
 					} else {
 						echo '<li class="incorrect">Error ocurred at creating table</li>';
 					}
 					//Tests
-					if ($db->db_query('CREATE TABLE tests (id INT NOT NULL AUTO_INCREMENT, TName VARCHAR(250), NOQ INT, be_default TINYINT(1) DEFAULT "0", prof_or_user TINYINT(1) DEFAULT "0", random TINYINT(1) DEFAULT "0", time INT, rtl TINYINT(1) DEFAULT "1", minus_mark TINYINT(1) DEFAULT "0", show_answers TINYINT(1) DEFAULT "1", show_mark TINYINT(1) DEFAULT "1", PRIMARY KEY (id))')) {
+					if ($db->db_query('CREATE TABLE tests (id INT NOT NULL AUTO_INCREMENT, TName VARCHAR(250), NOQ INT, be_default TINYINT(1) DEFAULT "0", prof_or_user TINYINT(1) DEFAULT "0", random TINYINT(1) DEFAULT "0", time INT, rtl TINYINT(1) DEFAULT "1", minus_mark TINYINT(1) DEFAULT "0", show_answers TINYINT(1) DEFAULT "1", show_mark TINYINT(1) DEFAULT "1", PRIMARY KEY (id)) CHARACTER SET utf8 COLLATE utf8_unicode_ci;')) {
 						echo '<li>Table "tests" created successfully</li>';
 					} else {
 						echo '<li class="incorrect">Error ocurred at creating table </li>';
 					}
 					//Questions
-					if ($db->db_query('CREATE TABLE questions (id INT NOT NULL AUTO_INCREMENT, test_id INT NOT NULL, question TEXT NOT NULL, choice1 TEXT, choice2 TEXT, choice3 TEXT, choice4 TEXT, answer TINYINT(5) NOT NULL, PRIMARY KEY (id))')) {
+					if ($db->db_query('CREATE TABLE questions (id INT NOT NULL AUTO_INCREMENT, test_id INT NOT NULL, question TEXT NOT NULL, choice1 TEXT, choice2 TEXT, choice3 TEXT, choice4 TEXT, answer TINYINT(5) NOT NULL, PRIMARY KEY (id)) CHARACTER SET utf8 COLLATE utf8_unicode_ci;')) {
 						echo '<li> Table "questions" created successfully</li>';
 					} else {
 						echo '<li class="incorrect">Error ocurred at creating table</li>';
 					}
 					//User_Test
-					if ($db->db_query('CREATE TABLE user_test (id INT NOT NULL AUTO_INCREMENT, user_id INT, test_id INT, date DATE, time_length TINYTEXT, PRIMARY KEY (id))')) {
+					if ($db->db_query('CREATE TABLE user_test (id INT NOT NULL AUTO_INCREMENT, user_id INT, test_id INT, date DATE, time_length TINYTEXT, PRIMARY KEY (id)) CHARACTER SET utf8 COLLATE utf8_unicode_ci;')) {
 						echo '<li>Table "user_test" created successfully</li>';
 					} else {
 						echo '<li class="incorrect"> Error ocurred at creating table</li>';
 					}
 					//User_Test_Questions
-					if ($db->db_query('CREATE TABLE user_choice (id INT NOT NULL AUTO_INCREMENT, user_test_id INT NOT NULL, q_id INT NOT NULL, answer TINYINT(5), PRIMARY KEY (id))')) {
+					if ($db->db_query('CREATE TABLE user_choice (id INT NOT NULL AUTO_INCREMENT, user_test_id INT NOT NULL, q_id INT NOT NULL, answer TINYINT(5), PRIMARY KEY (id)) CHARACTER SET utf8 COLLATE utf8_unicode_ci;')) {
 						echo '<li>Table "user_choice" created successfully</li>';
 					} else {
 						echo '<li class="incorrect">Error ocurred at creating table</li>';
 					}
 					//System Settings
-					if ($db->db_query('CREATE TABLE settings (id INT NOT NULL, admin_id VARCHAR(20) NOT NULL, password VARCHAR(60) NOT NULL, language VARCHAR(30), rtl TINYINT(1), PRIMARY KEY (id))')) {
+					if ($db->db_query('CREATE TABLE settings (id INT NOT NULL, admin_id VARCHAR(20) NOT NULL, password VARCHAR(60) NOT NULL, language VARCHAR(30), rtl TINYINT(1), PRIMARY KEY (id)) CHARACTER SET utf8 COLLATE utf8_unicode_ci;')) {
 						echo '<li>Table "settings" created successfully</li>';
 					} else {
 						echo '<li class="incorrect">Error ocurred at creating table</li>';

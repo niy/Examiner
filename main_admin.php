@@ -34,7 +34,7 @@ if (!$result) {
 		<input type="password" name="password_confirm" value="" dir="ltr" size="25">
 
 		<div class="label right">' . _ADMIN_SETTINGS_LANGUAGE . ':</div>
-		<select dir="ltr" size="1"id="lang" name="language">');
+		<select dir="ltr" size="1" id="lang" name="language">');
     ?>
 
     <?php
@@ -65,6 +65,7 @@ if (!$result) {
 	</div>
 
 	</form>
+	</div>
 	</article>
 	');
     echo ('<script type="text/javascript">
