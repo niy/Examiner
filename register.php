@@ -88,8 +88,9 @@ if (!isset($_SESSION['examiner_user'])) {
                 echo ('
                 <script type="text/javascript">
                  var RecaptchaOptions = {
-                    theme : \'clean\'
-                 };
+		        theme : \'custom\',
+		        custom_theme_widget: \'recaptcha_widget\'
+	            };
                  </script>
                 ');
                 echo ('
@@ -224,8 +225,9 @@ if (!isset($_SESSION['examiner_user'])) {
         echo ('
                 <script type="text/javascript">
                  var RecaptchaOptions = {
-                    theme : \'clean\'
-                 };
+		        theme : \'custom\',
+		        custom_theme_widget: \'recaptcha_widget\'
+	            };
                  </script>
                 ');
 
