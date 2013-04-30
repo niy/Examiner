@@ -186,7 +186,16 @@ a:link {-webkit-tap-highlight-color: #fcd700;}
 ins {background-color: #69f; color: #000; text-decoration: none;}
 mark {background-color: #69f; color: #000; font-style: italic; font-weight: bold;}
 
+/* ==========================================================================
+   Chrome Frame prompt
+   ========================================================================== */
 
+.chromeframe {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
 
 /* Print styles!
 -------------------------------------------------------------------------------*/
