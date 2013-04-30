@@ -211,13 +211,13 @@ function responsive(){
         if (f.is(':hidden')) {
             f.removeAttr('style');
         }
-        $("footer p").text("© 2013 Mohammad Ali Karimi.");
+        $("footer small").text("© 2013 Mohammad Ali Karimi.");
         last.text("Last");
         last.addClass("next");
         first.text("First");
         first.addClass("next");
     } else if(w >= 530) {
-        $("footer p").text("© 2013 Mohammad Ali Karimi. All rights reserved.");
+        $("footer small").text("© 2013 Mohammad Ali Karimi. All rights reserved.");
         last.text(last.data("tl"));
         last.removeClass("next");
         first.text(first.data("tf"));

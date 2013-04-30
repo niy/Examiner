@@ -22,9 +22,10 @@ echo ('<head>
     <link rel="stylesheet" type="text/css" href="css/style.css" media="all">
     <link rel="stylesheet" type="text/css" href="css/jquery.powertip.min.css" media="all">
     <title>' . _TITLE . '</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="title" content="Examiner Online Examination Management System">
+    <meta charset="utf-8">');
+    if (isset($_SERVER['HTTP_USER_AGENT'])&& (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false))
+        header('X-UA-Compatible: IE=edge,chrome=1');
+    echo('
     <meta name="description" content="Examiner is a online examination management system.">
     <meta name="author" content="Mohammad Ali Karimi">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">

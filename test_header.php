@@ -1,7 +1,7 @@
 <?php
 echo ('
     <header id="test_header">
-    <h1><div id="floater"></div><a id="logo" class="logo" href="index">Examiner</a></h1>
+    <div id="head"><div id="floater"></div><h1><a id="logo" class="logo" href="index">Examiner</a></h1></div>
     ');
 if (isset ($_SESSION['examiner_user'])) {
     echo ('
