@@ -4,20 +4,18 @@ include('../test_main.php');
 
 $test_id=$_REQUEST['test_id'];
 $uid=$_REQUEST["user_id"];
-$result=mysql_query("SELECT * FROM user_test WHERE user_id='$uid' AND test_id='$test_id'");
-$rec=mysql_fetch_row($result);
-$result2=mysql_query("DELETE FROM user_choice WHERE user_test_id='$rec[0]'", $db);
+$pars = array(
+    ':uid'=>$uid,
+    ':test_id'=>$test_id
+);
+$result=$db->db_query("SELECT * FROM user_test WHERE user_id=:uid AND test_id=:test_id",$pars);
+$rec=$db->single();
+$pars1 = array(
+    ':rec'=>$rec[0]
+);
+$result2=$db->db_query("DELETE FROM user_choice WHERE user_test_id=:rec[0]",$pars1);
 
-if (!$result2)
-    {
-    die('Database query error:' . mysql_error());
-    }
-$result2=mysql_query("DELETE FROM user_test WHERE user_id='$uid' AND test_id='$test_id'", $db);
-
-if (!$result2)
-    {
-    die('Database query error:' . mysql_error());
-    }
+$result2=$db->db_query("DELETE FROM user_test WHERE user_id=:uid AND test_id=:test_id",$pars);
 
 echo ('
         <div class="msg">

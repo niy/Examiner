@@ -24,8 +24,8 @@ if (isset($_COOKIE['examiner']))
 else {
     echo ('</header>');
 }
-$result_rtl=mysql_query("select * from settings where id = '1'", $db);
-$rtl_array=mysql_fetch_row($result_rtl);
+$result_rtl=$db->db_query("select * from settings where id = '1'");
+$rtl_array=$db->single();
 
 if ($rtl_array[4] == 1)
     {

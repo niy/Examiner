@@ -11,17 +11,20 @@ if (!isset($_COOKIE['examiner'])) {
 	echo ('
 	<script language=javascript>
 		function dosubmit() {
-			document.forms[0].action = "all_users"
-			document.forms[0].method = "post"
-			document.forms[0].submit()
+			document.forms[0].action = "all_users";
+			document.forms[0].method = "post";
+			document.forms[0].submit();
 		}
 	</script>');
 
 	if (isset($_REQUEST["case"]) && isset($_REQUEST["uid"])) {
 		$case = $_REQUEST["case"];
 		$uid = $_REQUEST["uid"];
-		$result = mysql_query("SELECT * FROM users WHERE id=$uid", $db);
-		$rec = mysql_fetch_row($result);
+        $pars = array(
+            ':uid'=>$uid
+        );
+		$result = $db->db_query("SELECT * FROM users WHERE id=:uid",$pars);
+		$rec = $db->single();
 
 		if ($case == "edituser") {
 			if (!(isset($_REQUEST["end"]))) {
@@ -79,9 +82,12 @@ if (!isset($_COOKIE['examiner'])) {
 				$userid = $_REQUEST["userid"];
 				$email = $_REQUEST["email"];
 				$last_uid = $_REQUEST["last_uid"];
-				$check_uname = mysql_query("SELECT * FROM users WHERE userid='$userid'", $db);
+                $pars = array(
+                    ':userid'=>$userid
+                );
+				$check_uname = $db->db_query("SELECT * FROM users WHERE userid=:userid",$pars);
 
-				if (($last_uid !== $userid) && ($rec = mysql_fetch_row($check_uname))) {
+				if (($last_uid !== $userid) && ($rec = $db->single())) {
 					echo ('
 				            <script language=javascript>
 						        function dosubmit() {
@@ -129,13 +135,18 @@ if (!isset($_COOKIE['examiner'])) {
                             </div>
 							</form>');
 				} else {
-					$sqlstring =
-						"UPDATE users SET FName='$uname', LName='$ulname', fatherName='$fname', userid='$userid', email= '$email' WHERE id='$uid'";
-					$result = mysql_query($sqlstring, $db);
 
-					if (!$result) {
-						die('Database query error:' . mysql_error());
-					}
+					$sqlstring = "UPDATE users SET FName=:uname, LName=:ulname, fatherName=:fname, userid=:userid, email= :email WHERE id=:uid";
+                    $pars = array(
+                        ':uname' => $uname,
+                        ':ulname' => $ulname,
+                        ':fname' => $fname,
+                        ':userid' => $userid,
+                        ':email' => $email,
+                        ':uid' => $uid,
+                    );
+                    $result = $db->db_query($sqlstring, $pars);
+
 					echo('
 					<article class="msg">
                     <div class="info_box clearfix" >
@@ -163,8 +174,11 @@ if (!isset($_COOKIE['examiner'])) {
 		} else if ($case == "deleteuser_test") {
 
 			$test_id = $_REQUEST['test_id'];
-			$test_prop = mysql_query("SELECT * FROM tests WHERE id='$test_id'");
-			$test_prop = mysql_fetch_row($test_prop);
+            $pars = array(
+                ':test_id' => $test_id,
+            );
+			$test_prop = $db->db_query("SELECT * FROM tests WHERE id=:test_id",$pars);
+			$test_prop = $db->single();
 			$uid = $_REQUEST["uid"];
 			echo ('
                     <form action="edit_user?case=deleteuser" method="post">
@@ -200,8 +214,11 @@ if (!isset($_COOKIE['examiner'])) {
 		} else if ($case == "deleteuser") {
 			if (!(isset($_REQUEST["end"]))) {
 				$uid = $_REQUEST["uid"];
-				$result = mysql_query("SELECT * FROM users WHERE id=$uid", $db);
-				$rec = mysql_fetch_row($result);
+                $pars = array(
+                    ':uid'=>$uid
+                );
+				$result = $db->db_query("SELECT * FROM users WHERE id=:uid",$pars);
+				$rec = $db->single();
 
 				echo ('
 				    <form action="edit_user?case=deleteuser" method="post">
@@ -233,25 +250,21 @@ if (!isset($_COOKIE['examiner'])) {
 		        ');
 			} else {
 				$uid = $_REQUEST["uid"];
-				$result = mysql_query("DELETE FROM users WHERE id='$uid'", $db);
+                $pars = array(
+                    ':uid' => $uid,
+                );
+				$result = $db->db_query("DELETE FROM users WHERE id=:uid",$pars);
 
-				if (!$result) {
-					die('Database query error:' . mysql_error());
+				$result = $db->db_query("SELECT * FROM user_test WHERE user_id =:uid",$pars);
+                $recs = $db->resultset();
+                foreach ($recs as $i => $rec) {
+                    $pars1 = array(
+                        ':rec' => $rec[0],
+                    );
+					$result2 = $db->db_query("DELETE FROM user_choice WHERE user_test_id=:rec",$pars1);
 				}
-				$result = mysql_query("SELECT * FROM user_test WHERE user_id ='$uid'", $db);
+				$result = $db->db_query("DELETE FROM user_test WHERE user_id=:uid",$pars);
 
-				do {
-					$result2 = mysql_query("DELETE FROM user_choice WHERE user_test_id='$rec[0]'", $db);
-
-					if (!$result2) {
-						die('Database query error:' . mysql_error());
-					}
-				} while ($rec = mysql_fetch_row($result));
-				$result = mysql_query("DELETE FROM user_test WHERE user_id='$uid'", $db);
-
-				if (!$result) {
-					die('Database query error:' . mysql_error());
-				}
 				echo('
 				<article id="delete_test">
                 <div class="content">
@@ -301,15 +314,20 @@ if (!isset($_COOKIE['examiner'])) {
 				$new_pass = $_REQUEST["new_pass"];
 				$new_pass_confirm = $_REQUEST["new_pass_confirm"];
 				$uid = $_REQUEST["uid"];
-				$check_uname = mysql_query("SELECT * FROM users WHERE id='$uid'", $db);
-				$rec = mysql_fetch_row($check_uname);
+                $pars = array(
+                    ':uid' => $uid
+                );
+				$check_uname = $db->db_query("SELECT * FROM users WHERE id=:uid",$pars);
+				$rec = $db->single();
                 $hash = $t_hasher->HashPassword($new_pass);
-				$sqlstring = "UPDATE users SET password='$hash' WHERE id='$uid'";
-				$result = mysql_query($sqlstring, $db);
 
-				if (!$result) {
-					die('Database query error:' . mysql_error());
-				}
+				$sqlstring = "UPDATE users SET password=:hash WHERE id=:uid";
+                $pars1 = array(
+                    ':uid' => $uid,
+                    ':hash' => $hash
+                );
+				$result = $db->db_query($sqlstring, $pars1);
+
 				echo('
 				<article class="msg">
 
@@ -381,21 +399,11 @@ if (!isset($_COOKIE['examiner'])) {
 		        </form>');
 			} else {
 
-				$result = mysql_query("TRUNCATE users", $db);
+				$result = $db->db_query("TRUNCATE users");
 
-				if (!$result) {
-					die('Database query error:' . mysql_error());
-				}
-				$result = mysql_query("TRUNCATE user_test", $db);
+				$result = $db->db_query("TRUNCATE user_test");
 
-				if (!$result) {
-					die('Database query error:' . mysql_error());
-				}
-				$result = mysql_query("TRUNCATE user_choice", $db);
-
-				if (!$result) {
-					die('Database query error:' . mysql_error());
-				}
+				$result = $db->db_query("TRUNCATE user_choice");
 
 				echo('
 				<article class="msg">
@@ -451,20 +459,20 @@ if (!isset($_COOKIE['examiner'])) {
                 ');
 			} else {
 				$test_id = $_REQUEST['test_id'];
-				$result = mysql_query("SELECT * FROM user_test WHERE test_id='$test_id'");
-				do {
-					$result2 = mysql_query("DELETE FROM user_choice WHERE user_test_id='$rec[0]'", $db);
-					if (!$result2) {
-						die('Database query error:' . mysql_error());
-					}
-				} while ($rec = mysql_fetch_row($result));
-
-
-				$result2 = mysql_query("DELETE FROM user_test WHERE test_id='$test_id'", $db);
-
-				if (!$result2) {
-					die('Database query error:' . mysql_error());
+                $pars = array(
+                    ':test_id' => $test_id
+                );
+				$result = $db->db_query("SELECT * FROM user_test WHERE test_id=:test_id",$pars);
+                $recs = $db->resultset();
+                foreach ($recs as $i => $rec) {
+                    $pars1 = array(
+                        ':$rec' => $rec[0]
+                    );
+					$result2 = $db->db_query("DELETE FROM user_choice WHERE user_test_id=:rec",$pars1);
 				}
+
+				$result2 = $db->db_query("DELETE FROM user_test WHERE test_id=:test_id",$pars);
+
 				echo('
 				<article class="msg">
 

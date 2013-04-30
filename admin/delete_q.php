@@ -4,41 +4,26 @@ require_once ('../config.php');
 include('../test_main.php');
 $tid=$_REQUEST['t_id'];
 $q_id=$_REQUEST['q_id'];
-$result=mysql_query("DELETE FROM questions WHERE id='$q_id'");
+$pars = array(':q_id'=>$q_id);
+$result=$db->db_query("DELETE FROM questions WHERE id=:q_id",$pars);
 
-if (!$result)
-    {
-    die('Database query error:' . mysql_error());
-    }
 if (isset($_REQUEST['case'])){
 $case = $_REQUEST['case'];
 	if ($case==1)
 	{
-	$result=mysql_query("DELETE FROM user_choice WHERE q_id='$q_id'");
-
-	if (!$result)
-		{
-		die('Database query error:' . mysql_error());
-		}
+    $pars = array(':q_id'=>$q_id);
+	$result=$db->db_query("DELETE FROM user_choice WHERE q_id=:q_id",$pars);
 	}
 	else
 		{
-		$user_choice =mysql_query("SELECT * FROM user_choice WHERE q_id='$q_id'", $db);
-		do {
-			$result=mysql_query("DELETE FROM user_test WHERE id='$rec[1]'");
-
-			if (!$result)
-				{
-				die('Database query error:' . mysql_error());
-				}
-			$result=mysql_query("DELETE FROM user_choice WHERE user_test_id='$rec[1]'");
-
-			if (!$result)
-				{
-				die('Database query error:' . mysql_error());
-				}
-			
-		} while ($rec=mysql_fetch_row($user_choice));
+            $pars = array(':q_id'=>$q_id);
+		    $user_choice =$db->db_query("SELECT * FROM user_choice WHERE q_id=:q_id",$pars);
+            $user_choice_set=$db->resultset();
+            foreach ($user_choice_set as $i => $rec) {
+                $pars = array(':rec'=>$rec[1]);
+			    $result=$db->db_query("DELETE FROM user_test WHERE id=:rec",$pars);
+			    $result=$db->db_query("DELETE FROM user_choice WHERE user_test_id=:rec",$pars);
+		    }
 		}
 }
 echo ('

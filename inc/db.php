@@ -3,23 +3,28 @@ define ('CR_SERVER_GONE_ERROR', 2006);
 define ('CR_SERVER_LOST', 2013);
 class db
 {
-    private $host = DB_HOST;
-    private $user = DB_USER;
-    private $pass = DB_PASS;
-    private $dbname = DB_NAME;
+    private $host = _DBHOST;
+    private $user = _DBUSER;
+    private $pass = _DBPASS;
+    private $dbname = _DBNAME;
 
     private $dbh;
     private $error;
 
     private $stmt;
 
-    public function __construct() {
+    public function __construct($nodb=0) {
         // Set DSN
-        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
+        if ($nodb==0) {
+            $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname .';charset=UTF-8';
+        } else {
+            $dsn = 'mysql:host=' . $this->host . ';charset=UTF-8';
+        }
+
         // Set options
         $options = array(
             PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING
         );
         try {
             $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
@@ -29,6 +34,43 @@ class db
             if ($e->getCode()==CR_SERVER_GONE_ERROR || $e->getCode()==CR_SERVER_LOST) $this->__construct() ;
             $this->error = $e->getMessage();
         }
+
+    }
+
+    public function select_db ($db_name){
+        $this->query("use ".$db_name);
+        return $this->execute();
+    }
+
+    public function db_query($query, $params=array()) {
+        //$all_vars_regex="/\\'\$([^\\']*)\\'/i";
+/*
+        $all_vars_regex="/\\'?\\\"?\\$([^\\'?\\\"\\s?]*)\\'?\\\"?/i"; //non escaped = \'?\"?\$([^\'?\"\s?]*)\'?\"?
+        $vars=array();
+        $v_match=preg_match_all($all_vars_regex,$query,$vars);
+        if ($v_match) {
+            $q=preg_replace($all_vars_regex, ":$1", $query);
+            $this->query($q);
+            $old_vars = $vars[0];
+            $new_vars = $vars[1];
+            for($i=0;$i<count($old_vars);$i++) {
+                $this->bind(":".$new_vars[$i], $old_vars[$i]);
+                //echo $new_vars[$i];
+            }
+        } else {
+            $this->query($query);
+        }
+*/
+        $this->query($query);
+        if (isset($params) && !empty($params)) {
+            foreach ($params as $par => $var) {
+                $this->bind($par, $var);
+            }
+        }
+        return $this->execute();
+        //if (preg_match("/^(?:select)/i", $query)) {
+
+        //}
 
     }
 
@@ -61,12 +103,12 @@ class db
 
     public function resultset(){
         $this->execute();
-        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->stmt->fetchAll(PDO::FETCH_BOTH);
     }
 
     public function single(){
         $this->execute();
-        return $this->stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->stmt->fetch(PDO::FETCH_BOTH);
     }
 
     public function rowCount(){

@@ -1,17 +1,26 @@
 <?php
 
 include('config.php');
-require 'inc/PasswordHash.php';
+session_start();
+//$db->db_query("SELECT * FROM users WHERE userid='$uname'");
+
+require ('inc/PasswordHash.php');
 $t_hasher = new PasswordHash(8, FALSE);
-$db = mysql_connect(_DBHOST, _DBUSER, _DBPASS);
-mysql_select_db(_DBNAME, $db);
-$check_default = mysql_query("SELECT * FROM tests WHERE  be_default = '1'");
+
+require_once('inc/recaptchalib.php');
+$publickey = "6LdjpOASAAAAAMdSrcme8oXg_Sa0RK4yLqBgFDad";
+$privatekey = "6LdjpOASAAAAAEJyNHHphrTsmX3Rn0B_wF4GppAs";
+# the response from reCAPTCHA
+$resp = null;
+$error = null;
+
+$check_default = $db->db_query("SELECT * FROM tests WHERE  be_default = '1'");
 
 if (!$check_default) {
 	include('main.php');
 	die();
 } else {
-	if ($default_n = mysql_num_rows($check_default) < 1) {
+	if ($default_n = $db->rowCount($check_default) < 1) {
 		include('main.php');
 		echo('
 		<article class="msg">
@@ -28,130 +37,165 @@ if (!$check_default) {
         include('footer_end.php');
         die();
 	}
-	$check_default = mysql_fetch_row($check_default);
+	$check_default = $db->single();
 	if (isset($_REQUEST["uname"])) {
 		$uname = $_REQUEST["uname"];
 		$pass = $_REQUEST["pass"];
 
-        if ($uname=="test" && $pass=="test") {
-
-            if (_DEBUG=="on"){
-                $uid = 1;
-                session_start();
-                $_SESSION['examiner_user'] = 'test';
-                header('Location: index');
-            } else {
-                header('Location: index?wrong');
-            }
+        $safe_to_go = true;
+        if (isset($_SESSION['try']) && $_SESSION['try'] > 2) {
+            $resp = recaptcha_check_answer ($privatekey,
+                $_SERVER["REMOTE_ADDR"],
+                $_POST["recaptcha_challenge_field"],
+                $_POST["recaptcha_response_field"]);
+            if ($resp->is_valid) {
+                $safe_to_go = true;
+            } else $safe_to_go = false;
         }
-        $check_security=mysql_query("SELECT * FROM users WHERE userid='$uname'", $db);
-        $st=mysql_fetch_row($check_security);
-        $stored_hash=$st[5];
-        $check = $t_hasher->CheckPassword($pass, $stored_hash);
-		if ($check) {
-            $check_security = $st;
-			$check_hold =
-				mysql_query(
-					"SELECT * FROM user_test WHERE user_id='$check_security[0]' AND test_id='$check_default[0]'",
-					$db);
 
-			if ($check_hold = mysql_fetch_row($check_hold)) {
-				session_start();
-				$_SESSION['examiner_user'] = $uname;
-				include('main.php');
-				echo('
-				<article class="msg">
+        if ($safe_to_go) {
 
-				<div class="error_box clearfix" >
-					<div class="box_icon" data-icon="w" aria-hidden="true"></div>
-					<div class="content clearfix">' . _EXAM_SESSION_HAVE_HELD1 . ' ' . $_SESSION['examiner_user'] . ' ' . _EXAM_SESSION_HAVE_HELD2 . '</div>
-				</div>
-				<div id="back" class="button_wrap clearfix">
-					<a id="back_b" class="button" href="result"><div data-icon="c" aria-hidden="true" class="grid_img"></div>
-					<div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
-				</div>
+            if ($uname=="test" && $pass=="test") {
 
-				</article>');
-                include ('footer1.php');
-                include('footer_end.php');
-                die();
-			}
+                if (_DEBUG=="on"){
+                    $_SESSION['try'] = 0;
+                    $uid = 1;
+                    $_SESSION['examiner_user'] = 'test';
+                    header('Location: index');
+                } else {
+                    if (!isset($_SESSION['try'])) {
+                        $_SESSION['try'] = 1;
+                        //echo $_SESSION['try'];
+                    } else {
+                        $_SESSION['try']=$_SESSION['try']+1;
+                    }
+                    header('Location: index?wrong');
+                }
+            }
 
-			if ($check_security[1] == "" || $check_security[2] == "" || $check_security[3] == "") {
-				if (!(isset($_REQUEST["ufname"]))) { //edit properties of user
-					include('main.php');
+            $pars = array(
+                ':uname' => $uname
+            );
+            $check_security=$db->db_query("SELECT * FROM users WHERE userid=:uname",$pars);
+            $st=$db->single();
+            $stored_hash=$st[5];
+            $check = $t_hasher->CheckPassword($pass, $stored_hash);
+            if ($check) {
+                $check_security = $st;
+                $pars = array(
+                    ':check_security' => $check_security[0],
+                    ':check_default' => $check_default[0]
+                );
+                $check_hold = $db->db_query("SELECT * FROM user_test WHERE user_id=:check_security AND test_id=:check_default",$pars);
 
-					echo ('
-                            <article id="add_user">
-                            <div class="content box">
-                            <h1>' . _EXAM_COMPLETE_CHARACTERISTICS . '</h1>
-                            <form action="index" method="post" onSubmit="return CheckForm(this);">
+                if ($check_hold = $db->single()) {
+                    $_SESSION['examiner_user'] = $uname;
+                    include('main.php');
+                    echo('
+                    <article class="msg">
 
-                            <div class="label '. $align .'">' . _ADMIN_ADD_USER_USER_ID . ':</div>
-                            <input type="text" disabled="disabled" name="uname" value="' . $uname . '" dir="ltr">
+                    <div class="error_box clearfix" >
+                        <div class="box_icon" data-icon="w" aria-hidden="true"></div>
+                        <div class="content clearfix">' . _EXAM_SESSION_HAVE_HELD1 . ' ' . $_SESSION['examiner_user'] . ' ' . _EXAM_SESSION_HAVE_HELD2 . '</div>
+                    </div>
+                    <div id="back" class="button_wrap clearfix">
+                        <a id="back_b" class="button" href="result"><div data-icon="c" aria-hidden="true" class="grid_img"></div>
+                        <div class="grid_txt">' . _EXAM_SHOW_RESULT . '</div></a>
+                    </div>
 
-                            <div class="label '. $align .'">' . _ADMIN_ADD_USER_NAME . ':</div>
-                            <input type="text" name="ufname" value="' . $check_security[1] . '" dir="' . $rtl_input . '">
+                    </article>');
+                    include ('footer1.php');
+                    include('footer_end.php');
+                    die();
+                }
 
-                            <div class="label '. $align .'">' . _ADMIN_ADD_USER_LAST_NAME . ':</div>
-                            <input type="text" name="ulname" value="' . $check_security[2] . '" dir="' . $rtl_input . '">
+                if ($check_security[1] == "" || $check_security[2] == "" || $check_security[3] == "") {
+                    if (!(isset($_REQUEST["ufname"]))) { //edit properties of user
+                        include('main.php');
 
-                            <div class="label '. $align .'">' . _ADMIN_ADD_USER_FATHER_NAME . '</div>
-                            <input type="text" name="fname" value="' . $check_security[3] . '" dir="ltr">
+                        echo ('
+                                <article id="add_user">
+                                <div class="content box">
+                                <h1>' . _EXAM_COMPLETE_CHARACTERISTICS . '</h1>
+                                <form action="index" method="post" onSubmit="return CheckForm(this);">
 
-                            <div class="label '. $align .'">' . _ADMIN_ADD_USER_EMAIL . '</div>
-                            <input type="text" name="email" value="' . $check_security[6] . '" dir="ltr">
+                                <div class="label '. $align .'">' . _ADMIN_ADD_USER_USER_ID . ':</div>
+                                <input type="text" disabled="disabled" name="uname" value="' . $uname . '" dir="ltr">
 
-                            <input type="hidden" name="uid" value="' . $check_security[0] . '">
-						    <input type="hidden" name="pass" value="' . $pass . '">
-							<input type="hidden" name="uname" value="' . $uname . '">
+                                <div class="label '. $align .'">' . _ADMIN_ADD_USER_NAME . ':</div>
+                                <input type="text" name="ufname" value="' . $check_security[1] . '" dir="' . $rtl_input . '">
 
-                            <div class="button_wrap left clearfix">
-                            <input class="button" type="submit" value="' . _ADMIN_EDIT_USER_END . '">
-                            <input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
-                            </div>
+                                <div class="label '. $align .'">' . _ADMIN_ADD_USER_LAST_NAME . ':</div>
+                                <input type="text" name="ulname" value="' . $check_security[2] . '" dir="' . $rtl_input . '">
 
-                            </form>
-                            </div>
-                            </article>
-							');
-				} else { //register the user
-					$uid = $_REQUEST["uid"];
-					$ufname = $_REQUEST["ufname"];
-					$ulname = $_REQUEST["ulname"];
-					$fname = $_REQUEST["fname"];
-					$email = $_REQUEST["email"];
-					header('Location: index');
-					session_start();
-					$_SESSION['examiner_user'] = $uname;
-					$sqlstring =
-						"UPDATE users SET FName='$ufname', LName='$ulname', fatherName='$fname', email= '$email' WHERE id='$uid'";
-					$result = mysql_query($sqlstring, $db);
+                                <div class="label '. $align .'">' . _ADMIN_ADD_USER_FATHER_NAME . '</div>
+                                <input type="text" name="fname" value="' . $check_security[3] . '" dir="ltr">
 
-					if (!$result) {
-						die('Database query error:' . mysql_error());
-					}
-				}
-			} else { //let the user take the test
-				header('Location: index');
-				$uid = $check_security[0];
-				session_start();
-				$_SESSION['examiner_user'] = $uname;
-			}
+                                <div class="label '. $align .'">' . _ADMIN_ADD_USER_EMAIL . '</div>
+                                <input type="text" name="email" value="' . $check_security[6] . '" dir="ltr">
+
+                                <input type="hidden" name="uid" value="' . $check_security[0] . '">
+                                <input type="hidden" name="pass" value="' . $pass . '">
+                                <input type="hidden" name="uname" value="' . $uname . '">
+
+                                <div class="button_wrap left clearfix">
+                                <input class="button" type="submit" value="' . _ADMIN_EDIT_USER_END . '">
+                                <input class="button bad" type=button name=bt1 value="' . _ADMIN_FORM_CANCEL . '" onClick="dosubmit()">
+                                </div>
+
+                                </form>
+                                </div>
+                                </article>
+                                ');
+                    } else { //register the user
+                        $uid = $_REQUEST["uid"];
+                        $ufname = $_REQUEST["ufname"];
+                        $ulname = $_REQUEST["ulname"];
+                        $fname = $_REQUEST["fname"];
+                        $email = $_REQUEST["email"];
+                        header('Location: index');
+                        $_SESSION['examiner_user'] = $uname;
+                        $sqlstring ="UPDATE users SET FName=:ufname, LName=:ulname, fatherName=:fname, email= :email WHERE id=:uid";
+                        $pars = array(
+                            ':ufname' => $ufname,
+                            ':ulname' => $ulname,
+                            ':fname' => $fname,
+                            ':email' => $email,
+                            ':uid' => $uid,
+                        );
+                        $result = $db->db_query($sqlstring,$pars);
+                    }
+                } else { //let the user take the test
+                    $_SESSION['try'] = 0;
+                    header('Location: index');
+                    $uid = $check_security[0];
+                    $_SESSION['examiner_user'] = $uname;
+                }
 		} else { //username or password wrong!
-            $check_security=mysql_query("SELECT * FROM settings WHERE admin_id='$uname'", $db);
-            $st=mysql_fetch_row($check_security);
+            $pars = array(
+                ':uname' => $uname
+            );
+            $check_security=$db->db_query("SELECT * FROM settings WHERE admin_id=:uname",$pars);
+            $st=$db->single();
             $stored_hash=$st[2];
             $check = $t_hasher->CheckPassword($pass, $stored_hash);
             if ($check) {
+                $_SESSION['try'] = 0;
                 setcookie('examiner', 'examiner', time() + 36000, '/');
                 header('Location: admin');
             } else
-                header('Location: index?wrong');
-        }
+                if (!($uname=="test" && $pass=="test")) {
+                    if (!isset($_SESSION['try'])) {
+                        $_SESSION['try'] = 1;
+                    } else {
+                        $_SESSION['try']=$_SESSION['try']+1;
+                    }
+                    header('Location: index?wrong');
+                }
+            }
+        } else header('Location: index?wrongcaptcha');
 
 	} else { //login
-		session_start();
 		include('main.php');
 
 		if (!isset($_SESSION['examiner_user'])) {
@@ -160,7 +204,9 @@ if (!$check_default) {
 			if (formID.uname.value == "") { alert("' . _ADMIN_ENTER_USERNAME . '"); 
 			formID.uname.focus(); return false; } 
 			if (formID.pass.value == "") { alert("' . _ADMIN_ENTER_PASSWORD . '"); 
-			formID.pass.focus(); return false; } 		
+			formID.pass.focus(); return false; }
+			if (formID.recaptcha_response_field.value == "") { alert("' . _ADMIN_ENTER_CAPTCHA . '");
+			formID.recaptcha_response_field.focus(); return false; }
 			return true; 
 			}
 			</script> ');
@@ -191,13 +237,29 @@ if (!$check_default) {
             if (isset($_REQUEST['wrong'])) {
                 echo ('<div class="error"><span data-icon="w" aria-hidden="true"></span> ' . _ADMIN_SYSTEM_ALERT_WRONG_PREVIOUS_U_P . '</div>');
             }
+            echo ('
+            <script type="text/javascript">
+             var RecaptchaOptions = {
+		        theme : \'custom\',
+		        custom_theme_widget: \'recaptcha_widget\'
+	            };
+             </script>
+            ');
             echo ('<form method="POST" action="index" onSubmit="return CheckForm(this);">
 	                        <div class="label '. $align .'">' . _ADMIN_USERNAME . ':</div>
 	                        <input type="text" name="uname" dir="ltr">
 
 	                        <div class="label '. $align .'">' . _ADMIN_PASSWORD . ':</div>
-	                        <input type="password" name="pass" dir="ltr">
-
+	                        <input type="password" name="pass" dir="ltr">');
+            if (isset($_SESSION['try']) && $_SESSION['try'] > 2) {
+                echo ('<div id="captcha">');
+                if (isset($_REQUEST['wrongcaptcha'])) {
+                    echo ('<div class="error"><span data-icon="w" aria-hidden="true"></span> ' . _ADMIN_SYSTEM_ALERT_WRONG_CAPTCHA . '</div>');
+                }
+                echo recaptcha_get_html($publickey, $error);
+                echo ('</div>');
+            }
+            echo ('
                             <div class="button_wrap left clearfix">
                                 <input class="button good" type="submit" value="' . _ADMIN_ENTER . '" name="B1">
 
@@ -225,14 +287,19 @@ if (!$check_default) {
 		} else {
 			$uid_session = $_SESSION['examiner_user'];
             if (!($uid_session=="test") || _DEBUG=="off"){
-                $uid_session = mysql_query("SELECT * FROM users WHERE userid = '$uid_session'", $db);
-                $uid_session = mysql_fetch_row($uid_session);
+                $pars = array(
+                    ':uid_session' => $uid_session
+                );
+                $uid_session = $db->db_query("SELECT * FROM users WHERE userid = :uid_session",$pars);
+                $uid_session = $db->single();
 
-                $check_hold =
-                    mysql_query("SELECT * FROM user_test WHERE user_id='$uid_session[0]' AND test_id='$check_default[0]'",
-                        $db);
+                $pars = array(
+                    ':uid_session' => $uid_session[0],
+                    ':check_default' => $check_default[0]
+                );
+                $check_hold = $db->db_query("SELECT * FROM user_test WHERE user_id=:uid_session AND test_id=:check_default",$pars);
 
-                if ($check_hold = mysql_fetch_row($check_hold)) {
+                if ($check_hold = $db->single()) {
                     echo('
                     <article class="msg">
 
@@ -271,8 +338,11 @@ if (!$check_default) {
                 $neg_ico_class = '';
                 $neg_class = '';
             }
-			$test_noq = mysql_query("SELECT * FROM questions WHERE test_id='$check_default[0]'", $db);
-			$test_noq = mysql_num_rows($test_noq);
+            $pars = array(
+                ':check_default' => $check_default[0]
+            );
+			$test_noq = $db->db_query("SELECT * FROM questions WHERE test_id=:check_default",$pars);
+			$test_noq = $db->rowCount($test_noq);
 
 			if ($test_noq > $check_default[2])
 				$test_noq = $check_default[2];

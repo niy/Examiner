@@ -7,8 +7,8 @@ if (!isset($_COOKIE['examiner'])) {
 } else {
 	include('admin_config.php');
 
-	$result_rtl = mysql_query("SELECT * FROM settings WHERE id = '1'", $db);
-	$rtl_array = mysql_fetch_row($result_rtl);
+	$result_rtl = $db->db_query("SELECT * FROM settings WHERE id = '1'");
+	$rtl_array = $db->single();
 
 	if ($rtl_array[4] == 1) {
 		$align = "right";
@@ -65,13 +65,17 @@ if (!isset($_COOKIE['examiner'])) {
 			$choice3 = addslashes($_REQUEST["choice3"]);
 			$choice4 = addslashes($_REQUEST["choice4"]);
 			$answer = $_REQUEST["answer"];
-			$sqlstring =
-				"INSERT INTO questions (test_id, question, choice1, choice2, choice3, choice4, answer) VALUES ('$tid', '$question', '$choice1', '$choice2', '$choice3', '$choice4', '$answer')";
-			$result = mysql_query($sqlstring, $db);
-
-			if (!$result) {
-				die('Database query error:' . mysql_error());
-			}
+			$sqlstring = "INSERT INTO questions (test_id, question, choice1, choice2, choice3, choice4, answer) VALUES (:tid, :question, :choice1, :choice2, :choice3, :choice4, :answer)";
+			$pars = array(
+                ':tid' => $tid,
+                ':question' => $question,
+                ':choice1' => $choice1,
+                ':choice2' => $choice2,
+                ':choice3' => $choice3,
+                ':choice4' => $choice4,
+                ':answer' => $answer
+            );
+            $result = $db->db_query($sqlstring, $pars);
 
 			echo ('
 			<div class="info_box clearfix" style="width:100%;">
@@ -111,31 +115,42 @@ if (!isset($_COOKIE['examiner'])) {
 		//Add test properties
 		if ($Be_Default == 1) {
 			$sqlstring = "UPDATE tests SET Be_Default='0'";
-			$result = mysql_query($sqlstring, $db);
-
-			if (!$result) {
-				die('Database query error:' . mysql_error());
-			}
+			$result = $db->db_query($sqlstring);
 		}
-		$sqlstring =
-			"INSERT INTO tests (TName, NOQ, Be_Default, Prof_or_User, random, time, rtl, Minus_Mark, show_answers, show_mark) VALUES ('$TName', '$NOQ', '$Be_Default', '$Prof_or_User', '$random', '$time', '$rtl', '$Minus_Mark', '$Show_Answers','$Show_Mark')";
-		$result = mysql_query($sqlstring, $db);
+		$sqlstring = "INSERT INTO tests (TName, NOQ, Be_Default, Prof_or_User, random, time, rtl, Minus_Mark, show_answers, show_mark) VALUES (:TName, :NOQ, :Be_Default, :Prof_or_User, :random, :time, :rtl, :Minus_Mark, :Show_Answers,:Show_Mark)";
+        $pars = array(
+            ':TName' => $TName,
+            ':NOQ' => $NOQ,
+            ':Be_Default' => $Be_Default,
+            ':Prof_or_User' => $Prof_or_User,
+            ':random' => $random,
+            ':time' => $time,
+            ':rtl' => $rtl,
+            ':Minus_Mark' => $Minus_Mark,
+            ':Show_Answers' => $Show_Answers,
+            ':Show_Mark' => $Show_Mark
+        );
+        $result = $db->db_query($sqlstring,$pars);
 
-		if (!$result) {
-			die('Database query error:' . mysql_error());
-		}
 		//Add first Question
-		$sqlstring =
-			"INSERT INTO questions (test_id, question, choice1, choice2, choice3, choice4, answer) VALUES (LAST_INSERT_ID(), '$question', '$choice1', '$choice2', '$choice3', '$choice4', '$answer')";
-		$result = mysql_query($sqlstring, $db);
+        $sqlstring = "INSERT INTO questions (test_id, question, choice1, choice2, choice3, choice4, answer) VALUES (LAST_INSERT_ID(), :question, :choice1, :choice2, :choice3, :choice4, :answer)";
+        $pars = array(
+            ':question' => $question,
+            ':choice1' => $choice1,
+            ':choice2' => $choice2,
+            ':choice3' => $choice3,
+            ':choice4' => $choice4,
+            ':answer' => $answer
+        );
+        $result = $db->db_query($sqlstring, $pars);
 
-		if (!$result) {
-			die('Database query error:' . mysql_error());
-		}
-		$q_counter = mysql_query("SELECT MAX(ID) AS LAST FROM tests");
-		$q_counter = mysql_fetch_array($q_counter);
-		$q_counter = mysql_query("SELECT * FROM questions WHERE `test_id` = $q_counter[LAST]", $db);
-		$q_counter = mysql_num_rows($q_counter) + 1;
+		$q_counter = $db->db_query("SELECT MAX(ID) AS LAST FROM tests");
+		$q_counter = $db->single();//mysql_fetch_array($q_counter);
+
+        $pars = array(':q_counter'=>$q_counter['LAST']);
+		$q_counter = $db->db_query("SELECT * FROM questions WHERE 'test_id' = :q_counter",$pars);
+
+		$q_counter = $db->rowCount() + 1;
 
 		echo ('
 		<article id="add_question">
@@ -161,19 +176,26 @@ if (!isset($_COOKIE['examiner'])) {
 		$choice4 = addslashes($_REQUEST["choice4"]);
 		$answer = $_REQUEST["answer"];
 		//Add next Questions
-		$last_test_id = mysql_query("SELECT MAX(ID) AS LAST_ID FROM tests");
-		$last_test_id = mysql_fetch_array($last_test_id);
-		$sqlstring =
-			"INSERT INTO questions (test_id, question, choice1, choice2, choice3, choice4, answer) VALUES ($last_test_id[LAST_ID], '$question', '$choice1', '$choice2', '$choice3', '$choice4', '$answer')";
-		$result = mysql_query($sqlstring, $db);
+		$last_test_id = $db->db_query("SELECT MAX(ID) AS LAST_ID FROM tests");
+		$last_test_id = $db->single();//mysql_fetch_array($last_test_id);
 
-		if (!$result) {
-			die('Database query error:' . mysql_error());
-		}
-		$q_counter = mysql_query("SELECT MAX(ID) AS LAST FROM tests");
-		$q_counter = mysql_fetch_array($q_counter);
-		$q_counter = mysql_query("SELECT * FROM questions WHERE `test_id` = $q_counter[LAST]", $db);
-		$q_counter = mysql_num_rows($q_counter) + 1;
+        $sqlstring = "INSERT INTO questions (test_id, question, choice1, choice2, choice3, choice4, answer) VALUES (:tid, :question, :choice1, :choice2, :choice3, :choice4, :answer)";
+        $pars = array(
+            ':tid' => $last_test_id['LAST_ID'],
+            ':question' => $question,
+            ':choice1' => $choice1,
+            ':choice2' => $choice2,
+            ':choice3' => $choice3,
+            ':choice4' => $choice4,
+            ':answer' => $answer
+        );
+        $result = $db->db_query($sqlstring, $pars);
+
+		$q_counter = $db->db_query("SELECT MAX(ID) AS LAST FROM tests");
+		$q_counter = $db->single();//mysql_fetch_array($q_counter);
+        $pars = array(':q_counter'=>$q_counter['LAST']);
+        $q_counter = $db->db_query("SELECT * FROM questions WHERE 'test_id' = :q_counter",$pars);
+		$q_counter = $db->rowCount() + 1;
 
 		echo ('<article id="add_question">
 		<div class="info_box clearfix" >

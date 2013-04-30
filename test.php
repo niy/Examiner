@@ -25,9 +25,10 @@ if (!isset($_REQUEST["run"]) || !isset($_SESSION['examiner_user']))
     }
 include('test_main.php');
 include('test_header.php');
-$check_default = mysql_query("SELECT * FROM tests WHERE be_default = '1'", $db);
+$check_default = $db->db_query("SELECT * FROM tests WHERE be_default = '1'");
+$exam = $db->single();
 
-if (!$rec = mysql_fetch_row($check_default))
+if (!$rec = $db->single())
 {
     echo('
 		<article class="msg">
@@ -46,11 +47,18 @@ else
 {
     $uid_session = $_SESSION['examiner_user'];
     if (!($uid_session=="test" || _DEBUG=="off")){
-        $uid_session = mysql_query("SELECT * FROM users WHERE userid = '$uid_session'", $db);
-        $uid_session = mysql_fetch_row($uid_session);
-        $check_hold = mysql_query("SELECT * FROM user_test WHERE user_id='$uid_session[0]' AND test_id='$rec[0]'", $db);
+        $pars = array(
+            ':uid_session' => $uid_session
+        );
+        $uid_session = $db->db_query("SELECT * FROM users WHERE userid = :uid_session",$pars);
+        $uid_session = $db->single();
+        $pars = array(
+            ':rec' => $rec[0],
+            ':uid_session' => $uid_session[0]
+        );
+        $check_hold = $db->db_query("SELECT * FROM user_test WHERE user_id=:uid_session AND test_id=:rec",$pars);
 
-        if ($check_hold=mysql_fetch_row($check_hold))
+        if ($check_hold=$db->single())
             {
                 echo('
                     <article class="msg">
@@ -79,32 +87,45 @@ else
     }
     $uid = $_SESSION['examiner_user'];
     if (!($uid=="test") || _DEBUG=="off"){
-        $uid = mysql_query("SELECT * FROM users WHERE userid = '$uid'", $db);
-        $uid = mysql_fetch_row($uid);
-        $sqlstring =
-            "INSERT INTO user_test (user_id, test_id, date, time_length) VALUES ('$uid[0]', '$rec[0]', NOW(),'$rec[6]:00')";
-        $result = mysql_query($sqlstring, $db);
-        $user_test_id = mysql_insert_id();
-        if (!$result) {
-            die('Could not INSERT INTO user_test:' . mysql_error());
-        }
+        $pars = array(
+            ':uid' => $uid
+        );
+        $uid = $db->db_query("SELECT * FROM users WHERE userid = :uid",$pars);
+        $uid = $db->single();
+        $pars = array(
+            ':uid' => $uid[0],
+            ':rec0' => $rec[0],
+            ':rec6' => $rec[6]
+        );
+        $sqlstring = "INSERT INTO user_test (user_id, test_id, date, time_length) VALUES (:uid, :rec0, NOW(),:rec6':00')";
+        $result = $db->db_query($sqlstring,$pars);
+        $user_test_id = $db->lastInsertId();
 
     } elseif ($uid=="test" && _DEBUG=="on") {
-        $sqlstring = "SELECT * FROM user_test WHERE user_id=1 AND test_id='$rec[0]'";
-        $result = mysql_query($sqlstring, $db);
-        $uc_r = mysql_fetch_row($result);
-        $num_results = mysql_num_rows($result);
+        $sqlstring = "SELECT * FROM user_test WHERE user_id=1 AND test_id=:rec0";
+        $pars = array(
+            ':rec0' => $rec[0],
+        );
+        $result = $db->db_query($sqlstring,$pars);
+        $uc_r = $db->single();
+        $num_results = $db->rowCount();
         if($num_results>0) {
-            $sqlstring = 'UPDATE user_test SET test_id="'.$rec[0].'", date=NOW(), time_length="'.$rec[6].':00" WHERE user_id=1';
-            $r = mysql_query($sqlstring, $db);
+            $pars = array(
+                ':rec0' => $rec[0],
+                ':rec6' => $rec[6],
+            );
+            $sqlstring = 'UPDATE user_test SET test_id=:rec0, date=NOW(), time_length=:rec6":00" WHERE user_id=1 AND test_id=:rec0';
+            $r = $db->db_query($sqlstring,$pars);
             $user_test_id=$uc_r[0];
-            echo("A");
-            die($rec[0]);
         }
         else {
-            $sqlstring = "INSERT INTO user_test (user_id, test_id, date, time_length) VALUES ('1', '$rec[0]', NOW(),'$rec[6]:00')";
-            $r = mysql_query($sqlstring, $db);
-            $user_test_id = mysql_insert_id();
+            $sqlstring = "INSERT INTO user_test (user_id, test_id, date, time_length) VALUES (1, :rec0, NOW(),:rec6':00')";
+            $pars = array(
+                ':rec0' => $rec[0],
+                ':rec6' => $rec[6],
+            );
+            $r = $db->db_query($sqlstring,$pars);
+            $user_test_id = $db->lastInsertId();
         }
     }
     $test_date = date("F j, Y, g:i a");
@@ -116,54 +137,48 @@ else
     } else
         $minute = $rec[6];
 
+    echo ('<form method="POST" action="result" name="Time">');
 
-    ?>
-    <script language="javascript" type="text/javascript">
-        startday = new Date();
+            $rec = $exam;
 
-        clockStart = startday.getTime();
-        window.onload = Go;
-    </script>
-
-    <form method="POST" action="result" name="Time">
-        <?php
-        do {
             $counter = 1;
-            $test_noq = mysql_query("SELECT * FROM questions WHERE test_id='$rec[0]'", $db);
-            $test_noq = mysql_num_rows($test_noq);
+    $pars = array(
+        ':rec0' => $rec[0]
+    );
+            $test_noq = $db->db_query("SELECT * FROM questions WHERE test_id=:rec0",$pars);
+            $test_noq = $db->rowCount();
 
             if ($test_noq > $rec[2])
                 $test_noq = $rec[2];
 
+    $pars = array(
+        ':rec0' => $rec[0],
+    );
             if ($rec[5] == 1)
-                $result =
-                    mysql_query("SELECT * FROM questions WHERE test_id = '$rec[0]' ORDER BY RAND() LIMIT $test_noq");
+                $result = $db->db_query("SELECT * FROM questions WHERE test_id = :rec0 ORDER BY RAND() LIMIT ".$test_noq,$pars);
             else
-                $result =
-                    mysql_query("SELECT * FROM questions WHERE test_id = '$rec[0]' ORDER BY id LIMIT $test_noq");
-            $rec2 = mysql_fetch_row($result);
+                $result = $db->db_query("SELECT * FROM questions WHERE test_id = :rec0 ORDER BY id LIMIT ".$test_noq,$pars);
+            $recs2 = $db->resultset();
             echo('<article id="show_test">');
-            do {
+            foreach ($recs2 as $i => $rec2) {
+                $pars = array(
+                    ':user_test_id' => $user_test_id,
+                    ':rec2' => $rec2[0]
+                );
                 if ($uid=="test" && _DEBUG=="on"){
-                    $uc_chk=mysql_query("select * from user_choice where user_test_id='$user_test_id' && q_id='$rec2[0]'", $db);
-                    $uc_rec=mysql_fetch_row($uc_chk);
+                    $uc_chk=$db->db_query("select * from user_choice where user_test_id=:user_test_id && q_id=:rec2",$pars);
+                    $uc_rec=$db->single();
                     if ($uc_rec<=0){
-                        $insert_q = "INSERT INTO user_choice (user_test_id, q_id) VALUES ('$user_test_id', '$rec2[0]')";
-                        $insert_q = mysql_query($insert_q, $db);
+                        $insert_q = "INSERT INTO user_choice (user_test_id, q_id) VALUES (:user_test_id, :rec2)";
+                        $insert_q = $db->db_query($insert_q,$pars);
                     } else {
-                        $insert_q="UPDATE user_choice SET answer=NULL WHERE user_test_id='$user_test_id' && q_id='$rec2[0]'";
-                        $insert_q=mysql_query($insert_q, $db);
+                        $insert_q="UPDATE user_choice SET answer=NULL WHERE user_test_id=:user_test_id && q_id=:rec2";
+                        $insert_q=$db->db_query($insert_q,$pars);
                     }
                 } else {
-                    $insert_q = "INSERT INTO user_choice (user_test_id, q_id) VALUES ('$user_test_id', '$rec2[0]')";
-                    $insert_q = mysql_query($insert_q, $db);
+                    $insert_q = "INSERT INTO user_choice (user_test_id, q_id) VALUES (:user_test_id, :rec2)";
+                    $insert_q = $db->db_query($insert_q,$pars);
                 }
-                if (!$insert_q) {
-                    die('Database query error:' . mysql_error());
-                }
-        ?>
-
-                <?php
                 echo ('
                         <div class="question">
                         <div class="q_head">
@@ -219,12 +234,9 @@ else
                         </div>
                         </div>
                 ');
-                ?>
-
-
-                <?php
                 $counter++;
-            } while ($rec2 = mysql_fetch_row($result));
+
+            }
 
             echo ('
                     <input type="hidden" size="5" name="timespent">
@@ -236,13 +248,18 @@ else
                     </article>
             ');
 
-        } while ($rec = mysql_fetch_row($check_default));
         }
         ?>
 
         <?php
         include('footer1.php');
         echo ('
+        <script language="javascript" type="text/javascript">
+            startday = new Date();
+
+            clockStart = startday.getTime();
+            window.onload = Go;
+        </script>
         <SCRIPT>
             ap_showWaitMessage(\'waitDiv\', 0);
             sc_fade();

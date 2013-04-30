@@ -22,8 +22,8 @@ else
             onerror=do_err;
         </script>
     ');
-    $check_default=mysql_query("select * from tests where be_default = '1'", $db);
-    $check_default=mysql_fetch_row($check_default);
+    $check_default=$db->db_query("select * from tests where be_default = '1'");
+    $check_default=$db->single();
 	
 	echo ('<article id="show_stats"><form method="POST" action="logout">');
 	
@@ -37,22 +37,22 @@ else
         $align="left";
         $rtl_input="ltr";
         }
-    $uid_session=mysql_query("select * from users where userid = '$uid_session1'", $db);
-    $uid_session=mysql_fetch_row($uid_session);
-    $choices1=
-        mysql_query("SELECT * FROM user_test WHERE user_id = '$uid_session[0]' AND test_id = '$check_default[0]'", $db);
+        $pars = array(
+            ':uid_session1' => $uid_session1
+        );
+    $uid_session=$db->db_query("select * from users where userid = :uid_session1",$pars);
+    $uid_session=$db->single();
 
     if (isset($_REQUEST["timespent"]))
         {
-        $timespent=$_REQUEST['timespent'];
-        $update_time_length=
-            "UPDATE user_test SET time_length='$timespent' WHERE user_id='$uid_session[0]' AND test_id='$check_default[0]'";
-        $update_time_length=mysql_query($update_time_length, $db);
-
-        if (!$update_time_length)
-            {
-            die('Could not INSERT INTO user_test:' . mysql_error());
-            }
+            $timespent=$_REQUEST['timespent'];
+            $update_time_length= "UPDATE user_test SET time_length=:timespent WHERE user_id=:uid_session AND test_id=:check_default";
+            $pars = array(
+                ':timespent' => $timespent,
+                ':uid_session' => $uid_session[0],
+                ':check_default' => $check_default[0]
+            );
+            $update_time_length=$db->db_query($update_time_length,$pars);
         }
 		
 		if (($check_default[9] == 0) && ($check_default[10] == 0))
@@ -78,16 +78,28 @@ else
         include('footer_end.php');
         die();
 	}
-    $choices=mysql_fetch_row($choices1);
+        $pars = array(
+            ':uid_session' => $uid_session[0],
+            ':check_default' => $check_default[0]
+        );
+    $choices1=$db->db_query("SELECT * FROM user_test WHERE user_id = :uid_session AND test_id = :check_default",$pars);
+    $choices=$db->single();
     $user_test_id=$choices[0];
-    $choices=mysql_query("SELECT * FROM user_choice WHERE user_test_id = '$choices[0]' order by id ASC");
-    $rec=mysql_fetch_row($choices);
-    ///////////////Number of Correct, Incorrect and Non-Answered Questions
+        $pars = array(
+            ':choices' => $choices[0],
+        );
+    $choices=$db->db_query("SELECT * FROM user_choice WHERE user_test_id = :choices order by id ASC",$pars);
+    $rec=$db->single();
+    $choices_set=$db->resultset();
+
     $num_correct_answers=0;
     $num_non_answered=0;
-    $num_all_answers=mysql_query("select * from user_choice where user_test_id='$user_test_id'");
-    $num_all_answers=mysql_num_rows($num_all_answers);
-    ///////////////
+        $pars = array(
+            ':user_test_id' => $user_test_id
+        );
+    $num_all_answers=$db->db_query("select * from user_choice where user_test_id=:user_test_id",$pars);
+    $num_all_answers=$db->rowCount();
+
     $counter=1;
 
 	if ($check_default[9] == 1)
@@ -120,10 +132,14 @@ else
         }
             $anclass1 = $anclass2 = $anclass3 = $anclass4 = "";
             $ansign1 = $ansign2 = $ansign3 = $ansign4 = "";
-    do
+
+        foreach ($choices_set as $i => $rec)
         {
-        $question=mysql_query("select * from questions where id = '$rec[2]'", $db);
-        $question=mysql_fetch_row($question);
+            $pars = array(
+                ':rec' => $rec[2]
+            );
+        $question=$db->db_query("select * from questions where id = :rec",$pars);
+        $question=$db->single();
 
         ///////////////Answer Icon
         if ($question[7] == $rec[3])
@@ -250,7 +266,7 @@ if ($check_default[9] == 1)
 
     }
         $counter++;
-        } while ($rec=mysql_fetch_row($choices));
+        }
 	if ($check_default[9] == 1)
 		{
 		echo ('</section>');

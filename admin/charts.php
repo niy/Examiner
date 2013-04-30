@@ -6,7 +6,7 @@ if (!isset($_COOKIE['examiner'])) {
 	header('Location: index');
 } else {
 	include('admin_config.php');
-	$ineachpage = "12";
+	$ineachpage=12;
 
 	if (!(isset($_REQUEST["p"]))) {
 		$start = 0;
@@ -15,11 +15,10 @@ if (!isset($_COOKIE['examiner'])) {
 		$start = ($_REQUEST["p"]-1) * $ineachpage;
 		$finish = $start + $ineachpage;
 	}
-	$result = mysql_query("SELECT * FROM tests ORDER BY id DESC LIMIT $start,$ineachpage");
-	$result2 = mysql_query("SELECT * FROM tests ORDER BY id DESC");
-	$num_users = mysql_num_rows($result2);
+    $result2 = $db->db_query("SELECT * FROM tests ORDER BY id DESC");
+    $num_users = $db->rowCount();
 
-	///////////////////////
+	$result = $db->db_query("SELECT * FROM tests ORDER BY id DESC LIMIT ".$start.", ".$ineachpage);
 
 	echo ('
 	<article id="show_stats">
@@ -30,10 +29,6 @@ if (!isset($_COOKIE['examiner'])) {
 	);
 
 	if (!$result) {
-		die('Database query error:' . mysql_error());
-	}
-
-	if (!$rec = mysql_fetch_row($result)) {
 		echo('
 		<div class="clearfix pagehead">
 			<h1>' . _ADMIN_SHOWW_ALL_EXAMS . '</h1>
@@ -74,7 +69,8 @@ if (!isset($_COOKIE['examiner'])) {
 		');
 	echo ('<tbody>');
 	$tr_num = 1;
-	do {
+    $tests_set=$db->resultset();
+    foreach ($tests_set as $m => $rec) {
 		$ave = 0;
 		$all_qs = 0;
 		$ave_null = 0;
@@ -113,27 +109,30 @@ if (!isset($_COOKIE['examiner'])) {
 			$show_mark = _ADMIN_MINUS_MARK_1;
 		else
 			$show_mark = _ADMIN_MINUS_MARK_0;
+        $pars = array(':rec'=>$rec[0]);
+		$result_noq = $db->db_query("SELECT * FROM questions WHERE test_id=:rec",$pars);
+		$show_final_noq = $result_noq = $db->rowCount();
+        $pars = array(':rec'=>$rec[0]);
+		$result_mem_nums2 = $db->db_query("SELECT * FROM user_test WHERE test_id=:rec",$pars);
 
-		$result_noq = mysql_query("SELECT * FROM questions WHERE test_id=$rec[0]");
-		$show_final_noq = $result_noq = mysql_num_rows($result_noq);
-		$result_mem_nums2 = mysql_query("SELECT * FROM user_test WHERE test_id=$rec[0]");
-
-		$result_mem_nums = mysql_num_rows($result_mem_nums2);
+		$result_mem_nums = $db->rowCount();
 
 		///Average//////////////////
-		$choices = mysql_query("SELECT * FROM user_test WHERE test_id = '$rec[0]'");
-
-		while ($choices3 = mysql_fetch_row($choices)) {
-			$choices2 = mysql_query("SELECT * FROM user_choice WHERE user_test_id = '$choices3[0]'");
-
-			while ($reec = mysql_fetch_row($choices2)) {
-				$question = mysql_query("SELECT * FROM questions WHERE id = '$reec[2]'");
-				$question = mysql_fetch_row($question);
+        $pars = array(':rec'=>$rec[0]);
+		$choices = $db->db_query("SELECT * FROM user_test WHERE test_id = :rec",$pars);
+        $choices_set3 = $db->resultset();
+		foreach ($choices_set3 as $i => $choices3) {
+            $pars = array(':choices3'=>$choices3[0]);
+			$choices2 = $db->db_query("SELECT * FROM user_choice WHERE user_test_id = :choices3",$pars);
+            $choices_set2 = $db->resultset();
+            foreach ($choices_set2 as $j => $reec) {
+                $pars = array(':reec'=>$reec[2]);
+				$question = $db->db_query("SELECT * FROM questions WHERE id = :reec",$pars);
+				$question = $db->single();
 
 				if ($question[7] == $reec[3]) {
 					$ave++;
 				}
-
 				if ($reec[3] == "") {
 					$ave_null++;
 				}
@@ -147,8 +146,9 @@ if (!isset($_COOKIE['examiner'])) {
 			else
 				$ave = round(($ave / $all_qs), 2) * 100;
 		}
-		$ave_time = mysql_query("SELECT AVG(time_length) FROM user_test WHERE test_id = '$rec[0]'");
-		$ave_time = mysql_fetch_row($ave_time);
+        $pars = array(':rec'=>$rec[0]);
+		$ave_time = $db->db_query("SELECT AVG(time_length) FROM user_test WHERE test_id = :rec",$pars);
+		$ave_time = $db->single();
 
 		/////////////////////////////////////////////////////////////
 
@@ -206,7 +206,7 @@ if (!isset($_COOKIE['examiner'])) {
 			</td>
 			</tr>');
 		$tr_num++;
-	} while ($rec = mysql_fetch_row($result));
+	}
 
 	echo ('</tbody></table>');
 

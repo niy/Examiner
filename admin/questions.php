@@ -22,16 +22,19 @@ if (!isset($_COOKIE['examiner'])) {
     die();
     }
     $tid = $_REQUEST['tid'];
-
-    $questions = mysql_query("SELECT * FROM questions WHERE test_id = '$tid'");
-    $rec = mysql_fetch_row($questions);
+    $pars = array(
+        ':tid' => $tid
+    );
+    $questions = $db->db_query("SELECT * FROM questions WHERE test_id = :tid",$pars);
+    $rec = $db->single();
     $counter = 1;
 
     echo ('
     <article id="show_questions">
     ');
     $tr_num = 1;
-    do {
+    $recs = $db->resultset();
+    foreach ($recs as $i => $rec) {
         $an1 = $an2 = $an3 = $an4 = "";
         $anclass1 = $anclass2 = $anclass3 = $anclass4 = "";
         $ansign1 = $ansign2 = $ansign3 = $ansign4 = "";
@@ -104,7 +107,7 @@ if (!isset($_COOKIE['examiner'])) {
 	');
         $counter++;
 
-    } while ($rec = mysql_fetch_row($questions));
+    }
 
     echo ('</article>
 	');

@@ -7,8 +7,31 @@ if (!isset($_COOKIE['examiner'])) {
 } else {
     include('admin_config.php');
 
-    if (!(isset($_REQUEST["tid"]))) {
-        $ineachpage = "30";
+    if (isset($_REQUEST["tid"])) {
+
+        if (isset($_REQUEST["no"])) {
+            $tid = $_REQUEST["tid"];
+            $edit_test = "UPDATE tests SET Be_Default=0 WHERE id=:tid";
+            $pars = array(
+                ':tid' => $tid
+            );
+            $edit_test = $db->db_query($edit_test,$pars);
+        } else {
+            $tid = $_REQUEST["tid"];
+            $sqlstring = "UPDATE tests SET Be_Default='0'";
+            $result = $db->db_query($sqlstring);
+
+            $edit_test = "UPDATE tests SET Be_Default=1 WHERE id=:tid";
+            $pars = array(
+                ':tid' => $tid
+            );
+            $edit_test = $db->db_query($edit_test,$pars);
+        }
+
+    } //else //if(!isset($_REQUEST["tid"]))
+    //{
+
+        $ineachpage=12;
 
         if (!(isset($_REQUEST["p"]))) {
             $start = 0;
@@ -17,11 +40,11 @@ if (!isset($_COOKIE['examiner'])) {
             $start = ($_REQUEST["p"]-1) * $ineachpage;
             $finish = $start + $ineachpage;
         }
-        $result = mysql_query("SELECT * FROM tests ORDER BY id LIMIT $start,$ineachpage", $db);
-        $result2 = mysql_query("SELECT * FROM tests ORDER BY id DESC", $db);
-        $num_users = mysql_num_rows($result2);
+        $result2 = $db->db_query("SELECT * FROM tests ORDER BY id DESC");
+        $num_users = $db->rowCount();
 
-        ///////////////////////
+        $result = $db->db_query("SELECT * FROM tests ORDER BY id LIMIT ".$start.", ".$ineachpage);
+
         echo ('
 	        <article id="set_default">
 			<div class="clearfix pagehead">
@@ -29,11 +52,7 @@ if (!isset($_COOKIE['examiner'])) {
 			</div>'
         );
 
-        if (!$result) {
-            die('Database query error:' . mysql_error());
-        }
-
-        if (!$rec = mysql_fetch_row($result)) {
+        if (!$rec = $db->single()) {
             echo('
                     <div class="clearfix pagehead">
                         <h1>' . _ADMIN_SHOWW_ALL_EXAMS . '</h1>
@@ -64,7 +83,8 @@ if (!isset($_COOKIE['examiner'])) {
         echo ('<tbody>');
         $tr_num = 1;
         $ds="";
-        do {
+        $recs = $db->resultset();
+        foreach ($recs as $i => $rec) {
             if ($rec[3] == 1) {
                 $d_class="correct_q";
                 $d_sign="correct_sign";
@@ -89,9 +109,8 @@ if (!isset($_COOKIE['examiner'])) {
 				<td>' . $rec[1] . '</td>
 				<td class="def">' . $Be_Default . '</td>
 			</tr>');
-//	echo ("<td align=\"right\" bgcolor=\"#F1F3F8\"><font face=\"Tahoma\" style=\"font-size: 9pt\">".$rec[2]."</font></td>");
             $tr_num++;
-        } while ($rec = mysql_fetch_row($result));
+        }
 
         echo ('</tbody></table>');
 
@@ -103,83 +122,8 @@ if (!isset($_COOKIE['examiner'])) {
         echo pagination($ineachpage,$page,'?p=',$num_users);
         /**</Pagination>**/
 
-        /*if ($num_users > $ineachpage) //Pagination
-        {
-            echo ('<ul class="content pagination" style="width: '. p_round($num_users / $ineachpage) * 2.6 .'em;">');
-            $page_number=0;
-
-            for ($x=0; $x < $num_users / $ineachpage; $x++)
-            {
-                $y = $x * $ineachpage;
-                $page_number++;
-                $iif=$finish / $ineachpage;
-
-                if ($x + 1 == $iif)
-                    echo ('<li id="current_page" class="page_num">' . $page_number . '</li>');
-                else
-                    echo ('<a href="?start=' . $y . '"><li class="page_num">' . $page_number . '</li></a>');
-            }
-            echo ('</ul>');
-        }*/
-
         echo ('</article>');
-    } else //if(isset($_REQUEST["tid"]))
-    {
-        if (isset($_REQUEST["no"])) {
-            $tid = $_REQUEST["tid"];
-            $edit_test = "UPDATE tests SET Be_Default=0 WHERE id=$tid";
-            $edit_test = mysql_query($edit_test, $db);
-
-            if (!$edit_test)
-                die('Database query error:' . mysql_error());
-            echo('
-            <article class="msg">
-
-            <div class="info_box clearfix" >
-            <div class="box_icon" data-icon="y" aria-hidden="true"></div>
-            <div class="content clearfix">
-            <h1>' . _ADMIN_EDIT_EXAM . '</h1>
-            <ul><li>' . _ADMIN_EXAM_EDITED . '</li></ul>
-            </div>
-            </div>
-            <div id="back" class="button_wrap clearfix">
-            <a class="button" id="back_b" href="../admin"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_HOME . '</div></a>
-            </div>
-            </article>');
-            include ('../footer.php');
-            include('../footer_end.php');
-            die();
-        } else {
-            $tid = $_REQUEST["tid"];
-            $sqlstring = "UPDATE tests SET Be_Default='0'";
-            $result = mysql_query($sqlstring, $db);
-
-            if (!$result) {
-                die('Database query error:' . mysql_error());
-            }
-            $edit_test = "UPDATE tests SET Be_Default=1 WHERE id=$tid";
-            $edit_test = mysql_query($edit_test, $db);
-
-            if (!$edit_test)
-                die('Database query error:' . mysql_error());
-            echo('
-            <article class="msg">
-
-            <div class="info_box clearfix" >
-            <div class="box_icon" data-icon="y" aria-hidden="true"></div>
-            <div class="content clearfix">
-            <h1>' . _ADMIN_EDIT_EXAM . '</h1>
-            <ul><li>' . _ADMIN_EXAM_EDITED . '</li></ul>
-            </div>
-            </div>
-            <div id="back" class="button_wrap clearfix">
-            <a class="button" id="back_b" href="../admin"><div data-icon="b" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_HOME . '</div></a>
-            </div></article>');
-            include ('../footer.php');
-            include('../footer_end.php');
-            die();
-        }
-    }
+    //}
 }
 ?>
 

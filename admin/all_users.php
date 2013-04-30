@@ -6,7 +6,7 @@ if (!isset($_COOKIE['examiner'])) {
     header('Location: index');
 } else {
     include('admin_config.php');
-    $ineachpage = "12";
+    $ineachpage = 12;
 
     if (!(isset($_REQUEST["p"]))) {
         $start = 0;
@@ -15,21 +15,26 @@ if (!isset($_COOKIE['examiner'])) {
         $start = ($_REQUEST["p"]-1) * $ineachpage;
         $finish = $start + $ineachpage;
     }
-    $result = mysql_query("SELECT * FROM users ORDER BY id LIMIT $start,$ineachpage", $db);
-    $result2 = mysql_query("SELECT * FROM users ORDER BY id DESC", $db);
-    $num_users = mysql_num_rows($result2);
 
-    ///////////////////////
+
+    /*$pars = array(
+        ':istart' => 5,
+        ':ipage' => 10,
+    );
+    $rff = $db->db_query("SELECT * FROM users where id>10 limit :istart , :ipage", $pars);
+    var_dump($db->single());*/
+
+
+    $result2 = $db->db_query("SELECT * FROM users ORDER BY id DESC");
+    $num_users = $db->rowCount();
+
+    $result = $db->db_query("SELECT * FROM users ORDER BY id LIMIT ".$start.", ".$ineachpage);
 
     echo ('
         <article id="show_users">
         ');
 
-    if (!$result) {
-        die('Database query error:' . mysql_error());
-    }
-
-    if (!$rec = mysql_fetch_row($result)) {
+    if (!$rec = $db->single()) {
         echo('
             <div class="clearfix pagehead">
             <h1>' . _ADMIN_SHOW_ALL_USERS . '</h1>
@@ -73,7 +78,8 @@ if (!isset($_COOKIE['examiner'])) {
     echo ('<tbody>');
 
     $tr_num = 1;
-    do {
+    $recs = $db->resultset();
+    foreach ($recs as $i => $rec) {
 
         if ($tr_num % 2 == 0)
             $tr_class = 'even';
@@ -95,7 +101,7 @@ if (!isset($_COOKIE['examiner'])) {
 			    </tr>
 			');
         $tr_num++;
-    } while ($rec = mysql_fetch_row($result));
+    }
 
     echo ('</tbody></table>');
 

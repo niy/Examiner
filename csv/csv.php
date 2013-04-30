@@ -16,7 +16,7 @@ while (($row = fgetcsv($final)) !== false) {
     $password=$row[4];
     $email=$row[5];
     $sqlstring ="INSERT INTO users (FName, LName, fatherName, userid, password, email) VALUES ('$uname', '$ulname', '$fname', '$uid', '$password', '$email')";
-    $result = mysql_query($sqlstring, $db);
+    $result = $db->db_query($sqlstring);
 }
 fclose($final);*/
 /****************************************************************

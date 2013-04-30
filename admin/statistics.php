@@ -20,8 +20,11 @@ include('admin_config.php');
 if (isset($_REQUEST["case"])) {
     $case = $_REQUEST["case"];
     $test_id = $_REQUEST["test_id"];
-    $test_prop = mysql_query("SELECT * FROM tests WHERE id='$test_id'");
-    $test_prop = mysql_fetch_row($test_prop);
+    $pars = array(
+        ':test_id' => $test_id
+    );
+    $test_prop = $db->db_query("SELECT * FROM tests WHERE id=:test_id",$pars);
+    $test_prop = $db->single();
     $test_id_q = $test_prop[0];
 
     if ($test_prop[3] == 1)
@@ -61,8 +64,11 @@ if (isset($_REQUEST["case"])) {
 
 
     if ($case == "u") {
-        $select_users = mysql_query("SELECT * FROM user_test WHERE test_id='$test_id'");
-        $ineachpage = "12";
+        $pars = array(
+            ':test_id' => $test_id
+        );
+        $select_users = $db->db_query("SELECT * FROM user_test WHERE test_id=:test_id",$pars);
+        $ineachpage=12;
 
         if (!(isset($_REQUEST["p"]))) {
             $start = 0;
@@ -71,9 +77,15 @@ if (isset($_REQUEST["case"])) {
             $start = ($_REQUEST["p"]-1) * $ineachpage;
             $finish = $start + $ineachpage;
         }
-        $result = mysql_query("SELECT * FROM user_test WHERE test_id='$test_id' ORDER BY id LIMIT $start,$ineachpage");
-        $num_users = mysql_query("SELECT * FROM user_test WHERE test_id='$test_id' ORDER BY id");
-        $num_users = mysql_num_rows($num_users);
+        $pars = array(
+            ':test_id' => $test_id
+        );
+        $num_users = $db->db_query("SELECT * FROM user_test WHERE test_id=:test_id ORDER BY id",$pars);
+        $num_users = $db->rowCount();
+        $pars = array(
+            ':test_id' => $test_id
+        );
+        $result = $db->db_query("SELECT * FROM user_test WHERE test_id=:test_id ORDER BY id LIMIT ".$start.", ".$ineachpage,$pars);
 
         echo ('
         	<article id="show_stats">
@@ -92,11 +104,7 @@ if (isset($_REQUEST["case"])) {
             <a id="delete_all_b" class="button bad" href="edit_user?case=delete_users_test&test_id=' . $test_prop[0] . '" title="' . _ADMIN_STATS_DELETE_EXAM_USERS . '"><span data-icon="!" aria-hidden="true"></span></a>
             </div>');
 
-        if (!$result) {
-            die('Database query error:' . mysql_error());
-        }
-
-        if (!$rec = mysql_fetch_row($result)) {
+        if (!$rec = $db->single()) {
             echo('
                 </article>
                 <article class="msg">
@@ -143,23 +151,39 @@ if (isset($_REQUEST["case"])) {
 		');
         echo ('<tbody>');
         $tr_num = 1;
-        do {
-            $result2 = mysql_query("SELECT * FROM users WHERE id='$rec[1]'");
-            $user_prop = mysql_fetch_row($result2);
-            $choices = mysql_query("SELECT * FROM user_test WHERE user_id = '$rec[1]' AND test_id = '$test_prop[0]'");
-            $choices2 = mysql_fetch_row($choices);
-            $user_test_id = $choices[0];
-            $choices = mysql_query("SELECT * FROM user_choice WHERE user_test_id = '$choices2[0]'");
-            $num_all_answers = mysql_num_rows($choices);
+        $recs = $db->resultset();
+        foreach ($recs as $i => $rec) {
+            $pars = array(
+                ':rec' => $rec[1]
+            );
+            $result2 = $db->db_query("SELECT * FROM users WHERE id=:rec",$pars);
+            $user_prop = $db->single();
+
+            $pars = array(
+                ':rec' => $rec[1],
+                ':test_prop' => $test_prop[0]
+            );
+            $choices = $db->db_query("SELECT * FROM user_test WHERE user_id = :rec AND test_id = :test_prop",$pars);
+            $choices2 = $db->single();
+            $user_test_id = $choices2[0];
+
+            $pars = array(
+                ':choices2' => $choices2[0]
+            );
+            $choices = $db->db_query("SELECT * FROM user_choice WHERE user_test_id = :choices2",$pars);
+            $choices_set = $db->resultset();
+            $num_all_answers = $db->rowCount();
             $num_correct_answers = 0;
             $num_non_answered = 0;
 
-            while ($choices_check = mysql_fetch_row($choices)) {
+            foreach ($choices_set as $j => $choices_check) {
 
-                $question = mysql_query("SELECT * FROM questions WHERE id = '$choices_check[2]'");
-                $question = mysql_fetch_row($question);
+                $pars = array(
+                    ':choices_check' => $choices_check[2]
+                );
+                $question = $db->db_query("SELECT * FROM questions WHERE id = :choices_check",$pars);
+                $question = $db->single();
 
-                ///////////////Answer Icon
                 if ($question[7] == $choices_check[3]) {
                     $num_correct_answers++;
                 }
@@ -202,7 +226,7 @@ if (isset($_REQUEST["case"])) {
             echo ('<td class="tools"><a class="bar_icon delete" href="edit_user?case=deleteuser_test&uid=' . $user_prop[0] . '&test_id=' . $test_prop[0] . '" title="' . _ADMIN_DELETE_USER_FROM_THIS_EXAM . '"><span data-icon="r" aria-hidden="true" class="grid_img"></span></a></td>
 			</tr>');
             $tr_num++;
-        } while ($rec = mysql_fetch_row($result));
+        }
 
         echo ('</tbody></table>');
 
@@ -214,31 +238,15 @@ if (isset($_REQUEST["case"])) {
         echo pagination($ineachpage,$page,'?case=' . $case . '&test_id=' . $test_id . '&p=',$num_users);
         /**</Pagination>**/
 
-        /*if ($num_users > $ineachpage) //Pagination
-        {
-            echo ('<ul class="content pagination" style="width: '. p_round($num_users / $ineachpage) * 2.6 .'em;">');
-            $page_number=0;
-
-            for ($x=0; $x < $num_users / $ineachpage; $x++)
-            {
-                $y = $x * $ineachpage;
-                $page_number++;
-                $iif=$finish / $ineachpage;
-
-                if ($x + 1 == $iif)
-                    echo ('<li id="current_page" class="page_num">' . $page_number . '</li>');
-                else
-                    echo ('<a href="?case=' . $case . '&test_id=' . $test_id . '&start=' . $y . '"><li class="page_num">' . $page_number . '</li></a>');
-            }
-            echo ('</ul>');
-        }*/
-
         echo ('</article>');
 
     } else if ($case == "uq") {
         $uq_id = $_REQUEST['user_id'];
-        $check_default = mysql_query("SELECT * FROM tests WHERE id = '$test_id'");
-        $check_default = mysql_fetch_row($check_default);
+        $pars = array(
+            ':test_id' => $test_id
+        );
+        $check_default = $db->db_query("SELECT * FROM tests WHERE id = :test_id",$pars);
+        $check_default = $db->single();
 
         if ($check_default[7] == 1) {
             $align = "right";
@@ -247,18 +255,32 @@ if (isset($_REQUEST["case"])) {
             $align = "left";
             $rtl_input = "ltr";
         }
-        $uid_session = mysql_query("SELECT * FROM users WHERE id = '$uq_id'");
-        $uid_session = mysql_fetch_row($uid_session);
-        $choices = mysql_query("SELECT * FROM user_test WHERE user_id = '$uq_id' AND test_id = '$test_id'");
-        $choices = mysql_fetch_row($choices);
+        $pars = array(
+            ':uq_id' => $uq_id
+        );
+        $uid_session = $db->db_query("SELECT * FROM users WHERE id = :uq_id",$pars);
+        $uid_session = $db->single();
+        $pars = array(
+            ':uq_id' => $uq_id,
+            ':test_id' => $test_id
+        );
+        $choices = $db->db_query("SELECT * FROM user_test WHERE user_id = :uq_id AND test_id = :test_id",$pars);
+        $choices = $db->single();
         $user_test_id = $choices[0];
-        $choices = mysql_query("SELECT * FROM user_choice WHERE user_test_id = '$choices[0]'");
-        $rec = mysql_fetch_row($choices);
+        $pars = array(
+            ':choices' => $choices[0]
+        );
+        $choices = $db->db_query("SELECT * FROM user_choice WHERE user_test_id = :choices",$pars);
+        $rec = $db->single();
+        $recs = $db->resultset();
         ///////////////Number of Correct, Incorrect and Non-Answered Questions
         $num_correct_answers = 0;
         $num_non_answered = 0;
-        $num_all_answers = mysql_query("SELECT * FROM user_choice WHERE user_test_id='$user_test_id'");
-        $num_all_answers = mysql_num_rows($num_all_answers);
+        $pars = array(
+            ':user_test_id' => $user_test_id
+        );
+        $num_all_answers = $db->db_query("SELECT * FROM user_choice WHERE user_test_id=:user_test_id",$pars);
+        $num_all_answers = $db->rowCount();
         ///////////////
         $counter = 1;
 
@@ -290,9 +312,13 @@ if (isset($_REQUEST["case"])) {
             <h2>' . _EXAM_QUESTIONS . '</h2></div>');
         $anclass1 = $anclass2 = $anclass3 = $anclass4 = "";
         $ansign1 = $ansign2 = $ansign3 = $ansign4 = "";
-        do {
-            $question = mysql_query("SELECT * FROM questions WHERE id = '$rec[2]'");
-            $question = mysql_fetch_row($question);
+
+        foreach ($recs as $i => $rec) {
+            $pars = array(
+                ':rec' => $rec[2]
+            );
+            $question = $db->db_query("SELECT * FROM questions WHERE id = :rec",$pars);
+            $question = $db->single();
 
             ///////////////Answer Icon
             if ($question[7] == $rec[3]) {
@@ -407,7 +433,7 @@ if (isset($_REQUEST["case"])) {
 	');
 
             $counter++;
-        } while ($rec = mysql_fetch_row($choices));
+        }
 
         $num_incorrect_answers = $num_all_answers - ($num_correct_answers + $num_non_answered);
 
@@ -518,9 +544,12 @@ if (isset($_REQUEST["case"])) {
 		</section>
 		</article>');
     } else if ($case == "q") {
-
-        $select_users = mysql_query("SELECT * FROM questions WHERE test_id='$test_id'");
-        $ineachpage = "12";
+        $pars = array(
+            ':test_id' => $test_id
+        );
+        $select_users = $db->db_query("SELECT * FROM questions WHERE test_id=:test_id",$pars);
+        $num_users = $db->rowCount();
+        $ineachpage=12;
 
         if (!(isset($_REQUEST["p"]))) {
             $start = 0;
@@ -529,13 +558,18 @@ if (isset($_REQUEST["case"])) {
             $start = ($_REQUEST["p"]-1) * $ineachpage;
             $finish = $start + $ineachpage;
         }
-        $result = mysql_query("SELECT * FROM questions WHERE test_id='$test_id' ORDER BY id LIMIT $start,$ineachpage");
-        $num_users = mysql_num_rows($select_users);
-
-        $test_prop = mysql_query("SELECT * FROM tests WHERE id='$test_id'");
-        $test_prop = mysql_fetch_row($test_prop);
+        $pars = array(
+            ':test_id' => $test_id
+        );
+        $test_prop = $db->db_query("SELECT * FROM tests WHERE id=:test_id",$pars);
+        $test_prop = $db->single();
         ///////////////////////
         $test_id_q = $test_prop[0];
+        $pars = array(
+            ':test_id' => $test_id
+        );
+        $result = $db->db_query("SELECT * FROM questions WHERE test_id=:test_id ORDER BY id LIMIT ".$start.", ".$ineachpage,$pars);
+        $recs = $db->resultset();
 
         if ($test_prop[3] == 1)
             $Be_Default = _RANDOM_1;
@@ -592,11 +626,7 @@ if (isset($_REQUEST["case"])) {
             <span data-icon="y" aria-hidden="true" class="grid_img"></span></a>
             </div>');
 
-        if (!$result) {
-            die('Database query error:' . mysql_error());
-        }
-
-        if (!$rec = mysql_fetch_row($result)) {
+        if (!$rec = $db->single()) {
             echo('
                 </article>
                 <article class="msg">
@@ -639,36 +669,40 @@ if (isset($_REQUEST["case"])) {
         ');
         echo ('<tbody>');
         $tr_num = 1;
-        do {
+
+        foreach ($recs as $i => $rec) {
             if ($tr_num % 2 == 0)
                 $tr_class = 'even';
             else
                 $tr_class = '';
-            $num_answers = mysql_query("SELECT * FROM user_choice WHERE q_id = '$rec[0]'");
-            $num_all = mysql_num_rows($num_answers);
-            $num_answers = mysql_query("SELECT * FROM user_choice WHERE q_id = '$rec[0]' AND answer='1'");
-            $num_1 = mysql_num_rows($num_answers);
+            $pars = array(
+                ':rec' => $rec[0]
+            );
+            $num_answers = $db->db_query("SELECT * FROM user_choice WHERE q_id = :rec",$pars);
+            $num_all = $db->rowCount();
+            $num_answers = $db->db_query("SELECT * FROM user_choice WHERE q_id = :rec AND answer=1",$pars);
+            $num_1 = $db->rowCount();
 
             if ($num_1 == 0)
                 $num_1_pr = 0;
             else
                 $num_1_pr = round(($num_1 / $num_all) * 100, 2);
-            $num_answers = mysql_query("SELECT * FROM user_choice WHERE q_id = '$rec[0]' AND answer='2'");
-            $num_2 = mysql_num_rows($num_answers);
+            $num_answers = $db->db_query("SELECT * FROM user_choice WHERE q_id = :rec AND answer=2",$pars);
+            $num_2 = $db->rowCount();
 
             if ($num_2 == 0)
                 $num_2_pr = 0;
             else
                 $num_2_pr = round(($num_2 / $num_all) * 100, 2);
-            $num_answers = mysql_query("SELECT * FROM user_choice WHERE q_id = '$rec[0]' AND answer='3'");
-            $num_3 = mysql_num_rows($num_answers);
+            $num_answers = $db->db_query("SELECT * FROM user_choice WHERE q_id = :rec AND answer=3",$pars);
+            $num_3 = $db->rowCount();
 
             if ($num_3 == 0)
                 $num_3_pr = 0;
             else
                 $num_3_pr = round(($num_3 / $num_all) * 100, 2);
-            $num_answers = mysql_query("SELECT * FROM user_choice WHERE q_id = '$rec[0]' AND answer='4'");
-            $num_4 = mysql_num_rows($num_answers);
+            $num_answers = $db->db_query("SELECT * FROM user_choice WHERE q_id = :rec AND answer=4",$pars);
+            $num_4 = $db->rowCount();
 
             if ($num_4 == 0)
                 $num_4_pr = 0;
@@ -733,7 +767,7 @@ if (isset($_REQUEST["case"])) {
                 </tr>
             ');
             $tr_num++;
-        } while ($rec = mysql_fetch_row($result));
+        }
 
         echo ('</tbody></table>');
 
@@ -744,25 +778,6 @@ if (isset($_REQUEST["case"])) {
         }
         echo pagination($ineachpage,$page,'?case=q&test_id=' . $test_id . '&p=',$num_users);
         /**</Pagination>**/
-
-        /*if ($num_users > $ineachpage) //Pagination
-        {
-            echo ('<ul class="content pagination" style="width: '. p_round($num_users / $ineachpage) * 2.6 .'em;">');
-            $page_number=0;
-
-            for ($x=0; $x < $num_users / $ineachpage; $x++)
-            {
-                $y = $x * $ineachpage;
-                $page_number++;
-                $iif=$finish / $ineachpage;
-
-                if ($x + 1 == $iif)
-                    echo ('<li id="current_page" class="page_num">' . $page_number . '</li>');
-                else
-                    echo ('<a href="?case=q&test_id=' . $test_id . '&start=' . $y . '"><li class="page_num">' . $page_number . '</li></a>');
-            }
-            echo ('</ul>');
-        }*/
 
         echo ('</article>');
 
@@ -795,8 +810,11 @@ if (isset($_REQUEST["case"])) {
                 $show = 'and answer IS NULL';
                 break;
         }
-        $select_users = mysql_query("SELECT * FROM user_choice WHERE q_id='$q_id' $show");
-        $ineachpage = "12";
+        $pars = array(
+            ':q_id' => $q_id
+        );
+        $select_users = $db->db_query("SELECT * FROM user_choice WHERE q_id=:'q_id' ".$show,$pars);
+        $ineachpage=12;
 
         if (!(isset($_REQUEST["p"]))) {
             $start = 0;
@@ -805,11 +823,19 @@ if (isset($_REQUEST["case"])) {
             $start = ($_REQUEST["p"]-1) * $ineachpage;
             $finish = $start + $ineachpage;
         }
-        $result = mysql_query("SELECT * FROM user_choice WHERE q_id='$q_id' $show ORDER BY id LIMIT $start,$ineachpage");
-        $num_users = mysql_query("SELECT * FROM user_choice WHERE q_id='$q_id' $show ORDER BY id");
-        $num_users = mysql_num_rows($num_users);
-        $question = mysql_query("SELECT * FROM questions WHERE id = '$q_id'");
-        $question = mysql_fetch_row($question);
+        $pars = array(
+            ':q_id' => $q_id,
+        );
+        $result = $db->db_query("SELECT * FROM user_choice WHERE q_id=:q_id ".$show."ORDER BY id LIMIT ".$start.", ".$ineachpage,$pars);
+
+        $recs = $db->resultset();
+        $pars = array(
+            ':q_id' => $q_id
+        );
+        $num_users = $db->db_query("SELECT * FROM user_choice WHERE q_id=:q_id ".$show." ORDER BY id",$pars);
+        $num_users = $db->rowCount();
+        $question = $db->db_query("SELECT * FROM questions WHERE id = :q_id",$pars);
+        $question = $db->single();
 
         ///////////////////////
         echo ('
@@ -895,11 +921,7 @@ if (isset($_REQUEST["case"])) {
         </div>
         ');
 
-        if (!$result) {
-            die('Database query error:' . mysql_error());
-        }
-
-        if (!$rec = mysql_fetch_row($result)) {
+        if (!$rec = $db->single()) {
             echo('
                 </article>
                 <article class="msg">
@@ -967,20 +989,36 @@ if (isset($_REQUEST["case"])) {
         ');
         echo ('<tbody>');
         $tr_num = 1;
-        do {
+        foreach ($recs as $i => $rec) {
             if ($tr_num % 2 == 0)
                 $tr_class = 'even';
             else
                 $tr_class = '';
-            $result3 = mysql_query("SELECT * FROM user_test WHERE id='$rec[1]'");
-            $user_test_prop = mysql_fetch_row($result3);
-            $result2 = mysql_query("SELECT * FROM users WHERE id='$user_test_prop[1]'");
-            $user_prop = mysql_fetch_row($result2);
-            $choices =
-                mysql_query("SELECT * FROM user_choice WHERE user_test_id = '$user_test_prop[0]' AND q_id='$q_id'");
-            $choices2 = mysql_query("SELECT * FROM user_choice WHERE user_test_id = '$user_test_prop[0]'");
-            $num_all_answers = mysql_num_rows($choices2);
-            $choices_check = mysql_fetch_row($choices);
+            $pars = array(
+                ':rec' => $rec[1]
+            );
+            $result3 = $db->db_query("SELECT * FROM user_test WHERE id=:rec",$pars);
+            $user_test_prop = $db->single();
+
+            $pars = array(
+                ':user_test_prop' => $user_test_prop[1]
+            );
+            $result2 = $db->db_query("SELECT * FROM users WHERE id=:user_test_prop",$pars);
+            $user_prop = $db->single();
+
+            $pars = array(
+                ':user_test_prop' => $user_test_prop[0]
+            );
+            $choices2 = $db->db_query("SELECT * FROM user_choice WHERE user_test_id = :user_test_prop",$pars);
+            $num_all_answers = $db->rowCount();
+
+            $pars1 = array(
+                ':user_test_prop' => $user_test_prop[0],
+                ':q_id' => $q_id
+            );
+            $choices = $db->db_query("SELECT * FROM user_choice WHERE user_test_id = :user_test_prop AND q_id=:q_id",$pars1);
+            $choices_check = $db->single();
+
             $an1 = $an2 = $an3 = $an4 = $an5 = "";
 
             switch ($choices_check[3]) {
@@ -1018,7 +1056,7 @@ if (isset($_REQUEST["case"])) {
 				<td class="precent">' . $an5 . '</td>
 				</tr>');
             $tr_num++;
-        } while ($rec = mysql_fetch_row($result));
+        }
 
         echo ('</tbody></table>');
         /**Pagination**/
@@ -1028,25 +1066,6 @@ if (isset($_REQUEST["case"])) {
         }
         echo pagination($ineachpage,$page,'?case=uu&test_id=' . $test_id . '&q_id=' . $q_id . '&show=' . $show . '&p=',$num_users);
         /**</Pagination>**/
-
-        /*if ($num_users > $ineachpage) //Pagination
-        {
-            echo ('<ul class="content pagination" style="width: '. p_round($num_users / $ineachpage) * 2.6 .'em;">');
-            $page_number=0;
-
-            for ($x=0; $x < $num_users / $ineachpage; $x++)
-            {
-                $y = $x * $ineachpage;
-                $page_number++;
-                $iif=$finish / $ineachpage;
-
-                if ($x + 1 == $iif)
-                    echo ('<li id="current_page" class="page_num">' . $page_number . '</li>');
-                else
-                    echo ('<a href="?case=uu&test_id=' . $test_id . '&q_id=' . $q_id . '&show=' . $show . '&start=' . $y . '"><li class="page_num">' . $page_number . '</li></a>');
-            }
-            echo ('</ul>');
-        }*/
 
         echo ('</article>');
     }
@@ -1148,7 +1167,7 @@ if (isset($_REQUEST["case"])) {
 
 
                     ///// DONE!
-                })() // exec!
+                })(); // exec!
             }
         </script>
 

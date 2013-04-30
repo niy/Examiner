@@ -8,8 +8,9 @@ if (!isset($_COOKIE['examiner'])) {
 	if ((isset($_REQUEST["tid"])) && !(isset($_REQUEST["end"]))) {
 		include('admin_config.php');
 		$tid = $_REQUEST["tid"];
-		$result = mysql_query("SELECT * FROM tests WHERE id=$tid", $db);
-		$rec = mysql_fetch_row($result);
+        $pars = array(':tid'=>$tid);
+		$result = $db->db_query("SELECT * FROM tests WHERE id=:tid",$pars);
+		$rec = $db->single();
 
 		/////////////
 		if ($rec[3] == 1) {
@@ -116,11 +117,11 @@ if (!isset($_COOKIE['examiner'])) {
 
 		<div class="label '. $align .'">' . _ADMIN_BE_DEFAULT
 			. '</div>');
-		$result_check_default = mysql_query("SELECT * FROM tests WHERE `be_default` = '1'", $db);
-		$result_check_default_num = mysql_num_rows($result_check_default);
+		$result_check_default = $db->db_query("SELECT * FROM tests WHERE 'be_default' = '1'");
+		$result_check_default_num = $db->rowCount();
 
 		if ($result_check_default_num > 0) {
-			$result_check_default = mysql_fetch_row($result_check_default);
+			$result_check_default = $db->single();
 			$is_default = $result_check_default[1];
 
         echo ('
@@ -208,18 +209,24 @@ if (!isset($_COOKIE['examiner'])) {
 		//Edit test properties
 		if ($Be_Default == 1) {
 			$sqlstring = "UPDATE tests SET Be_Default='0'";
-			$result = mysql_query($sqlstring, $db);
-
-			if (!$result) {
-				die('Database query error:' . mysql_error());
-			}
+			$result = $db->db_query($sqlstring);
 		}
-		$edit_test =
-			"UPDATE tests SET TName='$TName', NOQ='$NOQ', Be_Default='$Be_Default', Prof_or_User='$Prof_or_User', random='$random', time='$time', rtl='$rtl', Minus_Mark='$Minus_Mark', show_answers='$Show_Answers', show_mark='$Show_Mark' WHERE id=$tid";
-		$edit_test = mysql_query($edit_test, $db);
+		$edit_test = "UPDATE tests SET TName=:TName, NOQ=:NOQ, Be_Default=:Be_Default, Prof_or_User=:Prof_or_User, random=:random, time=:time, rtl=:rtl, Minus_Mark=:Minus_Mark, show_answers=:Show_Answers, show_mark=:Show_Mark WHERE id=:tid";
+        $pars = array(
+            ':TName' => $TName,
+            ':NOQ' => $NOQ,
+            ':Be_Default' => $Be_Default,
+            ':Prof_or_User' => $Prof_or_User,
+            ':random' => $random,
+            ':time' => $time,
+            ':rtl' => $rtl,
+            ':Minus_Mark' => $Minus_Mark,
+            ':Show_Answers' => $Show_Answers,
+            ':Show_Mark' => $Show_Mark,
+            ':tid' => $tid
+        );
+        $edit_test = $db->db_query($edit_test, $pars);
 
-		if (!$edit_test)
-			die('Database query error:' . mysql_error());
         echo('
             <article id="delete_test">
             <div class="content">

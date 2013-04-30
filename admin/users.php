@@ -66,9 +66,12 @@ if (!isset($_COOKIE['examiner'])) {
 			$uid = $_REQUEST["uid"];
 			$password = $_REQUEST["password"];
 			$email = $_REQUEST["email"];
-			$check_uname = mysql_query("SELECT * FROM users WHERE userid='$uid'", $db);
+            $pars = array(
+                ':uid' => $uid,
+            );
+			$check_uname = $db->db_query("SELECT * FROM users WHERE userid=:uid",$pars);
 
-			if ($rec = mysql_fetch_row($check_uname)) {
+			if ($rec = $db->single()) {
 				echo ('
 				<script language=javascript>
 				function dosubmit() {
@@ -139,13 +142,17 @@ if (!isset($_COOKIE['examiner'])) {
 				');
 			} else {
                 $hash = $t_hasher->HashPassword($password);
-				$sqlstring =
-					"INSERT INTO users (FName, LName, fatherName, userid, password, email) VALUES ('$uname', '$ulname', '$fname', '$uid', '$hash', '$email')";
-				$result = mysql_query($sqlstring, $db);
+				$sqlstring = "INSERT INTO users (FName, LName, fatherName, userid, password, email) VALUES (:uname, :ulname, :fname, :uid, :hash, :email)";
+                $pars = array(
+                    ':uname' => $uname,
+                    ':ulname' => $ulname,
+                    ':fname' => $fname,
+                    ':uid' => $uid,
+                    ':hash' => $hash,
+                    ':email' => $email
+                );
+                $result = $db->db_query($sqlstring,$pars);
 
-				if (!$result) {
-					die('Database query error:' . mysql_error());
-				}
 				echo('
 				    <article class="msg">
 
@@ -197,9 +204,9 @@ if (!isset($_COOKIE['examiner'])) {
 echo ('
 		<script language=javascript>
 		function dosubmit() {
-		document.forms[0].action = "settings"
-		document.forms[0].method = "post"
-		document.forms[0].submit()
+		document.forms[0].action = "settings";
+		document.forms[0].method = "post";
+		document.forms[0].submit();
 		}
 	</script>');
 echo ('

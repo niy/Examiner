@@ -15,14 +15,16 @@ if (!isset($_COOKIE['examiner'])) {
             if (isset($_REQUEST["p_uname"])) {
                 $p_uname = $_REQUEST["p_uname"];
                 $p_pass = $_REQUEST["p_pass"];
-
-                $check_security=mysql_query("SELECT * FROM settings WHERE admin_id='$p_uname'", $db);
-                $st=mysql_fetch_row($check_security);
+                $pars = array(
+                    ':p_uname' => $p_uname
+                );
+                $check_security=$db->db_query("SELECT * FROM settings WHERE admin_id=:p_uname",$pars);
+                $st=$db->single();
                 $stored_hash=$st[2];
                 $check = $t_hasher->CheckPassword($p_pass, $stored_hash);
                 if ($check) {  //if user is authorized
                     //Print "Change Password" form
-                    $rec = mysql_fetch_row($check_security);
+                    $rec = $db->single();
                     echo ('
                     <article>
                     <form method="POST" action="settings?case=changepass" onSubmit="return CheckForm(this);">
@@ -79,12 +81,13 @@ if (!isset($_COOKIE['examiner'])) {
                 $new_uname = $_REQUEST["new_uname"];
                 $new_pass = $_REQUEST["new_pass"];
                 $hash = $t_hasher->HashPassword($new_pass);
-                $change_u_p = "UPDATE settings SET admin_id='$new_uname', password ='$hash' WHERE id=1";
-                $change_u_p = mysql_query($change_u_p, $db);
+                $change_u_p = "UPDATE settings SET admin_id=:new_uname, password =:hash WHERE id=1";
+                $pars = array(
+                    ':new_uname' => $new_uname,
+                    ':hash' => $hash
+                );
+                $change_u_p = $db->db_query($change_u_p,$pars);
 
-                if (!$change_u_p) {
-                    die('Database query error:' . mysql_error());
-                }
                 echo('
                     <article class="msg">
                     <div class="info_box clearfix" >
@@ -128,11 +131,12 @@ if (!isset($_COOKIE['examiner'])) {
             if (isset($_REQUEST["language"])) { //if requested lang is set change settings.
                 $language = $_REQUEST["language"];
                 $rtl = $_REQUEST["rtl"];
-                $change_settings = "UPDATE settings SET language='$language', rtl ='$rtl' WHERE id=1";
-                $change_settings = mysql_query($change_settings, $db);
-                if (!$change_settings) {
-                    die('Database query error:' . mysql_error());
-                }
+                $change_settings = "UPDATE settings SET language=:language, rtl =:rtl WHERE id=1";
+                $pars = array(
+                    ':language' => $language,
+                    ':rtl' => $rtl
+                );
+                $change_settings = $db->db_query($change_settings,$pars);
                 if ($rtl == 1)
                     $rtl = "RTL";
                 else
@@ -246,9 +250,9 @@ if (!isset($_COOKIE['examiner'])) {
 echo ('
     <script language="javascript">
         function dosubmit() {
-            document.forms[0].action = "settings"
-            document.forms[0].method = "POST"
-            document.forms[0].submit()
+            document.forms[0].action = "settings";
+            document.forms[0].method = "POST";
+            document.forms[0].submit();
         }
     </script>
     ');

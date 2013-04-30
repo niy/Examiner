@@ -35,15 +35,16 @@ if (!isset($_COOKIE['examiner'])) {
                       XMLHttpRequestObject.status == 200) {
                         obj.innerHTML = XMLHttpRequestObject.responseText;
                     }
-                  }
+                  };
 
                   XMLHttpRequestObject.send(null);
                 }
               }
             </script>
             ');
-			$is_in_relation = mysql_query("SELECT * FROM user_choice WHERE q_id = '$q_id'");
-			$is_in_relation = mysql_num_rows($is_in_relation);
+            $pars = array(':q_id'=>$q_id);
+			$is_in_relation = $db->db_query("SELECT * FROM user_choice WHERE q_id = :q_id", $pars);
+			$is_in_relation = $db->rowCount();
 			if ($is_in_relation < 1) {
                 echo ('
                     <article id="delete_q"><div class="content box">
@@ -86,10 +87,12 @@ if (!isset($_COOKIE['examiner'])) {
 		}
 	} else if (isset($_REQUEST['q_id']) && !isset($_REQUEST['question']) && !isset($_REQUEST['case'])) {
 		$q_id = $_REQUEST["q_id"];
-		$question = mysql_query("SELECT * FROM questions WHERE id = '$q_id'");
-		$question = mysql_fetch_row($question);
-		$result_rtl = mysql_query("SELECT * FROM tests WHERE id = '$question[1]'", $db);
-		$rtl_array = mysql_fetch_row($result_rtl);
+        $pars = array(':q_id'=>$q_id);
+		$question = $db->db_query("SELECT * FROM questions WHERE id = :q_id",$pars);
+		$question = $db->single();
+        $pars = array(':question'=>$question[1]);
+		$result_rtl = $db->db_query("SELECT * FROM tests WHERE id = :question",$pars);
+		$rtl_array = $db->single();
 
 		if ($rtl_array[7] == 1) {
 			$align = "right";
@@ -166,12 +169,18 @@ if (!isset($_COOKIE['examiner'])) {
 		$answer = $_REQUEST["answer"];
 		$tid = $_REQUEST["tid"];
 		$sqlstring =
-			"UPDATE questions SET question='$question', choice1='$choice1', choice2='$choice2', choice3='$choice3', choice4='$choice4', answer='$answer' WHERE id=$q_id";
-		$result = mysql_query($sqlstring, $db);
+			"UPDATE questions SET question=:question, choice1=:choice1, choice2=:choice2, choice3=:choice3, choice4=:choice4, answer=:answer WHERE id=:q_id";
+        $pars = array(
+            ':question' => $question,
+            ':choice1' => $choice1,
+            ':choice2' => $choice2,
+            ':choice3' => $choice3,
+            ':choice4' => $choice4,
+            ':answer' => $answer,
+            ':q_id' => $q_id
+        );
+        $result = $db->db_query($sqlstring, $pars);
 
-		if (!$result) {
-			die('Database query error:' . mysql_error());
-		}
 		echo('
 			<article class="msg">
 

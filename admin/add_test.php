@@ -30,11 +30,11 @@ if (!isset($_COOKIE['examiner'])) {
         <div class="label '. $align .'">' . _ADMIN_BE_DEFAULT
         . '</div>');
 
-    $result_check_default = mysql_query("SELECT * FROM tests WHERE `be_default` = '1'", $db);
-    $result_check_default_num = mysql_num_rows($result_check_default);
+    $result_check_default = $db->db_query("SELECT * FROM tests WHERE `be_default` = '1'");
+    $result_check_default_num = $db->rowCount();
 
     if ($result_check_default_num > 0) {
-        $result_check_default = mysql_fetch_row($result_check_default);
+        $result_check_default = $db->single();
         $is_default = $result_check_default[1];
 
         echo ('

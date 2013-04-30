@@ -9,7 +9,7 @@ if (!isset($_COOKIE['examiner']))
 else
     {
     include('admin_config.php');
-    $ineachpage="12";
+    $ineachpage=12;
 
     if (!(isset($_REQUEST["p"])))
         {
@@ -21,17 +21,14 @@ else
         $start=($_REQUEST["p"]-1) * $ineachpage;;
         $finish=$start + $ineachpage;
         }
-    $result=mysql_query("select * from tests ORDER BY id DESC LIMIT $start,$ineachpage", $db);
-    $result2=mysql_query("select * from tests ORDER BY id DESC", $db);
-    $num_users=mysql_num_rows($result2);
+        $result2=$db->db_query("select * from tests ORDER BY id DESC");
+        $num_users=$db->rowCount();
+
+        $result=$db->db_query("select * from tests ORDER BY id DESC LIMIT ".$start.", ".$ineachpage);
+
 /*******************/
 
-    if (!$result)
-        {
-        die('Database query error:' . mysql_error());
-        }
-
-    if (!$rec=mysql_fetch_row($result))
+    if (!$rec=$db->single())
         {
         echo('
         <article id="show_tests"><div class="clearfix pagehead">
@@ -80,10 +77,10 @@ else
         </thead>
 		');
 
-    echo ('<tbody>');
-	$tr_num = 1;
-    do
-        {
+        echo ('<tbody>');
+	    $tr_num = 1;
+        $recs = $db->resultset();
+        foreach ($recs as $i => $rec) {
         if ($rec[3] == 1)
             $Be_Default='<span data-icon="d" aria-hidden="true"></span>';
         else
@@ -118,9 +115,9 @@ else
             $show_mark=_ADMIN_MINUS_MARK_1;
         else
             $show_mark=_ADMIN_MINUS_MARK_0;
-			
-        $result_noq=mysql_query("select * from questions where test_id=$rec[0]", $db);
-        $result_noq=mysql_num_rows($result_noq);
+			$pars=array(':rec'=>$rec[0]);
+        $result_noq=$db->db_query("select * from questions where test_id=:rec",$pars);
+        $result_noq=$db->rowCount();
         if ($tr_num%2==0) //TEEEEEMPPPPPP 561516654444&@GUG765r67RI&KGY^EQK*&@G#K*QH@*&HE*&@H*(*&&
 		$tr_class = 'even';
 		else
@@ -146,7 +143,7 @@ else
 			</tr>');
 			$tr_num++;
 
-        } while ($rec=mysql_fetch_row($result));
+        }
 
         echo ('</tbody></table>');
 

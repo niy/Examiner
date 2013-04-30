@@ -1,9 +1,7 @@
 <?php
 
 require_once ('config.php');
-$db = mysql_connect(_DBHOST, _DBUSER, _DBPASS);
-mysql_select_db(_DBNAME, $db);
-$result = mysql_query("SELECT * FROM settings WHERE id = '1'", $db);
+$result = $db->db_query("SELECT * FROM settings WHERE id = '1'");
 
 if (!$result) {
     require_once ('language/farsi.php');
@@ -95,7 +93,7 @@ if (!$result) {
 
 
 } else {
-    $rec = mysql_fetch_row($result);
+    $rec = $db->single();
     $system_language = $rec[3];
     include('language/' . $rec[3] . '.php');
 
@@ -103,8 +101,8 @@ if (!$result) {
         echo ('<!doctype html><html dir="rtl">');
     else
         echo ('<!doctype html><html>');
-    $result_rtl = mysql_query("SELECT * FROM settings WHERE id = '1'", $db);
-    $rtl_array = mysql_fetch_row($result_rtl);
+    $result_rtl = $db->db_query("SELECT * FROM settings WHERE id = '1'");
+    $rtl_array = $db->single();
     if ($rtl_array[4] == 1) {
         $system_align = $align = "right";
         $system_rtl_input = $rtl_input = "rtl";

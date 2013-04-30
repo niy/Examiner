@@ -9,14 +9,15 @@ if (!isset($_COOKIE['examiner'])) {
 
 	if ((isset($_REQUEST["tid"])) && !(isset($_REQUEST["end"]))) {
 		$tid = $_REQUEST["tid"];
-		$result = mysql_query("SELECT * FROM tests WHERE id=$tid", $db);
-		$rec = mysql_fetch_row($result);
+        $pars = array(':tid'=>$tid);
+		$result = $db->db_query("SELECT * FROM tests WHERE id=:tid",$pars);
+		$rec = $db->single();
 
 		echo ('<SCRIPT LANGUAGE=JAVASCRIPT>
 	function dosubmit() {
-	document.forms[0].action = "all_tests"
-	document.forms[0].method = "POST"
-	document.forms[0].submit()
+	document.forms[0].action = "all_tests";
+	document.forms[0].method = "POST";
+	document.forms[0].submit();
 	}
 	</SCRIPT>');
 
@@ -40,16 +41,11 @@ if (!isset($_COOKIE['examiner'])) {
 		');
 	} else if ((isset($_REQUEST["tid"])) && (isset($_REQUEST["end"]))) {
 		$tid = $_REQUEST["tid"];
-		$result = mysql_query("DELETE FROM tests WHERE id='$tid'", $db);
+        $pars = array(':tid'=>$tid);
+		$result = $db->db_query("DELETE FROM tests WHERE id=:tid",$pars);
 
-		if (!$result) {
-			die('Database query error:' . mysql_error());
-		}
-		$result = mysql_query("DELETE FROM questions WHERE test_id='$tid'", $db);
+		$result = $db->db_query("DELETE FROM questions WHERE test_id=:tid",$pars);
 
-		if (!$result) {
-			die('Database query error:' . mysql_error());
-		}
 		echo('
             <article id="delete_test">
             <div class="content">
