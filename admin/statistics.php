@@ -813,7 +813,7 @@ if (isset($_REQUEST["case"])) {
         $pars = array(
             ':q_id' => $q_id
         );
-        $select_users = $db->db_query("SELECT * FROM user_choice WHERE q_id=:'q_id' ".$show,$pars);
+        $select_users = $db->db_query("SELECT * FROM user_choice WHERE q_id=:q_id ".$show,$pars);
         $ineachpage=12;
 
         if (!(isset($_REQUEST["p"]))) {

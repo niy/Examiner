@@ -1,5 +1,5 @@
 <?php
-require 'inc/PasswordHash.php';
+require '../inc/PasswordHash.php';
 $t_hasher = new PasswordHash(8, FALSE);
 header("Content-Type: text/html; charset=utf-8");
 
