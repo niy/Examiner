@@ -544,3 +544,267 @@
         return ft;
     };
 })(jQuery, window);
+(function ($, w, undefined) {
+  if (w.footable == undefined || w.footable == null)
+    throw new Error('Please check and make sure footable.js is included in the page and is loaded prior to this script.');
+
+  var jQversion = w.footable.version.parse($.fn.jquery);
+  if (jQversion.major == 1 && jQversion.minor < 8) { // For older versions of jQuery, anything below 1.8
+    $.expr[':'].ftcontains = function (a, i, m) {
+      return $(a).html().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+    };
+  } else { // For jQuery 1.8 and above
+    $.expr[':'].ftcontains = $.expr.createPseudo(function (arg) {
+      return function (elem) {
+        return $(elem).html().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+      };
+    });
+  }
+
+  var defaults = {
+    filter: {
+      enabled: true,
+      input: '.footable-filter',
+      timeout: 300,
+      minimum: 2,
+      disableEnter: false
+    }
+  };
+
+  function Filter() {
+    var p = this;
+    p.name = 'Footable Filter';
+    p.init = function (ft) {
+      if (ft.options.filter.enabled == true) {
+        ft.timers.register('filter');
+        $(ft.table).bind({
+          'footable_initialized': function (e) {
+            var $table = $(e.ft.table);
+            var data = {
+              'input': $table.data('filter') || e.ft.options.filter.input,
+              'timeout': $table.data('filter-timeout') || e.ft.options.filter.timeout,
+              'minimum': $table.data('filter-minimum') || e.ft.options.filter.minimum,
+              'disableEnter': $table.data('filter-disable-enter') || e.ft.options.filter.disableEnter
+            };
+            if (data.disableEnter) {
+              $(data.input).keypress(function (event) {
+                if (window.event)
+                  return (window.event.keyCode != 13);
+                else
+                  return (event.which != 13);
+              });
+            }
+            $table.bind('footable_clear_filter', function () {
+              $(data.input).val('');
+              p.clearFilter(e.ft);
+            });
+            $(data.input).keyup(function (eve) {
+              e.ft.timers.filter.stop();
+              if (eve.which == 27) { $(data.input).val(''); }
+              e.ft.timers.filter.start(function () {
+                e.ft.raise('footable_filtering');
+                var val = $(data.input).val() || '';
+                if (val.length < data.minimum) {
+                  p.clearFilter(e.ft);
+                } else {
+                  var filters = val.split(' ');
+                  $table.find('> tbody > tr').hide().addClass('footable-filtered');
+                  var rows = $table.find('> tbody > tr:not(.footable-row-detail)');
+                  $.each(filters, function (i, f) {
+                    if (f && f.length)
+                      rows = rows.filter('*:ftcontains("' + f + '")');
+                  });
+                  rows.each(function () {
+                    p.showRow(this, e.ft);
+                    $(this).removeClass('footable-filtered');
+                  });
+                  e.ft.raise('footable_filtered', { filter : val });
+                }
+              }, data.timeout);
+            });
+          }
+        });
+      }
+    };
+
+    p.clearFilter = function (ft) {
+      $(ft.table).find('> tbody > tr:not(.footable-row-detail)').removeClass('footable-filtered').each(function () {
+        p.showRow(this, ft);
+      });
+      ft.raise('footable_filtered', { cleared : true });
+    };
+
+    p.showRow = function (row, ft) {
+      var $row = $(row), $next = $row.next(), $table = $(ft.table);
+      if ($row.is(':visible')) return; //already visible - do nothing
+      if ($table.hasClass('breakpoint') && $row.hasClass('footable-detail-show') && $next.hasClass('footable-row-detail')) {
+        $row.add($next).show();
+        ft.createOrUpdateDetailRow(row);
+      }
+      else $row.show();
+    };
+  };
+
+  w.footable.plugins.register(new Filter(), defaults);
+
+})(jQuery, window);
+(function($, w, undefined) {
+  if (w.footable == undefined || w.footable == null)
+    throw new Error('Please check and make sure footable.js is included in the page and is loaded prior to this script.');
+
+  var defaults = {
+    sort: true,
+    sorters: {
+      alpha: function(a, b) {
+        if (a == b) return 0;
+        if (a < b) return -1;
+        return 1;
+      },
+      numeric: function(a, b) {
+        return a - b;
+      }
+    },
+    parsers: {
+      numeric: function(cell) {
+        var val = $(cell).data('value') || $(cell).text().replace(/[^0-9.-]/g, '');
+        val = parseFloat(val);
+        if (isNaN(val)) val = 0;
+        return val;
+      }
+    },
+    classes: {
+      sort: {
+        sortable: 'footable-sortable',
+        sorted: 'footable-sorted',
+        descending: 'footable-sorted-desc',
+        indicator: 'footable-sort-indicator'
+      }
+    }
+  };
+
+  function Sortable() {
+    var p = this;
+    p.name = 'Footable Sortable';
+    p.init = function(ft) {
+      if (ft.options.sort == true) {
+        $(ft.table).bind({
+          'footable_initialized': function(e) {
+            var cls = ft.options.classes.sort, column;
+
+            var $table = $(e.ft.table), $tbody = $table.find('> tbody'), $th;
+
+            $table.find('> thead > tr:last-child > th, > thead > tr:last-child > td').each(function(ec) {
+              $th = $(this), column = e.ft.columns[$th.index()];
+              if (column.sort.ignore != true) {
+                $th.addClass(cls.sortable);
+                $('<span />').addClass(cls.indicator).appendTo($th);
+              }
+            });
+
+            $table.find('> thead > tr:last-child > th.' + cls.sortable + ', > thead > tr:last-child > td.' + cls.sortable).click(function(ec) {
+              $th = $(this), column = e.ft.columns[$th.index()];
+              if (column.sort.ignore == true) return true;
+              ec.preventDefault();
+
+              $table.find('> thead > tr:last-child > th, > thead > tr:last-child > td').not($th).removeClass(cls.sorted + ' ' + cls.descending);
+
+              if ($th.hasClass(cls.sorted)) {
+                p.reverse(e.ft, $tbody);
+                $th.removeClass(cls.sorted).addClass(cls.descending);
+              } else if ($th.hasClass(cls.descending)) {
+                p.reverse(e.ft, $tbody);
+                $th.removeClass(cls.descending).addClass(cls.sorted);
+              } else {
+                p.sort(e.ft, $tbody, column);
+                $th.removeClass(cls.descending).addClass(cls.sorted);
+              }
+              e.ft.bindToggleSelectors();
+              e.ft.raise('footable_sorted', { column : column });
+              return false;
+            });
+
+            var didSomeSorting = false;
+            for (var c in e.ft.columns) {
+              column = e.ft.columns[c];
+              if (column.sort.initial) {
+                p.sort(e.ft, $tbody, column);
+                didSomeSorting = true;
+                $th = $table.find('> thead > tr:last-child > th:eq(' + c + '), > thead > tr:last-child > td:eq(' + c + ')');
+
+                if (column.sort.initial == 'descending') {
+                  p.reverse(e.ft, $tbody);
+                  $th.addClass(cls.descending);
+                } else {
+                  $th.addClass(cls.sorted);
+                }
+
+                break;
+              } else if (column.sort.ignore != true) {
+
+              }
+            }
+            if (didSomeSorting) {
+              e.ft.bindToggleSelectors();
+            }
+          },
+          'footable_column_data': function(e) {
+            var $th = $(e.column.th);
+            e.column.data.sort = e.column.data.sort || {};
+            e.column.data.sort.initial = $th.data('sort-initial') || false;
+            e.column.data.sort.ignore = $th.data('sort-ignore') || false;
+            e.column.data.sort.selector = $th.data('sort-selector') || null;
+
+            var match = $th.data('sort-match') || 0;
+            if (match >= e.column.data.matches.length) match = 0;
+            e.column.data.sort.match = e.column.data.matches[match];
+          }
+        });
+      }
+    };
+    
+    p.rows = function(ft, tbody, column) {
+      var rows = [];
+      tbody.find('> tr').each(function() {
+        var $row = $(this), $next = null;
+        if ($row.hasClass('footable-row-detail')) return true;
+        if ($row.next().hasClass('footable-row-detail')) {
+          $next = $row.next().get(0);
+        }
+        var row = { 'row': $row, 'detail': $next };
+        if (column != undefined) {
+          row.value = ft.parse(this.cells[column.sort.match], column);
+        }
+        rows.push(row);
+        return true;
+      }).remove();
+      return rows;
+    };
+
+    p.sort = function(ft, tbody, column) {
+      var rows = p.rows(ft, tbody, column);
+      var sorter = ft.options.sorters[column.type] || ft.options.sorters.alpha;
+      rows.sort(function(a, b) { return sorter(a.value, b.value); });
+      for (var j = 0; j < rows.length; j++) {
+        tbody.append(rows[j].row);
+        if (rows[j].detail != null) {
+          tbody.append(rows[j].detail);
+        }
+      }
+    };
+
+    p.reverse = function(ft, tbody) {
+      var rows = p.rows(ft, tbody);
+      for (var i = rows.length - 1; i >= 0; i--) {
+        tbody.append(rows[i].row);
+        if (rows[i].detail != null) {
+          tbody.append(rows[i].detail);
+        }
+      }
+    };
+  }
+
+  ;
+
+  w.footable.plugins.register(new Sortable(), defaults);
+
+})(jQuery, window);

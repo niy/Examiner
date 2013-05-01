@@ -1,3 +1,7 @@
+<?php
+header( 'Content-type: text/html; charset=utf-8' );
+header("Connection: keep-alive");
+?>
 <!doctype html>
 <html>
 <head>
@@ -14,20 +18,17 @@
     require '../inc/PasswordHash.php';
     $t_hasher = new PasswordHash(8, FALSE);
     require_once ('../config.php');
-if (isset($_REQUEST["language"])) {
-	$admin_id = $_REQUEST["admin_id"];
-	$password = $_REQUEST["password"];
-	$language = $_REQUEST["language"];
-	$rtl = $_REQUEST["rtl"];
+    if (isset($_REQUEST["language"])) {
+        $admin_id = $_REQUEST["admin_id"];
+        $password = $_REQUEST["password"];
+        $language = $_REQUEST["language"];
+        $rtl = $_REQUEST["rtl"];
 
-} else {
-	header('Location: ../index');
-	die();
-}
+    } else {
+        header('Location: ../index');
+        die();
+    }
 
-?>
-    <meta charset="utf-8">
-    <?php
     if (isset($_SERVER['HTTP_USER_AGENT'])&& (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false))
         header('X-UA-Compatible: IE=edge,chrome=1');
     ?>

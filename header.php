@@ -1,4 +1,7 @@
 <?php
+header( 'Content-type: text/html; charset=utf-8' );
+header("Connection: keep-alive");
+
 echo ('
     <head>
     <!--[if lte IE 7]><script src="js/lte-ie7.js"></script><![endif]-->
@@ -8,8 +11,7 @@ echo ('
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="css/style.css" media="all">
     <link rel="stylesheet" type="text/css" href="css/jquery.powertip.min.css" media="all">
-    <title>' . _TITLE . '</title>
-    <meta charset="utf-8">');
+    <title>' . _TITLE . '</title>');
     if (isset($_SERVER['HTTP_USER_AGENT'])&& (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false))
         header('X-UA-Compatible: IE=edge,chrome=1');
     echo('
