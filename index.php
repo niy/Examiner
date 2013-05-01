@@ -222,7 +222,7 @@ if (!$check_default) {
             if (_DEBUG=='on'){
                 echo('<div class="info_box clearfix" style="max-width:30em; background-color:#f0d900;">
                         <div class="content clearfix">
-                        <h1>'._EXAMINER_DEBUGGING_TITLE.'</h1><p>'._EXAMINER_DEBUGGING_CONTENT.'</p>
+                        <h1>'._EXAMINER_DEBUGGING_TITLE.'</h1><p>'._EXAMINER_DEBUGGING_CONTENT_TEST.'</p>
                         </div>
                     </div>');
             }
