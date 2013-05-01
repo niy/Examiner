@@ -5,7 +5,9 @@ define("_EXAMINER_OTMS","<b>Examiner</b> Online Test Management System");
 define("_EXAMINER_HOMEPAGE","Examiner Home Page");
 define("_EXAMINER_PROGRAMMER_CONTACT","Contact developer at:");
 define("_EXAMINER_PROGRAMMER_EMAIL","nima.k68 at gmail dot com");
-
+define("_EXAMINER_DEBUGGING_TITLE","WARNING: Debugging Mode is Active");
+define("_EXAMINER_DEBUGGING_CONTENT_TEST","You can sign in to system with the testing account: <ul><li>Username: <em>test</em></li><li>Password: <em>test</em></li></ul>");
+define("_EXAMINER_DEBUGGING_CONTENT_ADMIN","You can sign in to system with the following account: ");
 /***************TEST***************/
 define("_NO_DEFAULT", "Sorry! but there's no defined exam!");
 define("_EXAM_SYSTEM_ALERT","Logging in");

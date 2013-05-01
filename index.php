@@ -218,10 +218,15 @@ if (!$check_default) {
 				$EXAM_USER_REGISTER = _EXAM_USER_REGISTER_BY_PROF;
 				$EXAM_USER_REGISTER2 = _EXAM_USER_REGISTER_BY_PROF2;
 			}
-
-			echo ('
-			<article class="msg">
-                    <div class="info_box clearfix" style="max-width:30em;">
+            echo('<article class="msg">');
+            if (_DEBUG=='on'){
+                echo('<div class="info_box clearfix" style="max-width:30em; background-color:#f0d900;">
+                        <div class="content clearfix">
+                        <h1>'._EXAMINER_DEBUGGING_TITLE.'</h1><p>'._EXAMINER_DEBUGGING_CONTENT.'</p>
+                        </div>
+                    </div>');
+            }
+			echo ('<div class="info_box clearfix" style="max-width:30em;">
                         <div class="box_icon" data-icon="y" aria-hidden="true"></div>
                         <div class="content clearfix">
                         <h1>' . _EXAM_THIS_EXAM . '<b>' . $check_default[1]
@@ -259,11 +264,8 @@ if (!$check_default) {
                 echo recaptcha_get_html($publickey, $error);
                 echo ('</div>');
             }
-            echo ('
-                            <div class="button_wrap left clearfix">
-                                <input class="button good" type="submit" value="' . _ADMIN_ENTER . '" name="B1">
-
-		    ');
+            echo ('<div class="button_wrap left clearfix">
+            <input class="button good" type="submit" value="' . _ADMIN_ENTER . '" name="B1">');
 
 			if ($check_default[4] == 0) {
 				echo ('

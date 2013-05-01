@@ -5,6 +5,9 @@ define("_EXAMINER_OTMS","سیستم مدیریت آزمون آنلاین <b>اگ
 define("_EXAMINER_HOMEPAGE","صفحه اینترنتی اگزمینر");
 define("_EXAMINER_PROGRAMMER_CONTACT","تماس با برنامه‌نویس پروژه");
 define("_EXAMINER_PROGRAMMER_EMAIL","nima.k68 at gmail dot com");
+define("_EXAMINER_DEBUGGING_TITLE","هشدار: حالت خطایابی فعال است.");
+define("_EXAMINER_DEBUGGING_CONTENT_TEST","با اکانت تست زیر می‌توانید به سیستم وارد شوید: <ul><li>نام کاربری: <em>test</em></li><li>پسورد: <em>test</em></li></ul>");
+define("_EXAMINER_DEBUGGING_CONTENT_ADMIN","با اکانت زیر می‌توانید به سیستم وارد شوید: ");
 
 /***************INSTALL***************/
 define("_EXAMINER_INSTALL_FARSI","به نظر مي‌رسد اين، اولين اجراي شما باشد. <br>  «اگزمینر» هنوز به درستي نصب نشده

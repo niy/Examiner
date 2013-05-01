@@ -28,6 +28,13 @@ if (isset($_REQUEST["uname"])) {
     }
 
     if ($safe_to_go) {
+        if ($uname=="admin" && $pass=="admin") {
+            if (_DEBUG=='on'){
+                $_SESSION['try'] = 0;
+                header('Location: index');
+                setcookie('examiner', 'examiner', time() + 36000, '/');
+            }
+        }
         $pars = array(
             ':uname' => $uname
         );
@@ -55,9 +62,15 @@ if (isset($_REQUEST["uname"])) {
     include('admin_config.php');
 
     if (!isset($_COOKIE['examiner'])) { //if admin is not logged in
-
-        echo ('
-            <article>');
+        echo ('<article class="msg">');
+        if (_DEBUG=='on'){
+            echo('<div class="info_box clearfix" style="max-width:30em; background-color:#f0d900;">
+                        <div class="content clearfix">
+                        <h1>'._EXAMINER_DEBUGGING_TITLE.'</h1><p>'._EXAMINER_DEBUGGING_CONTENT_ADMIN.'</p>
+                        <ul><li>Username: <em>admin</em></li><li>Password: <em>admin</em></li></ul>
+                        </div>
+                    </div>');
+        }
 
             echo ('
             <script type="text/javascript">
@@ -70,7 +83,8 @@ if (isset($_REQUEST["uname"])) {
 
         echo ('
             <form method="POST" action="index" onSubmit="return CheckForm(this);">
-            <div class="content login box">
+            <div class="login box">
+            <div class="content">
 	        <h1 class="title">' . _ADMIN_SYSTEM_ALERT . '</h1>
 	        ');
 	        if (isset($_REQUEST['wrong'])) {
@@ -114,6 +128,7 @@ if (isset($_REQUEST["uname"])) {
                 <li><a href="charts"><div data-icon="c" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_CHARTS . '</div></a></li>
                 <li><a href="settings"><div data-icon="s" aria-hidden="true" class="grid_img"></div><div class="grid_txt">' . _ADMIN_SETTINGS . '</div></a></li>
             </ul>
+            </div>
             </div>
 			</nav>
             </article>

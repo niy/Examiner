@@ -1809,7 +1809,6 @@ iframe {display:none !important;}
         float: left;
         width: 119px;
         margin-left: 15px;
-        height: auto;
     }
     #user .admin_menu,#test_header .admin_menu {
         width: auto;
