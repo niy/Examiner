@@ -277,7 +277,11 @@ echo ('<script type="text/javascript">
         }
 		return true;
 		}
-		</script> ');
+		</script> ');?>
+
+<script type="text/javascript" src="../tinymce/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="../tinymce/js/tinymce/jquery.tinymce.min.js"></script>
+<?php
 include('../footer_end.php');
 
 ?>
