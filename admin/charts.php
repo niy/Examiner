@@ -70,7 +70,7 @@ if (!isset($_COOKIE['examiner'])) {
 	echo ('<tbody>');
 	$tr_num = 1;
     $tests_set=$db->resultset();
-    foreach ($tests_set as $m => $rec) {
+    foreach ($tests_set as $m => $rec) {    //for each test
 		$ave = 0;
 		$all_qs = 0;
 		$ave_null = 0;
@@ -117,23 +117,23 @@ if (!isset($_COOKIE['examiner'])) {
 
 		$result_mem_nums = $db->rowCount();
 
-		///Average//////////////////
+		/*Average*/
         $pars = array(':rec'=>$rec[0]);
 		$choices = $db->db_query("SELECT * FROM user_test WHERE test_id = :rec",$pars);
         $choices_set3 = $db->resultset();
-		foreach ($choices_set3 as $i => $choices3) {
+		foreach ($choices_set3 as $i => $choices3) {    //for each user_test
             $pars = array(':choices3'=>$choices3[0]);
 			$choices2 = $db->db_query("SELECT * FROM user_choice WHERE user_test_id = :choices3",$pars);
             $choices_set2 = $db->resultset();
-            foreach ($choices_set2 as $j => $reec) {
+            foreach ($choices_set2 as $j => $reec) {    //for each choice
                 $pars = array(':reec'=>$reec[2]);
 				$question = $db->db_query("SELECT * FROM questions WHERE id = :reec",$pars);
 				$question = $db->single();
 
-				if ($question[7] == $reec[3]) {
+				if ($question[7] == $reec[3]) { //if choice is the correct answer add 1 to correct answer num
 					$ave++;
 				}
-				if ($reec[3] == "") {
+				if ($reec[3] == "") {   //if choice=null add 1 to null answer numbers
 					$ave_null++;
 				}
 				$all_qs++;
@@ -141,16 +141,14 @@ if (!isset($_COOKIE['examiner'])) {
 		}
 
 		if (!$all_qs == 0) {
-			if ($rec[8] == 1)
+			if ($rec[8] == 1) //if wrong choices have minus scores
 				$ave = round((($ave - round((($all_qs - $ave_null - $ave) / 3), 2)) / $all_qs), 2) * 100;
 			else
 				$ave = round(($ave / $all_qs), 2) * 100;
 		}
         $pars = array(':rec'=>$rec[0]);
-		$ave_time = $db->db_query("SELECT AVG(time_length) FROM user_test WHERE test_id = :rec",$pars);
+		$ave_time = $db->db_query("SELECT AVG(time_length) FROM user_test WHERE test_id = :rec",$pars); //average user answering length
 		$ave_time = $db->single();
-
-		/////////////////////////////////////////////////////////////
 
 		if ($show_final_noq > $rec[2])
 			$show_final_noq = $rec[2];

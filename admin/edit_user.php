@@ -426,7 +426,7 @@ if (!isset($_COOKIE['examiner'])) {
                 include('../footer_end.php');
                 die();
 			}
-		} else if (isset($_REQUEST["case"]) && $case == "delete_users_test") {
+		} else if (isset($_REQUEST["case"]) && $_REQUEST["case"] == "delete_users_test") {
 			$test_id = $_REQUEST['test_id'];
 			if (!(isset($_REQUEST["end"]))) {
 				echo ('

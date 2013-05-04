@@ -168,7 +168,7 @@ if (isset($_REQUEST["case"])) {
             $user_test_id = $choices2[0];
 
             $pars = array(
-                ':choices2' => $choices2[0]
+                ':choices2' => $choices2[0] //user_test id
             );
             $choices = $db->db_query("SELECT * FROM user_choice WHERE user_test_id = :choices2",$pars);
             $choices_set = $db->resultset();
@@ -176,16 +176,16 @@ if (isset($_REQUEST["case"])) {
             $num_correct_answers = 0;
             $num_non_answered = 0;
 
-            foreach ($choices_set as $j => $choices_check) {
+            foreach ($choices_set as $j => $choices_check) { //for each user choice
 
                 $pars = array(
-                    ':choices_check' => $choices_check[2]
+                    ':choices_check' => $choices_check[2] //question id
                 );
                 $question = $db->db_query("SELECT * FROM questions WHERE id = :choices_check",$pars);
                 $question = $db->single();
 
-                if ($question[7] == $choices_check[3]) {
-                    $num_correct_answers++;
+                if ($question[7] == $choices_check[3]) { //if selected choice is the correct choice
+                    $num_correct_answers++; //add 1 to the number of correct answers
                 }
 
                 if ($choices_check[3] == "") {
@@ -233,7 +233,7 @@ if (isset($_REQUEST["case"])) {
         /**Pagination**/
         $page=1;
         if(isset($_GET['p']) && $_GET['p']!=''){
-            $page=$_GET['p'];
+            $page=addslashes($_GET['p']);
         }
         echo pagination($ineachpage,$page,'?case=' . $case . '&test_id=' . $test_id . '&p=',$num_users);
         /**</Pagination>**/
@@ -826,7 +826,7 @@ if (isset($_REQUEST["case"])) {
         $pars = array(
             ':q_id' => $q_id,
         );
-        $result = $db->db_query("SELECT * FROM user_choice WHERE q_id=:q_id ".$show."ORDER BY id LIMIT ".$start.", ".$ineachpage,$pars);
+        $result = $db->db_query("SELECT * FROM user_choice WHERE q_id=:q_id ".$show." ORDER BY id LIMIT ".$start.", ".$ineachpage,$pars);
 
         $recs = $db->resultset();
         $pars = array(
